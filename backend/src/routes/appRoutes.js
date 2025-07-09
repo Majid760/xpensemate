@@ -3,13 +3,14 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 const supportController = require('../controllers/supportController');
 const { requireAuth } = require('../middleware/auth');
-const { validateExpense, validatePayment } = require('../middleware/validators');
+const {  validatePayment } = require('../middleware/validators');
 const expenseController = require('../controllers/expenseController');
 const paymentController = require('../controllers/paymentController');
 const utilityController = require('../controllers/utility_controller');
 const dashboard = require('./dashboardRoutes');
-const budgetGoals = require('./budgetGoalRoutes');
-const setting = require('./settingsRoutes');
+const budgetGoalsRoutes = require('./budgetGoalRoutes');
+const settingRoutes = require('./settingsRoutes');
+const expenseRoutes = require('./expenseRoutes.js');
 
 // Public routes (no authentication required)
 router.post('/auth/register', authController.register);
@@ -31,22 +32,6 @@ router.get('/user/me', requireAuth, authController.getUser);
 router.post('/support/submit', requireAuth, supportController.submitSupportRequest);
 
 
-// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Expense routes  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-// Create a new expense
-router.post('/create-expense', requireAuth,validateExpense, expenseController.createExpense);
-// Get all expenses with pagination and filters
-router.get('/expenses', requireAuth,expenseController.getAllExpenses);
-// Get monthly expense summary
-router.get('/expense/summary/monthly', requireAuth,expenseController.getMonthlySummary);
-// Get a single expense by ID
-router.get('/expense/:id', requireAuth,expenseController.getExpenseById);
-// Update an expense
-router.put('/expense/:id', requireAuth,validateExpense, expenseController.updateExpense);
-// Delete an expense
-router.delete('/expense/:id', requireAuth,expenseController.deleteExpense);
-
-
-// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Expense routes  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Payment routes  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // Create a new payment
@@ -65,12 +50,14 @@ router.delete('/payment/:id', requireAuth, paymentController.deletePayment);
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Payment routes  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-router.use('/',budgetGoals);
+router.use('/',budgetGoalsRoutes);
+router.use('/',expenseRoutes);
+
 
 // Mount dashboard/user dashboard routes
 router.use('/', dashboard);
 
 // Mount setting routes
-router.use('/settings',setting);
+router.use('/settings',settingRoutes);
 
 module.exports = router;
