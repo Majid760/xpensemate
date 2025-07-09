@@ -1,0 +1,200 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 220px;
+  background: #10192B;
+  color: #fff;
+  transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+}
+
+.sidebarCollapsed {
+  width: 64px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0 0.5rem 0;
+  transition: padding 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  color: #FFD86B;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 1rem;
+  display: block;
+}
+
+.avatarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: .5rem 0 1.2rem 0;
+  transition: margin 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #FFD86B;
+  object-fit: cover;
+  transition: width 0.3s cubic-bezier(0.4,0,0.2,1), height 0.3s cubic-bezier(0.4,0,0.2,1), border-width 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.avatarCollapsed {
+  width: 40px;
+  height: 40px;
+  border-width: 2px;
+}
+
+.userName {
+  margin-top: 0.75rem;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #222;
+  background: #FFD86B;
+  border-radius: 2rem;
+  padding: 0.25rem 1.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 1;
+  transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1), font-size 0.3s cubic-bezier(0.4,0,0.2,1), padding 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-radius: 0;
+  font-size: 0.75rem;
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.2s, color 0.2s, padding 0.3s cubic-bezier(0.4,0,0.2,1), font-size 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.sidebarCollapsed .menuItem {
+  justify-content: center;
+}
+
+.menuItem svg {
+  font-size: 0.9rem;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.menuItemActive, .menuItem:hover {
+  background: #FFD86B;
+  color: #10192B;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-radius: 0 !important;
+  font-size: 0.75rem;
+}
+
+.menuText,
+.logoutText,
+.userName {
+  font-size: 0.75rem;
+  transition: font-size 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.logout {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #FFD86B;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, padding 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.logout:hover {
+  background: #FFD86B;
+  color: #10192B;
+}
+
+@media (max-width: 1024px) {
+  .menuItem,
+  .userName,
+  .logoutText,
+  .menuText {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 64px;
+  }
+  .sidebarExpanded {
+    width: 220px;
+  }
+  .sidebarCollapsed {
+    width: 64px;
+  }
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+  .userName, .menuText, .logoutText {
+    display: none;
+  }
+  .sidebarExpanded .userName,
+  .sidebarExpanded .menuText,
+  .sidebarExpanded .logoutText {
+    display: flex;
+  }
+  .menuItem,
+  .userName,
+  .logoutText,
+  .menuText {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .menuItem,
+  .userName,
+  .logoutText,
+  .menuText {
+    font-size: 0.85rem;
+  }
+}
+
+.sidebarExpanded .menuItem {
+  padding-left: 16px;
+}
+
+.sidebarExpanded .menuItemActive {
+  padding-left: 16px !important;
+}
+
+.sidebarExpanded .menuItem:hover,
+.sidebarExpanded .menuItemActive {
+  padding-left: 8px !important;
+} 

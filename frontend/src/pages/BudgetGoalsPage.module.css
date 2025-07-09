@@ -1,0 +1,38 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0px;
+}
+
+.budgetGoalsContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+}
+
+@media (max-width: 900px) {
+  .mainContent {
+    padding: 0 8px;
+  }
+  .budgetGoalsContainer {
+    padding: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainContent {
+    padding: 0 4px;
+  }
+} 

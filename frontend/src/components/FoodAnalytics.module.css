@@ -1,0 +1,265 @@
+/* Container Styles */
+.foodAnalyticsContainer {
+  margin: 24px auto 1rem auto;
+  padding: 1.5rem;
+  background-color: #F9FAFB;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.budgetDivider {
+  border: none;
+  border-top: 2px solid #ccc;
+  margin: 0 0 20px 0;
+  padding: 0 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.analyticsCard {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  width: 100%;
+  height: 100%;
+  transition: box-shadow 0.3s ease;
+}
+
+.headerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+  padding: 0;
+}
+
+.title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0;
+  margin-top: 10px;
+  letter-spacing: -0.4px;
+  line-height: 1.34;
+}
+
+/* Dropdown Styles */
+.dropdownContainer {
+  position: relative;
+}
+
+.dropdownButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  color: #374151;
+  min-width: 7rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.dropdownButton:hover {
+  background-color: #E5E7EB;
+}
+
+.dropdownButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.dropdownIcon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.dropdownIconRotate180 {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.5rem;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 0.25rem 0;
+  z-index: 50;
+  min-width: 7rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.dropdownItem {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #374151;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.dropdownItem:hover {
+  background-color: #F3F4F6;
+}
+
+.dropdownItem:focus {
+  outline: none;
+  background-color: #DBEAFE;
+  color: #1D4ED8;
+}
+
+/* Chart Container */
+.chartContainer {
+  height: 350px;
+  margin-top: 16px;
+  width: 100%;
+  padding: 0 16px;
+}
+
+/* Custom Tooltip */
+.customTooltip {
+  background-color: #1F2937;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #374151;
+}
+
+.tooltipLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0 0 0.25rem 0;
+}
+
+.tooltipValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Summary Stats */
+.summaryStats {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.statCard {
+  background-color: #F9FAFB;
+  padding: 16px;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media Queries */
+@media (min-width: 640px) {
+  .foodAnalyticsContainer {
+    padding: 16px;
+  }
+  
+  .analyticsCard {
+    padding: 16px;
+    border-radius: 1rem;
+    min-height: 500px;
+    margin: 16px auto;
+  }
+  
+  .headerSection {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 0 16px;
+  }
+  
+  .chartContainer {
+    padding: 0 16px;
+  }
+  
+  .summaryStats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0;
+    margin-top: 4px;
+    letter-spacing: -0.4px;
+    line-height: 1.34;
+  }
+  
+  .chartContainer {
+    height: 350px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-contrast: high) {
+  .analyticsCard {
+    border: 2px solid #6B7280;
+  }
+  
+  .dropdownButton {
+    border: 2px solid #374151;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdownIcon,
+  .dropdownMenu,
+  .analyticsCard,
+  .dropdownButton {
+    transition: none;
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .foodAnalyticsContainer {
+    margin: 20px 1rem 1rem 1rem;
+    padding: 1rem;
+  }
+} 

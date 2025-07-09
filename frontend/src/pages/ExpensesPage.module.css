@@ -1,0 +1,18 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 0rem;
+  transition: margin-left 0.3s ease;
+  width: calc(100% - 220px);
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    width: calc(100% - 64px);
+  }
+} 

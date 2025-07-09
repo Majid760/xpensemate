@@ -1,0 +1,237 @@
+.budget-goals-card {
+  background: #f5f5f5; /* Light gray background */
+  min-height: 200px;
+  border-radius: 10px;
+  padding: 24px 20px 20px 20px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 12px !important;
+  overflow: visible;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 -2px 8px -4px rgba(0,0,0,0.08);
+}
+
+.budget-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem; /* 22px */
+  font-weight: 600;
+  margin-bottom: 0px;
+  margin-top: 10px;
+  letter-spacing: -0.4px;
+  line-height: 1.34;
+}
+
+.budget-divider {
+  border: none;
+  border-top: 2px solid #ccc;
+  margin: 12px 10px 20px 0;
+  padding: 0 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.budget-table {
+  width: 100%;
+  background: transparent;
+  overflow-x: auto;
+}
+
+.amount {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 12px;
+  text-align: right;
+  min-width: 70px;
+}
+
+.set-btn {
+  background: #232f5b !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 28px !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 12px !important;
+  padding: 0.4rem 2rem !important;
+  min-width: 80px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  justify-content: flex-end;
+  position: relative;
+}
+
+/* Default: Show standard buttons, hide dropdown toggle */
+.headerActions .newExpenseBtn,
+.headerActions .iconBtn {
+  display: flex; /* Ensure buttons are shown by default */
+}
+
+.dropdownContainer {
+    display: none; /* Hide dropdown by default */
+}
+
+/* Hide the buttons and show the 3-dot icon on small screens */
+@media (max-width: 600px) {
+  .headerActions { 
+      display: flex;
+      justify-content: flex-end;
+      align-items: center; 
+  }
+
+  .headerActions .newExpenseBtn, 
+  .headerActions .iconBtn { 
+    display: none !important; /* Ensure buttons are hidden on mobile */
+  }
+  
+  .dropdownContainer { /* Show the new 3-dot icon container */
+      display: block !important; /* Ensure container is shown on mobile */
+      border: 1px solid red; /* Temporary border for debugging */
+  }
+}
+
+/* Dropdown styles */
+.dropdownContainer .dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  border: 1px solid blue; /* Temporary border for debugging */
+}
+
+.dropdownItem {
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0;
+}
+
+@media (max-width: 900px) {
+  .budget-goals-card {
+    padding: 16px 4px 12px 4px;
+    margin-bottom: 10px !important;
+    min-height: 180px;
+  }
+  .budget-divider {
+    padding: 0 12px;
+    margin: 0 0 12px 0;
+    width: 100%;
+  }
+  .amount {
+    font-size: 12px;
+    min-width: 60px;
+  }
+  .set-btn {
+    font-size: 12px !important;
+    min-width: 60px;
+    min-height: 36px;
+    padding: 0.4rem 1rem !important;
+  }
+  .budget-title {
+    font-size: 1.25rem; /* 20px */
+  }
+}
+
+@media (max-width: 600px) {
+  .budget-title {
+    font-size: 1.125rem; /* 18px */
+  }
+  .amount {
+    font-size: 11px;
+    min-width: 50px;
+  }
+  .set-btn {
+    font-size: 11px !important;
+    min-width: 48px;
+    min-height: 28px;
+    padding: 0.25rem 0.6rem !important;
+  }
+  .budget-table {
+    overflow-x: auto;
+  }
+  .budget-goals-card {
+    margin-bottom: 8px !important;
+    min-height: 160px;
+  }
+  .budget-divider {
+    padding: 0 12px;
+    margin: 0 0 12px 0;
+    width: 100%;
+  }
+  .headerActions {
+    /* Ensure header actions are visible and aligned when dropdown is active */
+    justify-content: flex-end;
+  }
+  /* Show the new 3-dot icon on small screens */
+   .dropdownContainer > .iconBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* inherit icon button styles */
+    background: #232f5b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+   .dropdownContainer > .iconBtn:hover {
+     background: #111b3a;
+   }
+}
+
+@media (max-width: 400px) {
+  .amount {
+    font-size: 10px;
+    min-width: 40px;
+  }
+  .set-btn {
+    font-size: 10px !important;
+    min-width: 36px;
+    min-height: 24px;
+    padding: 0.15rem 0.3rem !important;
+  }
+  .budget-goals-card {
+    margin-bottom: 6px !important;
+    min-height: 140px;
+  }
+  .budget-divider {
+    padding: 0 12px;
+    margin: 0 0 12px 0;
+    width: 100%;
+  }
+  .budget-title {
+    font-size: 1rem; /* 16px */
+  }
+}

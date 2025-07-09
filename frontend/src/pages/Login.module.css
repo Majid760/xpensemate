@@ -1,0 +1,140 @@
+.background {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  background-color: white;
+  overflow: hidden;
+}
+
+.background::before {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 871px;
+  height: 733px;
+  background-image: url('../images/signin-background.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.loginContainer {
+  background-color: #0A1623;
+  border-radius: 8px;
+  padding: 32px;
+  max-width: 400px;
+  width: 100%;
+  color: white;
+  position: relative;
+  z-index: 10;
+  border: 3px solid #F3C96B;
+  margin-top: -50px;
+}
+
+.formContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  width: 260px;
+  height: 83px;
+  object-fit: contain;
+}
+
+.title {
+  text-align: center;
+  font-size: 48px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.flexRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.link {
+  color: #F3C96B;
+  text-decoration: none;
+  font-size: 0.98rem;
+  cursor: pointer;
+}
+
+.bottomText {
+  text-align: center;
+  margin-top: 12px;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.bottomText .link {
+  margin-left: 6px;
+}
+
+.toast {
+  position: absolute !important;
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 400px !important;
+  max-width: calc(100% - 40px) !important;
+  z-index: 1000 !important;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 12px 0;
+  color: #666;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider span {
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .loginContainer {
+    padding: 28px 24px;
+  }
+
+  .logo img {
+    width: 220px;
+    height: 70px;
+  }
+  
+  .title {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .formContent {
+    gap: 12px;
+  }
+} 

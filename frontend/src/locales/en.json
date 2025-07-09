@@ -1,0 +1,525 @@
+{
+  "newsletter": {
+    "title": "Stay in the Loop!",
+    "description": "Subscribe to our newsletter for updates, tips, and exclusive offers. No spam, ever.",
+    "placeholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "subscribed": "Thank you for subscribing!",
+    "alreadySubscribed": "This email is already subscribed.",
+    "invalidEmail": "Please enter a valid email address.",
+    "error": "Something went wrong. Please try again later."
+  },
+  "mobileApps": {
+    "badge": "MOBILE APPS",
+    "title": "Your Finances in Your Pocket",
+    "description": "Download our mobile apps and take control of your expenses anywhere, anytime.",
+    "features": [
+      {
+        "title": "Instant Expense Tracking",
+        "description": "Snap receipts and log expenses on the go with just a few taps"
+      },
+      {
+        "title": "Real-time Sync",
+        "description": "Your data syncs instantly across all your devices"
+      },
+      {
+        "title": "Offline Mode",
+        "description": "Keep tracking expenses even without internet connection"
+      }
+    ],
+    "appStore": "App Store",
+    "playStore": "Play Store"
+  },
+  "featuresSection": {
+    "badge": "OUR VALUES",
+    "title": "What we value most",
+    "features": [
+      {
+        "title": "Smart Budgeting",
+        "description": "Set custom budgets for categories and get real-time feedback on your spending habits with intelligent alerts."
+      },
+      {
+        "title": "Insightful Analytics",
+        "description": "Visualize your expenses and income with beautiful charts and actionable insights that help you make better decisions."
+      },
+      {
+        "title": "Secure & Private",
+        "description": "Your data is encrypted and never shared. You are always in control of your privacy with bank-level security."
+      }
+    ]
+  },
+  "advancedFeaturesSection": {
+    "badge": "FEATURES",
+    "title": "Our Advanced Features",
+    "features": [
+      "Real-time Expense Tracking",
+      "Multi-Currency Support",
+      "Automated Invoice Scanning",
+      "Advanced Reporting",
+      "Customizable Budget Alerts",
+      "Team Expense Management"
+    ]
+  },
+  "faqSection": {
+    "badge": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Everything you need to know about XpenseMate. Can't find the answer you're looking for? Reach out to our support team!",
+    "faqs": [
+      {
+        "q": "What is XpenseMate?",
+        "a": "XpenseMate is a modern expense tracking and financial planning app that helps you manage your money, set budgets, and achieve your financial goals with ease."
+      },
+      {
+        "q": "Is my financial data secure?",
+        "a": "Absolutely. Your data is encrypted and never shared. We use bank-level security to ensure your privacy and safety."
+      },
+      {
+        "q": "Can I use XpenseMate for free?",
+        "a": "Yes! Our Free plan lets you track expenses and view limited statistics. Upgrade to unlock advanced features like AI chat, unlimited stats, and more."
+      },
+      {
+        "q": "What is the AI chat feature?",
+        "a": "The AI chat lets you ask questions about your spending, get insights, and receive personalized financial advice based on your own data."
+      },
+      {
+        "q": "Can I cancel or change my plan anytime?",
+        "a": "Yes, you can upgrade, downgrade, or cancel your subscription at any time from your account settings."
+      }
+    ]
+  },
+  "footer": {
+    "brand": "XpenseMate",
+    "address": "A108 Adam Street\nNew York, NY 535022",
+    "phoneLabel": "Phone:",
+    "phone": "+1 5589 55488 55",
+    "emailLabel": "Email:",
+    "email": "info@example.com",
+    "usefulLinksTitle": "Useful Links",
+    "usefulLinks": [
+      { "label": "Home", "url": "/" },
+      { "label": "About us", "url": "/aboutus" },
+      { "label": "Privacy", "url": "/privacy" },
+      { "label": "Terms of service", "url": "/terms&conditions" }
+    ],
+    "followUsTitle": "Follow Us",
+    "followUsDescription": "Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies"
+  },
+  "pricingSection": {
+    "badge": "PRICING",
+    "title": "Choose Your Plan",
+    "description": "Flexible plans for every stage of your financial journey. Start for free, or unlock the full power of XpenseMate with premium features.",
+    "plans": [
+      {
+        "name": "Free",
+        "price": "Free",
+        "period": "",
+        "features": [
+          "Limited statistics about your data",
+          "No AI chat with your data",
+          "Basic expense tracking",
+          "Secure & private"
+        ],
+        "cta": "Get Started"
+      },
+      {
+        "name": "Monthly",
+        "price": "$9",
+        "period": "/month",
+        "features": [
+          "Unlimited data & statistics",
+          "AI chat with your own data",
+          "Advanced planning tools",
+          "Savings & investment plans",
+          "Priority support"
+        ],
+        "cta": "Start Monthly"
+      },
+      {
+        "name": "Yearly",
+        "price": "$89",
+        "period": "/year",
+        "features": [
+          "Unlimited data & statistics",
+          "AI chat with your own data",
+          "Advanced planning tools",
+          "Savings & investment plans",
+          "Priority support"
+        ],
+        "cta": "Start Yearly"
+      }
+    ]
+  },
+  "testimonialsSection": {
+    "badge": "TESTIMONIALS",
+    "title": "What Our Users Say",
+    "description": "Real stories from people who use XpenseMate to take control of their finances.",
+    "testimonials": [
+      {
+        "name": "Sarah Wilsson",
+        "role": "Designer",
+        "photo": "https://randomuser.me/api/portraits/women/44.jpg",
+        "stars": 5,
+        "quote": "Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa."
+      },
+      {
+        "name": "Jena Karlis",
+        "role": "Store Owner",
+        "photo": "https://randomuser.me/api/portraits/women/68.jpg",
+        "stars": 5,
+        "quote": "Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim."
+      },
+      {
+        "name": "Matt Brandon",
+        "role": "Freelancer",
+        "photo": "https://randomuser.me/api/portraits/men/32.jpg",
+        "stars": 5,
+        "quote": "Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam."
+      },
+      {
+        "name": "Carlos R.",
+        "role": "Engineer",
+        "photo": "https://randomuser.me/api/portraits/men/65.jpg",
+        "stars": 5,
+        "quote": "Secure, private, and packed with features. XpenseMate is the best expense tracker I've tried."
+      },
+      {
+        "name": "Saul Goodman",
+        "role": "CEO & Founder",
+        "photo": "https://randomuser.me/api/portraits/men/12.jpg",
+        "stars": 5,
+        "quote": "Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper."
+      }
+    ]
+  },
+  "analysis": {
+    "title": "Activity Analysis",
+    "periodTabs": [
+      { "label": "Daily", "value": "daily" },
+      { "label": "Weekly", "value": "weekly" },
+      { "label": "Monthly", "value": "monthly" }
+    ],
+    "loading": "Loading activity...",
+    "error": "Failed to load activity",
+    "noActivity": "No activity found for this period.",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "appBar": {
+    "brand": "XpenseMate",
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "privacy": "Privacy",
+      "terms": "Terms & Conditions",
+      "contact": "Contact"
+    },
+    "getStarted": "Get Started"
+  },
+  "budgetGoalPopUp": {
+    "editTitle": "Edit Budget Goal",
+    "newTitle": "New Budget Goal",
+    "name": "Name",
+    "namePlaceholder": "Name will be generated automatically",
+    "nameHint": "Name is automatically generated based on duration and category",
+    "amount": "Amount",
+    "amountPlaceholder": "0.00",
+    "date": "Target Date",
+    "category": "Category",
+    "categoryPlaceholder": "Select a category",
+    "duration": "Goal Duration",
+    "durationPlaceholder": "Select duration",
+    "status": "Status",
+    "statusPlaceholder": "Select status",
+    "note": "Note",
+    "notePlaceholder": "Add any additional notes (max 500 characters)",
+    "save": "Save",
+    "add": "Add Goal",
+    "update": "Update Goal",
+    "validation": {
+      "nameRequired": "Goal name is required",
+      "amountRequired": "Valid amount is required",
+      "dateRequired": "Date is required",
+      "categoryRequired": "Category is required",
+      "detailTooLong": "Detail cannot exceed 500 characters"
+    },
+    "saving": "Saving..."
+  },
+  "budgetGoals": {
+    "statsTitle": "Active Budget Goals Stats",
+    "totalGoals": "Total Goals",
+    "activeGoals": "Active Goals",
+    "achievedGoals": "Achieved Goals",
+    "totalBudgeted": "Total Budgeted",
+    "yourGoals": "Your Goals",
+    "progress": "Progress",
+    "noGoals": "No budget goals found.",
+    "setGoal": "Set a budget goal to start tracking.",
+    "seeMore": "See more"
+  },
+  "budgetGoalsTable": {
+    "title": "Budget Goals",
+    "addGoal": "Add Goal",
+    "goalName": "Goal Name",
+    "targetDate": "Target Date",
+    "amount": "Amount",
+    "status": "Status",
+    "actions": "Actions",
+    "loading": "Loading goals...",
+    "noGoals": "No goals yet",
+    "addNewGoal": "Add New Goal",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirmTitle": "Delete Goal",
+    "deleteConfirmMessage": "Are you sure you want to delete this goal?",
+    "deleteMultipleConfirmTitle": "Delete Goals",
+    "deleteMultipleConfirmMessage": "Are you sure you want to delete these goals?",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "button": {
+    "default": "Submit"
+  },
+  "checkbox": {
+    "default": "Check"
+  },
+  "confirmDialog": {
+    "continue": "Continue",
+    "cancel": "Cancel"
+  },
+  "expensePopUp": {
+    "editTitle": "Edit Expense",
+    "newTitle": "New Expense",
+    "name": "Name",
+    "namePlaceholder": "Enter expense name",
+    "amount": "Amount",
+    "amountPlaceholder": "0.00",
+    "date": "Date",
+    "category": "Category",
+    "categoryPlaceholder": "Select a category",
+    "paymentMethod": "Payment Method",
+    "paymentMethodPlaceholder": "Select method",
+    "note": "Note",
+    "notePlaceholder": "Add any additional notes (max 500 characters)",
+    "add": "Add Expense",
+    "update": "Update Expense",
+    "saving": "Saving...",
+    "validation": {
+      "nameRequired": "Name is required",
+      "nameMin": "Name must be at least 2 characters long",
+      "nameMax": "Name cannot exceed 150 characters",
+      "amountRequired": "Valid amount is required",
+      "dateRequired": "Date is required",
+      "categoryRequired": "Category is required",
+      "detailTooLong": "Detail cannot exceed 500 characters"
+    }
+  },
+  "expenses": {
+    "recent": "Recent Expenses",
+    "noExpenses": "No expenses yet",
+    "addExpense": "Add New Expense"
+  },
+  "expensesTable": {
+    "title": "Expenses",
+    "description": "Description",
+    "date": "Date",
+    "amount": "Amount",
+    "category": "Category",
+    "status": "Status",
+    "actions": "Actions",
+    "loading": "Loading expenses...",
+    "noExpenses": "No expenses yet",
+    "addExpense": "Add New Expense",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirmTitle": "Delete Expense",
+    "deleteConfirmMessage": "Are you sure you want to delete this expense?",
+    "deleteMultipleConfirmTitle": "Delete Expenses",
+    "deleteMultipleConfirmMessage": "Are you sure you want to delete these expenses?",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "foodAnalytics": {
+    "title": "{category} Analytics",
+    "defaultTitle": "Expense Analytics",
+    "loading": "Loading expense analytics...",
+    "error": "Failed to load expense analytics",
+    "noData": "No expense data available",
+    "weeklySummary": "Weekly Summary",
+    "totalSpent": "Total Spent",
+    "dailyAverage": "Daily Average",
+    "highestDay": "Highest Day",
+    "lowestDay": "Lowest Day"
+  },
+  "googleButton": {
+    "continueWithGoogle": "Continue with Google"
+  },
+  "inputField": {
+    "hidePassword": "Hide password",
+    "showPassword": "Show password"
+  },
+  "mainLayout": {
+    "sidebar": "Sidebar"
+  },
+  "pageTransition": {
+    "transitioning": "Transitioning..."
+  },
+  "paymentPopUp": {
+    "editTitle": "Edit Payment",
+    "newTitle": "New Payment",
+    "name": "Name",
+    "namePlaceholder": "Enter payment name",
+    "amount": "Amount",
+    "amountPlaceholder": "0.00",
+    "date": "Date",
+    "payer": "Payer",
+    "payerPlaceholder":"Enter payer name",
+    "paymentType": "Payment Type",
+    "customType": "Custom Type",
+    "customTypePlaceholder": "Enter custom payment type",
+    "note": "Note",
+    "notePlaceholder": "Add any additional notes (max 500 characters)",
+    "add": "Add Payment",
+    "update": "Update Payment",
+    "saving": "Saving...",
+    "validation": {
+      "nameRequired": "Payment name is required",
+      "nameMin": "Payment name must be at least 2 characters long",
+      "nameMax": "Payment name cannot exceed 150 characters",
+      "amountRequired": "Valid amount is required",
+      "dateRequired": "Date is required",
+      "payerRequired": "Payer is required",
+      "payerMin": "Payer name must be at least 2 characters long",
+      "payerMax": "Payer name cannot exceed 100 characters",
+      "customTypeRequired": "Custom payment type is required",
+      "detailTooLong": "Notes cannot exceed 500 characters"
+    },
+    "addCustomType": " Add Custom Type",
+    "customPaymentTypePlaceholder": "Enter custom payment type",
+    "addPaymentBtn": "Add Payment",
+    "updatePayment": "Update Payment"
+  },
+  "paymentsTable": {
+    "title": "Payments",
+    "addPayment": "Add Payment",
+    "paymentName": "Payment Name",
+    "date": "Date",
+    "amount": "Amount",
+    "payer": "Payer",
+    "paymentType": "Payment Type",
+    "actions": "Actions",
+    "loading": "Loading payments...",
+    "noPayments": "No payments yet",
+    "addNewPayment": "Add New Payment",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirmTitle": "Delete Payment",
+    "deleteConfirmMessage": "Are you sure you want to delete this payment?",
+    "deleteMultipleConfirmTitle": "Delete Payments",
+    "deleteMultipleConfirmMessage": "Are you sure you want to delete these payments?",
+    "confirm": "Delete",
+    "cancel": "Cancel",
+    "selected": "{count} item(s) selected",
+    "showing": "Showing {start} to {end} of {total} entries",
+    "payment": "Payment",
+    "payments": "Payments",
+    "confirmDelete": "Are you sure you want to delete",
+    "thisPayment": "this payment?",
+    "thesePayments": "these payments?"
+  },
+  "quickAccess": {
+    "title": "Quick Access",
+    "description": "Manage your finances with one click",
+    "budgetGoal": "+ Budget Goal",
+    "budgetGoalHint": "Set spending targets",
+    "newExpense": "+ New Expense",
+    "newExpenseHint": "Track your spending",
+    "addPayment": "+ Add Payment",
+    "addPaymentBtn": "Add Payment",
+    "addPaymentHint": "Record payments",
+    "bottomHint": "Click any action above to get started"
+  },
+  "searchBar": {
+    "placeholder": "Search",
+    "clear": "Clear search"
+  },
+  "settingContents": {
+    "editInfo": "Edit Information",
+    "updateDetails": "Update your account details below",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "dob": "Date of Birth",
+    "currency": "Currency",
+    "phoneNumber": "Phone Number",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "bio": "About you / Bio",
+    "saveChanges": "Save Changes",
+    "profileCompletion": "Profile Completion",
+    "joined": "Joined {{date}}",
+    "updateCover": "Update Cover",
+    "uploadProfile": "Upload Profile Photo",
+    "uploadCover": "Upload Cover Photo",
+    "dragDrop": "Drag and drop your image here",
+    "browseFiles": "Browse Files",
+    "or": "or",
+    "earth": "Earth",
+    "supportedFormats": "Supported formats: JPG, JPEG, PNG",
+    "maxFileSize": "Maximum file size: 10MB",
+    "fileInfo": "File Information:",
+    "name": "Name:",
+    "type": "Type:",
+    "size": "Size:",
+    "settingsUpdated": "Settings updated successfully",
+    "bioPlaceholder": "Tell us about yourself...",
+    "noChanges": "No changes detected. Please make changes before saving.",
+    "error": "Failed to update settings",
+    "uploadPhotoTitle": "Upload {{type}} Photo"
+  },
+  "supportContent": {
+    "title": "Support",
+    "description": "We're here to help! Reach out to us via email or submit a support request below.",
+    "email1": "support@xpensemate.com",
+    "email2": "report@xpensemate.com",
+    "or": "or directly reach out for support below",
+    "reportName": "Report Name",
+    "reportDetails": "Report Details",
+    "reportNamePlaceholder": "Enter report name",
+    "reportDetailsPlaceholder": "Describe your issue or feedback in detail...",
+    "submit": "Submit Report",
+    "submitting": "Submitting...",
+    "success": "Support request submitted successfully",
+    "error": "Failed to submit report. Please try again later.",
+    "footerNote": "It may take more than 24 hours before support contacts you through email."
+  },
+  "toast": {
+    "success": "Success",
+    "error": "Error",
+    "info": "Info"
+  },
+  "topBar": {
+    "notifications": "Notifications"
+  },
+  "weeklyStats": {
+    "title": "Weekly Financial Overview",
+    "insights": "Weekly Insights",
+    "highestDay": "Highest Day",
+    "lowestDay": "Lowest Day",
+    "dailyAverage": "Daily Average",
+    "on": "on {{date}}",
+    "across": "across 7 days",
+    "dailySpendingPattern": "Daily Spending Pattern",
+    "spendingTrend": "Spending Trend",
+    "budgetComparison": "Budget Comparison",
+    "thisWeek": "This Week",
+    "budget": "Budget",
+    "lastWeek": "Last Week",
+    "balanceRemaining": "Balance Remaining",
+    "ofBudget": "of ${{budget}} budget",
+    "totalExpenses": "Total Expenses",
+    "thisWeekShort": "this week",
+    "budgetExceeded": "Budget exceeded! Review your spending."
+  }
+}

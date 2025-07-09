@@ -1,0 +1,24 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Always follow the established project structure and maintain consistent file organization.
+- Aways industry best practices, SOLID principles, and framework-specific conventions.
+- Implement appropriate design patterns that solve actual problems, avoid overengineering.
+- Always Write clean, readable code - prioritize clarity over cleverness with meaningful names.
+- Eliminate boilerplate code and unnecessary repetition.
+- Reuse existing code and components - always check for existing implementations before creating new ones.
+- Extend rather than duplicate - modify existing components/functions instead of copying.
+- Create reusable abstractions by extracting common logic into utilities, hooks, or services.
+- Maintain single source of truth - centralize configurations, constants, and shared logic.
+- Write minimal, purposeful comments that focus on why not what.
+- Create self-documenting code through clear naming and structure.
+- Document complex business logic and non-obvious decisions only when necessary.
+- Avoid premature optimization - profile first, then optimize bottlenecks.
+- Implement proper error handling at appropriate levels.
+- Alway Validate and sanitize inputs at system boundaries.
+- Consider Docker for deployment.
+- Use Git for version control.
+- Use Node.js with Express.js for the backend.
+- Use React.js with tailwindcss for the frontend

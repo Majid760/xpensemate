@@ -1,0 +1,26 @@
+const express = require('express');
+const router = express.Router();
+const budgetGoalController = require('../controllers/budgetGoalController');
+const { requireAuth } = require('../middleware/auth');
+const {  validateBudgetGoal } = require('../middleware/validators');
+
+
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Budget Goals routes  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// Create a new budget goal
+router.post('/create-budget-goal', requireAuth, validateBudgetGoal, budgetGoalController.createBudgetGoal);
+// Get all budget goals with pagination and filters
+router.get('/budget-goals', requireAuth, budgetGoalController.getBudgetGoals);
+// Get monthly budget goals summary
+router.get('/budget-goal/summary/monthly', requireAuth, budgetGoalController.getMonthlySummary);
+// Get a single budget goal by ID
+router.get('/budget-goal/:id', requireAuth, budgetGoalController.getBudgetGoalById);
+// Update a budget goal
+router.put('/budget-goal/:id', requireAuth, validateBudgetGoal, budgetGoalController.updateBudgetGoal);
+// Delete a budget goal
+router.delete('/budget-goal/:id', requireAuth, budgetGoalController.deleteBudgetGoal);
+// Get budget goal progress
+router.get('/budget-goal/:id/progress', requireAuth, budgetGoalController.getBudgetGoalProgress);
+// Get all expense for specific budget 
+router.get('/budget-goal/:id/expenses', requireAuth, budgetGoalController.getExpensesForBudgetGoal);
+
+module.exports = router; 

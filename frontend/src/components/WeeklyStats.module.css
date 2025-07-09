@@ -1,0 +1,86 @@
+.weekly-stats-responsive {
+  
+  min-height: 288px;
+  border-radius: 12px;
+  padding: 32px 24px 24px 24px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 -2px 8px -4px rgba(0,0,0,0.08);
+}
+
+.donut-stats-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.donut-stat-responsive {
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.donut-stat-amount {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(0.9rem, 4vw, 18px);
+  font-weight: 700;
+  line-height: 1;
+  display: inline-block;
+  min-width: 0;
+  max-width: 80%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.donut-stat-label {
+  margin-top: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(0.8rem, 2.5vw, 22px);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: -0.5px;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .donut-stats-flex {
+    flex-direction: column !important;
+    gap: 24px !important;
+    align-items: center !important;
+  }
+  .donut-stat-responsive {
+    max-width: 180px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .weekly-stats-responsive {
+    padding: 16px 4px 16px 4px !important;
+  }
+  .donut-stats-flex {
+    gap: 16px !important;
+  }
+  .donut-stat-responsive {
+    max-width: 150px !important;
+  }
+  .donut-stat-label {
+    margin-top: 4px !important;
+  }
+} 

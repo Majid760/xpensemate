@@ -1,0 +1,321 @@
+{"level":"info","message":"Initializing email service with SMTP config","secure":false,"timestamp":"2025-06-03T10:29:39.446Z"}
+{"code":"ESOCKET","command":"CONN","error":"connect ECONNREFUSED ::1:587","level":"error","message":"SMTP connection verification failed","timestamp":"2025-06-03T10:29:39.578Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:33:16.966Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:35:11.134Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:40:56.736Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:44:24.820Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:45:11.605Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:46:38.748Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:46:56.287Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:46:59.663Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:47:15.180Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:51:43.166Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T10:53:41.746Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:25:04.242Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:26:48.245Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:26:57.022Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:26:59.062Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:27:07.557Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:27:07.578Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-00.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:27:09.404Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:27:21.702Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:27:21.723Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-01.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:27:23.488Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:28:44.431Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"Asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:28:50.105Z"}
+{"body":{"email":"themuhmand+10@gmail.com","firstName":"Majid","lastName":"Khan","password":"mak@5887607495"},"level":"info","message":"POST /api/auth/register","params":{},"query":{},"timestamp":"2025-06-03T11:30:05.655Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:47:55.145Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:47:55.164Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-02.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:47:57.340Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:47:58.283Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:47:58.302Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-00.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:48:00.115Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:48:23.650Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:48:25.390Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:49:38.804Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:49:38.822Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-00.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:49:40.763Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:49:43.302Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:50:00.792Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:50:00.809Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-01.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:50:02.590Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:50:03.738Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:50:04.881Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:50:36.674Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:50:36.693Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-00.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:50:38.492Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:50:41.728Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:50:41.744Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-01.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:50:43.482Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:50:44.850Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:51:32.307Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:51:32.328Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-01.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:51:34.360Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:51:48.908Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:51:48.928Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:51:51.217Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-02.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:51:51.722Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:51:52.163Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:52:23.372Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:52:23.390Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-00.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:52:25.192Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:52:48.741Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:55:06.261Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:55:06.279Z"}
+{"level":"info","message":"MongoDB Connected: ac-wqrls05-shard-00-00.cqfmihi.mongodb.net","timestamp":"2025-06-03T11:55:08.615Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:55:12.034Z"}
+{"body":{"email":"majidalikhan7495@gmail.com","password":"fasdfd","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:55:22.627Z"}
+{"body":{"email":"majidalikhan7495@gmail.com","password":"fasdfdereered","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:55:26.785Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:58:21.145Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:58:21.165Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:58:37.615Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:58:37.633Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:58:38.536Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:58:38.557Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T11:58:51.472Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T11:58:51.490Z"}
+{"body":{"email":"majidalikhan7495@gmail.com","password":"fasdfdereered","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T11:58:59.291Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:03:11.820Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:03:11.837Z"}
+{"body":{"email":"majidalikhan7495@gmail.com","password":"fasdfdereered","rememberMe":false},"level":"info","message":"POST /api/auth/login","params":{},"query":{},"timestamp":"2025-06-03T12:05:34.108Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T12:07:17.590Z"}
+{"email":"themuhmand@gmail.com","level":"warn","message":"Login failed - invalid password","timestamp":"2025-06-03T12:07:17.856Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"Asdfasdf","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T12:07:23.991Z"}
+{"email":"themuhmand@gmail.com","level":"warn","message":"Login failed - invalid password","timestamp":"2025-06-03T12:07:24.244Z"}
+{"body":{"email":"themuhmand@gmail.com","password":"mak5887607495","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T12:07:34.738Z"}
+{"email":"themuhmand@gmail.com","level":"warn","message":"Login failed - invalid password","timestamp":"2025-06-03T12:07:34.996Z"}
+{"body":{"email":"themuhmand@gmail.com"},"level":"info","message":"POST /auth/forgot-password","params":{},"query":{},"timestamp":"2025-06-03T12:10:49.497Z"}
+{"level":"info","message":"Sending password reset email","timestamp":"2025-06-03T12:10:49.674Z","to":"themuhmand@gmail.com"}
+{"code":"ESOCKET","command":"CONN","error":"connect ECONNREFUSED ::1:587","level":"error","message":"Failed to send password reset email","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:10:49.786Z","to":"themuhmand@gmail.com"}
+{"error":"connect ECONNREFUSED ::1:587","level":"error","message":"Password reset request failed","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:10:49.787Z"}
+{"body":{"email":"themuhmand@gmail.com"},"level":"info","message":"POST /auth/forgot-password","params":{},"query":{},"timestamp":"2025-06-03T12:10:55.409Z"}
+{"level":"info","message":"Sending password reset email","timestamp":"2025-06-03T12:10:55.583Z","to":"themuhmand@gmail.com"}
+{"code":"ESOCKET","command":"CONN","error":"connect ECONNREFUSED ::1:587","level":"error","message":"Failed to send password reset email","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:10:55.584Z","to":"themuhmand@gmail.com"}
+{"error":"connect ECONNREFUSED ::1:587","level":"error","message":"Password reset request failed","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:10:55.585Z"}
+{"body":{"email":"themuhmand@gmail.com"},"level":"info","message":"POST /auth/forgot-password","params":{},"query":{},"timestamp":"2025-06-03T12:10:56.789Z"}
+{"level":"info","message":"Sending password reset email","timestamp":"2025-06-03T12:10:56.964Z","to":"themuhmand@gmail.com"}
+{"code":"ESOCKET","command":"CONN","error":"connect ECONNREFUSED ::1:587","level":"error","message":"Failed to send password reset email","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:10:56.966Z","to":"themuhmand@gmail.com"}
+{"error":"connect ECONNREFUSED ::1:587","level":"error","message":"Password reset request failed","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:10:56.966Z"}
+{"body":{"email":"themuhmand@gmail.com"},"level":"info","message":"POST /auth/forgot-password","params":{},"query":{},"timestamp":"2025-06-03T12:10:57.969Z"}
+{"level":"info","message":"Sending password reset email","timestamp":"2025-06-03T12:10:58.150Z","to":"themuhmand@gmail.com"}
+{"code":"ESOCKET","command":"CONN","error":"connect ECONNREFUSED ::1:587","level":"error","message":"Failed to send password reset email","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:10:58.151Z","to":"themuhmand@gmail.com"}
+{"error":"connect ECONNREFUSED ::1:587","level":"error","message":"Password reset request failed","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:10:58.151Z"}
+{"body":{"email":"themuhmand+11@gmail.com","firstName":"Majid Ali khan","lastName":"akkkdjf","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:14:10.349Z"}
+{"email":"themuhmand+11@gmail.com","level":"warn","message":"Registration failed - missing fields","timestamp":"2025-06-03T12:14:10.350Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:15:59.061Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:15:59.081Z"}
+{"body":{"email":"themuhmand+1@gmail.com","firstName":"madjid ","lastName":"dkfjka ","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:16:44.106Z"}
+{"email":"themuhmand+1@gmail.com","level":"warn","message":"Registration failed - missing fields","timestamp":"2025-06-03T12:16:44.107Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:22:23.882Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:22:23.900Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:23:24.643Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:23:24.660Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:23:46.678Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:23:46.694Z"}
+{"body":{"email":"themuhmand+1@gmail.com","firstName":"madjid ","lastName":"dkfjka ","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:23:54.479Z"}
+{"email":"themuhmand+1@gmail.com","level":"warn","message":"Registration failed - user exists","timestamp":"2025-06-03T12:23:54.671Z"}
+{"body":{"email":"themuhmand+12@gmail.com","firstName":"madjid ","lastName":"dkfjka ","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:24:08.715Z"}
+{"email":"themuhmand+12@gmail.com","error":"User validation failed: email: Please enter a valid email","level":"error","message":"Registration failed - server error","stack":"ValidationError: User validation failed: email: Please enter a valid email\n    at Document.invalidate (/Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3219:32)\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3012:17\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/schematype.js:1368:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)","timestamp":"2025-06-03T12:24:08.893Z"}
+{"body":{"email":"themuhmand+12@gmail.com","firstName":"madjid ","lastName":"dkfjka ","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:24:14.327Z"}
+{"email":"themuhmand+12@gmail.com","error":"User validation failed: email: Please enter a valid email","level":"error","message":"Registration failed - server error","stack":"ValidationError: User validation failed: email: Please enter a valid email\n    at Document.invalidate (/Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3219:32)\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3012:17\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/schematype.js:1368:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)","timestamp":"2025-06-03T12:24:14.502Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:26:21.315Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:26:21.335Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:26:50.931Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:26:50.950Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:27:08.061Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:27:08.082Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:28:23.903Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:28:23.923Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:28:26.108Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:28:26.133Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:28:54.299Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:28:54.316Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:28:59.343Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:28:59.360Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:29:15.329Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:29:15.349Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:29:32.176Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:29:32.195Z"}
+{"body":{"email":"themuhmand+123@gmail.com","firstName":"majid","lastName":"kdjfdk","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:30:07.416Z"}
+{"email":"themuhmand+123@gmail.com","error":"User validation failed: email: Please enter a valid email","level":"error","message":"Registration failed - server error","stack":"ValidationError: User validation failed: email: Please enter a valid email\n    at Document.invalidate (/Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3219:32)\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3012:17\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/schematype.js:1368:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)","timestamp":"2025-06-03T12:30:07.603Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:30:51.638Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:30:51.656Z"}
+{"body":{"email":"themuhmand+123@gmail.com","firstName":"majid","lastName":"kdjfdk","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:30:54.330Z"}
+{"email":"themuhmand+123@gmail.com","error":"User validation failed: email: Please enter a valid email","level":"error","message":"Registration failed - server error","stack":"ValidationError: User validation failed: email: Please enter a valid email\n    at Document.invalidate (/Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3219:32)\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3012:17\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/schematype.js:1368:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)","timestamp":"2025-06-03T12:30:54.516Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:31:36.941Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:31:36.958Z"}
+{"body":{"email":"themuhmand+123@gmail.com","firstName":"majid","lastName":"kdjfdk","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:31:41.757Z"}
+{"email":"themuhmand+123@gmail.com","error":"User validation failed: email: Please enter a valid email","level":"error","message":"Registration failed - server error","stack":"ValidationError: User validation failed: email: Please enter a valid email\n    at Document.invalidate (/Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3219:32)\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/document.js:3012:17\n    at /Users/majid/Desktop/xpensemate/backend/node_modules/mongoose/lib/schematype.js:1368:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)","timestamp":"2025-06-03T12:31:41.944Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:32:28.864Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:32:28.882Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:33:02.555Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:33:02.573Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:33:09.568Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:33:09.586Z"}
+{"body":{"email":"themuhmand+123@gmail.com","firstName":"majid","lastName":"kdjfdk","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:33:12.666Z"}
+{"level":"info","message":"Sending verification email","timestamp":"2025-06-03T12:33:13.114Z","to":"themuhmand+123@gmail.com"}
+{"code":"ESOCKET","command":"CONN","error":"connect ECONNREFUSED ::1:587","level":"error","message":"Failed to send verification email","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:33:13.221Z","to":"themuhmand+123@gmail.com"}
+{"email":"themuhmand+123@gmail.com","error":"connect ECONNREFUSED ::1:587","level":"error","message":"Registration failed - server error","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:33:13.222Z"}
+{"level":"info","message":"Initializing SMTP transporter","service":"gmail","timestamp":"2025-06-03T12:33:54.781Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:33:54.799Z"}
+{"FRONTEND_URL":"Defined","NODE_ENV":"development","SMTP_PASS":"Undefined","SMTP_USER":"Undefined","SUPPORT_EMAIL":"Defined","level":"info","message":"Email configuration check:","timestamp":"2025-06-03T12:35:42.667Z"}
+{"debug":true,"level":"info","logger":true,"message":"Initializing SMTP transporter with config:","service":"gmail","timestamp":"2025-06-03T12:35:42.671Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:35:42.688Z"}
+{"code":"EAUTH","command":"API","error":"Missing credentials for \"PLAIN\"","level":"error","message":"SMTP connection test failed:","timestamp":"2025-06-03T12:35:44.266Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:39:26.927Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:39:26.947Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:52:28.106Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:52:28.127Z"}
+{"level":"info","message":"Initializing SMTP transporter","port":null,"secure":false,"timestamp":"2025-06-03T12:52:32.951Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:52:32.968Z"}
+{"body":{"email":"themuhmand+123@gmail.com","firstName":"majid","lastName":"kdjfdk","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:52:36.605Z"}
+{"email":"themuhmand+123@gmail.com","level":"warn","message":"Registration failed - user exists","timestamp":"2025-06-03T12:52:36.788Z"}
+{"body":{"email":"themuhmand+12345@gmail.com","firstName":"majid","lastName":"kdjfdk","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:52:43.634Z"}
+{"level":"info","message":"Sending verification email","timestamp":"2025-06-03T12:52:44.109Z","to":"themuhmand+12345@gmail.com"}
+{"code":"ESOCKET","command":"CONN","error":"connect ECONNREFUSED ::1:587","level":"error","message":"Failed to send verification email","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:52:44.218Z","to":"themuhmand+12345@gmail.com"}
+{"email":"themuhmand+12345@gmail.com","error":"connect ECONNREFUSED ::1:587","level":"error","message":"Registration failed - server error","stack":"Error: connect ECONNREFUSED ::1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1615:16)","timestamp":"2025-06-03T12:52:44.218Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T12:53:25.751Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:53:25.772Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T12:53:53.030Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:53:53.110Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T12:53:55.792Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:53:55.810Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T12:54:22.280Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:54:22.299Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T12:54:27.102Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T12:54:27.121Z"}
+{"body":{"email":"themuhmand+12345@gmail.com","firstName":"majid","lastName":"kdjfdk","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:54:33.565Z"}
+{"email":"themuhmand+12345@gmail.com","level":"warn","message":"Registration failed - user exists","timestamp":"2025-06-03T12:54:33.746Z"}
+{"body":{"email":"themuhmand+123456@gmail.com","firstName":"majid","lastName":"kdjfdk","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T12:54:42.913Z"}
+{"level":"info","message":"Sending verification email","timestamp":"2025-06-03T12:54:43.371Z","to":"themuhmand+123456@gmail.com"}
+{"level":"info","message":"Verification email sent successfully","messageId":"<dbfb9ced-cfaf-dc01-e175-01f9290c162b@gmail.com>","timestamp":"2025-06-03T12:54:49.026Z","to":"themuhmand+123456@gmail.com"}
+{"email":"themuhmand+123456@gmail.com","level":"info","message":"Verification email sent","timestamp":"2025-06-03T12:54:49.026Z"}
+{"body":{"email":"themuhmand+123456@gmail.com","password":"asdfasdf","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:07:51.636Z"}
+{"email":"themuhmand+123456@gmail.com","level":"warn","message":"Login failed - invalid password","timestamp":"2025-06-03T13:07:51.888Z"}
+{"body":{"email":"themuhmand+123456@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:07:59.227Z"}
+{"email":"themuhmand+123456@gmail.com","level":"warn","message":"Login failed - email not verified","timestamp":"2025-06-03T13:07:59.475Z"}
+{"body":{"email":"themuhmand+123456@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:08:03.488Z"}
+{"email":"themuhmand+123456@gmail.com","level":"warn","message":"Login failed - email not verified","timestamp":"2025-06-03T13:08:03.738Z"}
+{"body":{"email":"themuhmand+123456@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:09:54.787Z"}
+{"email":"themuhmand+123456@gmail.com","level":"warn","message":"Login failed - email not verified","timestamp":"2025-06-03T13:09:55.038Z"}
+{"body":{"email":"themuhmand+123456@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:09:59.253Z"}
+{"email":"themuhmand+123456@gmail.com","level":"warn","message":"Login failed - email not verified","timestamp":"2025-06-03T13:09:59.503Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmMDkzOWZjOTAzMTJmYjQxNDQ4MyIsImlhdCI6MTc0ODk1NTI4MywiZXhwIjoxNzQ5MDQxNjgzfQ.YkTj7nbx1hWjGCL8T7_v0wdR0HbT385TKGKIVzPkgo0","params":{},"query":{},"timestamp":"2025-06-03T13:10:08.607Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmMDkzOWZjOTAzMTJmYjQxNDQ4MyIsImlhdCI6MTc0ODk1NTI4MywiZXhwIjoxNzQ5MDQxNjgzfQ.YkTj7nbx1hWjGCL8T7_v0wdR0HbT385TKGKIVzPkgo0","params":{},"query":{},"timestamp":"2025-06-03T13:10:08.611Z"}
+{"body":{"email":"themuhmand+123456@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:10:19.318Z"}
+{"email":"themuhmand+123456@gmail.com","level":"warn","message":"Login failed - email not verified","timestamp":"2025-06-03T13:10:19.571Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:14:11.396Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:14:11.417Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:15:06.808Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:15:06.826Z"}
+{"body":{"email":"themuhmand+222@gmail.com","firstName":"Majid ","lastName":"Ali","password":"asdfasdf@"},"level":"info","message":"POST /auth/register","params":{},"query":{},"timestamp":"2025-06-03T13:17:52.537Z"}
+{"level":"info","message":"Sending verification email","timestamp":"2025-06-03T13:17:52.998Z","to":"themuhmand+222@gmail.com"}
+{"level":"info","message":"Verification email sent successfully","messageId":"<e5b50aa2-35a3-7a74-d57e-4e02e1e9195c@gmail.com>","timestamp":"2025-06-03T13:17:58.506Z","to":"themuhmand+222@gmail.com"}
+{"email":"themuhmand+222@gmail.com","level":"info","message":"Verification email sent","timestamp":"2025-06-03T13:17:58.506Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:18:55.397Z"}
+{"email":"themuhmand+222@gmail.com","error":"Cannot read properties of undefined (reading 'resendVerificationEmail')","level":"warn","message":"Login failed - email not verified, could not resend verification email","timestamp":"2025-06-03T13:18:55.641Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:19:17.156Z"}
+{"email":"themuhmand+222@gmail.com","error":"Cannot read properties of undefined (reading 'resendVerificationEmail')","level":"warn","message":"Login failed - email not verified, could not resend verification email","timestamp":"2025-06-03T13:19:17.453Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:21:32.073Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:21:32.096Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:22:18.785Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:22:18.802Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:22:22.174Z"}
+{"email":"themuhmand+222@gmail.com","error":"Cannot read properties of undefined (reading 'resendVerificationEmail')","level":"warn","message":"Login failed - email not verified, could not resend verification email","timestamp":"2025-06-03T13:22:22.452Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:50:51.841Z"}
+{"email":"themuhmand+222@gmail.com","error":"Cannot read properties of undefined (reading 'resendVerificationEmail')","level":"warn","message":"Login failed - email not verified, could not resend verification email","timestamp":"2025-06-03T13:50:52.097Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:51:01.600Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:51:01.630Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:51:28.386Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:51:28.404Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:51:37.804Z"}
+{"level":"info","message":"Sending verification email","timestamp":"2025-06-03T13:51:38.237Z","to":"themuhmand+222@gmail.com"}
+{"level":"info","message":"Verification email sent successfully","messageId":"<67575eb4-b410-3074-3759-4d7320317bac@gmail.com>","timestamp":"2025-06-03T13:51:43.543Z","to":"themuhmand+222@gmail.com"}
+{"email":"themuhmand+222@gmail.com","level":"info","message":"Verification email resent","timestamp":"2025-06-03T13:51:43.543Z"}
+{"email":"themuhmand+222@gmail.com","level":"warn","message":"Login failed - email not verified, verification email resent","timestamp":"2025-06-03T13:51:43.544Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:53:10.440Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:53:10.456Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:53:19.427Z"}
+{"level":"info","message":"Sending verification email","timestamp":"2025-06-03T13:53:19.865Z","to":"themuhmand+222@gmail.com"}
+{"level":"info","message":"Verification email sent successfully","messageId":"<365a18fc-14af-ab94-6670-463fc242c1e7@gmail.com>","timestamp":"2025-06-03T13:53:24.998Z","to":"themuhmand+222@gmail.com"}
+{"email":"themuhmand+222@gmail.com","level":"info","message":"Verification email resent","timestamp":"2025-06-03T13:53:24.999Z"}
+{"email":"themuhmand+222@gmail.com","level":"warn","message":"Login failed - email not verified, verification email resent","timestamp":"2025-06-03T13:53:24.999Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:54:35.754Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:54:35.771Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:54:39.352Z"}
+{"level":"info","message":"Sending verification email","timestamp":"2025-06-03T13:54:39.778Z","to":"themuhmand+222@gmail.com"}
+{"level":"info","message":"Verification email sent successfully","messageId":"<fa0627a7-0df9-d05e-5edb-94d004b615ad@gmail.com>","timestamp":"2025-06-03T13:54:45.033Z","to":"themuhmand+222@gmail.com"}
+{"email":"themuhmand+222@gmail.com","level":"info","message":"Verification email resent","timestamp":"2025-06-03T13:54:45.034Z"}
+{"email":"themuhmand+222@gmail.com","level":"warn","message":"Login failed - email not verified, verification email resent","timestamp":"2025-06-03T13:54:45.034Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk1ODY5OCwiZXhwIjoxNzQ5MDQ1MDk4fQ.uixAUxxQY_Bfka-LzQzPT_9chHe79mF59kEEUTx5eNw","params":{},"query":{},"timestamp":"2025-06-03T13:56:27.263Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk1ODY5OCwiZXhwIjoxNzQ5MDQ1MDk4fQ.uixAUxxQY_Bfka-LzQzPT_9chHe79mF59kEEUTx5eNw","params":{},"query":{},"timestamp":"2025-06-03T13:56:27.266Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T13:56:38.394Z"}
+{"level":"info","message":"Sending verification email","timestamp":"2025-06-03T13:56:38.804Z","to":"themuhmand+222@gmail.com"}
+{"level":"info","message":"Verification email sent successfully","messageId":"<658bf43c-17db-735c-dcd0-39e5099b35f6@gmail.com>","timestamp":"2025-06-03T13:56:43.925Z","to":"themuhmand+222@gmail.com"}
+{"email":"themuhmand+222@gmail.com","level":"info","message":"Verification email resent","timestamp":"2025-06-03T13:56:43.925Z"}
+{"email":"themuhmand+222@gmail.com","level":"warn","message":"Login failed - email not verified, verification email resent","timestamp":"2025-06-03T13:56:43.925Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk1ODk5OCwiZXhwIjoxNzQ5MDQ1Mzk4fQ.2ID-wpRdb1Ykuc3l-GOjaC3G-znizcnoz4weqALIRIM","params":{},"query":{},"timestamp":"2025-06-03T13:57:01.875Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk1ODk5OCwiZXhwIjoxNzQ5MDQ1Mzk4fQ.2ID-wpRdb1Ykuc3l-GOjaC3G-znizcnoz4weqALIRIM","params":{},"query":{},"timestamp":"2025-06-03T13:57:01.876Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:57:54.384Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:57:54.402Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T13:58:09.095Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T13:58:09.112Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:24:16.487Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:24:16.507Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk1ODk5OCwiZXhwIjoxNzQ5MDQ1Mzk4fQ.2ID-wpRdb1Ykuc3l-GOjaC3G-znizcnoz4weqALIRIM","params":{},"query":{},"timestamp":"2025-06-03T14:24:28.299Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk1ODk5OCwiZXhwIjoxNzQ5MDQ1Mzk4fQ.2ID-wpRdb1Ykuc3l-GOjaC3G-znizcnoz4weqALIRIM","params":{},"query":{},"timestamp":"2025-06-03T14:24:28.304Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T14:24:53.842Z"}
+{"frontendUrl":"http://localhost:3000","level":"info","message":"Preparing verification email","timestamp":"2025-06-03T14:24:54.291Z","to":"themuhmand+222@gmail.com","verificationUrl":"http://localhost:3000/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDY5NCwiZXhwIjoxNzQ5MDQ3MDk0fQ.3sbkg74oDvMSp1VaxD9P84adbtvjeXhwu6VEA-G1YeQ"}
+{"from":"aisocial7495@gmail.com","level":"info","message":"Sending verification email","timestamp":"2025-06-03T14:24:54.292Z","to":"themuhmand+222@gmail.com"}
+{"level":"info","message":"Verification email sent successfully","messageId":"<869f148f-21bd-d39d-6682-3b81296dcfc1@gmail.com>","response":"250 2.0.0 OK  1748960699 d2e1a72fcca58-747afed360fsm9459567b3a.81 - gsmtp","timestamp":"2025-06-03T14:24:59.616Z","to":"themuhmand+222@gmail.com"}
+{"email":"themuhmand+222@gmail.com","level":"info","message":"Verification email resent","timestamp":"2025-06-03T14:24:59.616Z"}
+{"email":"themuhmand+222@gmail.com","level":"warn","message":"Login failed - email not verified, verification email resent","timestamp":"2025-06-03T14:24:59.617Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDY5NCwiZXhwIjoxNzQ5MDQ3MDk0fQ.3sbkg74oDvMSp1VaxD9P84adbtvjeXhwu6VEA-G1YeQ","params":{},"query":{},"timestamp":"2025-06-03T14:25:18.261Z"}
+{"body":{},"level":"info","message":"GET /api/auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDY5NCwiZXhwIjoxNzQ5MDQ3MDk0fQ.3sbkg74oDvMSp1VaxD9P84adbtvjeXhwu6VEA-G1YeQ","params":{},"query":{},"timestamp":"2025-06-03T14:25:18.265Z"}
+{"body":{},"level":"info","message":"GET /auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDY5NCwiZXhwIjoxNzQ5MDQ3MDk0fQ.3sbkg74oDvMSp1VaxD9P84adbtvjeXhwu6VEA-G1YeQ","params":{},"query":{},"timestamp":"2025-06-03T14:25:59.029Z"}
+{"body":{},"level":"info","message":"GET /auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDY5NCwiZXhwIjoxNzQ5MDQ3MDk0fQ.3sbkg74oDvMSp1VaxD9P84adbtvjeXhwu6VEA-G1YeQ","params":{},"query":{},"timestamp":"2025-06-03T14:25:59.031Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T14:26:09.780Z"}
+{"frontendUrl":"http://localhost:3000","level":"info","message":"Preparing verification email","timestamp":"2025-06-03T14:26:10.204Z","to":"themuhmand+222@gmail.com","verificationUrl":"http://localhost:3000/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDc3MCwiZXhwIjoxNzQ5MDQ3MTcwfQ._2QIrcxP-kN30K8SM552RbPLLW8pJr-Lo8vTjqcXF40"}
+{"from":"aisocial7495@gmail.com","level":"info","message":"Sending verification email","timestamp":"2025-06-03T14:26:10.204Z","to":"themuhmand+222@gmail.com"}
+{"level":"info","message":"Verification email sent successfully","messageId":"<274fb140-66a2-5825-c9fa-35c27d308fb4@gmail.com>","response":"250 2.0.0 OK  1748960775 d9443c01a7336-235caa81bc2sm12446585ad.205 - gsmtp","timestamp":"2025-06-03T14:26:15.581Z","to":"themuhmand+222@gmail.com"}
+{"email":"themuhmand+222@gmail.com","level":"info","message":"Verification email resent","timestamp":"2025-06-03T14:26:15.581Z"}
+{"email":"themuhmand+222@gmail.com","level":"warn","message":"Login failed - email not verified, verification email resent","timestamp":"2025-06-03T14:26:15.581Z"}
+{"body":{},"level":"info","message":"GET /auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDc3MCwiZXhwIjoxNzQ5MDQ3MTcwfQ._2QIrcxP-kN30K8SM552RbPLLW8pJr-Lo8vTjqcXF40","params":{},"query":{},"timestamp":"2025-06-03T14:26:29.497Z"}
+{"body":{},"level":"info","message":"GET /auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDc3MCwiZXhwIjoxNzQ5MDQ3MTcwfQ._2QIrcxP-kN30K8SM552RbPLLW8pJr-Lo8vTjqcXF40","params":{},"query":{},"timestamp":"2025-06-03T14:26:29.500Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:26:51.599Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:26:51.615Z"}
+{"body":{},"level":"info","message":"GET /auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDc3MCwiZXhwIjoxNzQ5MDQ3MTcwfQ._2QIrcxP-kN30K8SM552RbPLLW8pJr-Lo8vTjqcXF40","params":{},"query":{},"timestamp":"2025-06-03T14:26:56.276Z"}
+{"body":{},"level":"info","message":"GET /auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDc3MCwiZXhwIjoxNzQ5MDQ3MTcwfQ._2QIrcxP-kN30K8SM552RbPLLW8pJr-Lo8vTjqcXF40","params":{},"query":{},"timestamp":"2025-06-03T14:26:56.284Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:29:28.235Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:29:28.255Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:29:29.974Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:29:29.994Z"}
+{"body":{},"level":"info","message":"GET /auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDc3MCwiZXhwIjoxNzQ5MDQ3MTcwfQ._2QIrcxP-kN30K8SM552RbPLLW8pJr-Lo8vTjqcXF40","params":{},"query":{},"timestamp":"2025-06-03T14:29:32.931Z"}
+{"level":"info","message":"Email verification attempt","timestamp":"2025-06-03T14:29:32.932Z","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDc3MCwiZXhwIjoxNzQ5MDQ3MTcwfQ._2QIrcxP-kN30K8SM552RbPLLW8pJr-Lo8vTjqcXF40"}
+{"level":"info","message":"Token verified successfully","timestamp":"2025-06-03T14:29:32.935Z","userId":"683ef6003faff334a5730f6a"}
+{"level":"info","message":"Email verified successfully","timestamp":"2025-06-03T14:29:33.288Z","userId":"683ef6003faff334a5730f6a"}
+{"body":{},"level":"info","message":"GET /auth/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDc3MCwiZXhwIjoxNzQ5MDQ3MTcwfQ._2QIrcxP-kN30K8SM552RbPLLW8pJr-Lo8vTjqcXF40","params":{},"query":{},"timestamp":"2025-06-03T14:29:33.293Z"}
+{"level":"info","message":"Email verification attempt","timestamp":"2025-06-03T14:29:33.294Z","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2VmNjAwM2ZhZmYzMzRhNTczMGY2YSIsImlhdCI6MTc0ODk2MDc3MCwiZXhwIjoxNzQ5MDQ3MTcwfQ._2QIrcxP-kN30K8SM552RbPLLW8pJr-Lo8vTjqcXF40"}
+{"level":"info","message":"Token verified successfully","timestamp":"2025-06-03T14:29:33.295Z","userId":"683ef6003faff334a5730f6a"}
+{"level":"info","message":"Email already verified","timestamp":"2025-06-03T14:29:33.465Z","userId":"683ef6003faff334a5730f6a"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T14:29:47.075Z"}
+{"email":"themuhmand+222@gmail.com","level":"info","message":"Login successful","timestamp":"2025-06-03T14:29:47.332Z","userId":"683ef6003faff334a5730f6a"}
+{"body":{"reportDetails":"kdjt kksjtklk djflk dfjlkd fldkfj ","reportName":"majid "},"level":"info","message":"POST /support/submit","params":{},"query":{},"timestamp":"2025-06-03T14:30:01.379Z"}
+{"body":{"reportDetails":"kdjt kksjtklk djflk dfjlkd fldkfj ","reportName":"majid "},"level":"info","message":"POST /support/submit","params":{},"query":{},"timestamp":"2025-06-03T14:30:05.664Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:32:14.156Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:32:14.176Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:34:02.489Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:34:02.505Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:34:03.597Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:34:03.614Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:34:06.930Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:34:06.947Z"}
+{"body":{"reportDetails":"kdjt kksjtklk djflk dfjlkd fldkfj ","reportName":"majid "},"level":"info","message":"POST /support/submit","params":{},"query":{},"timestamp":"2025-06-03T14:39:59.051Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:43:56.045Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:43:56.064Z"}
+{"body":{"email":"themuhmand+222@gmail.com","password":"asdfasdf@","rememberMe":false},"level":"info","message":"POST /auth/login","params":{},"query":{},"timestamp":"2025-06-03T14:44:01.881Z"}
+{"email":"themuhmand+222@gmail.com","level":"info","message":"Login successful","timestamp":"2025-06-03T14:44:02.156Z","userId":"683ef6003faff334a5730f6a"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:58:00.604Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:58:00.623Z"}
+{"host":"smtp.gmail.com","level":"info","message":"Initializing SMTP transporter","port":587,"secure":false,"timestamp":"2025-06-03T14:58:42.646Z"}
+{"level":"info","message":"Server running on port 5001","timestamp":"2025-06-03T14:58:42.667Z"}

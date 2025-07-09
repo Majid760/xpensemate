@@ -1,0 +1,91 @@
+.toast {
+  position: fixed;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: white;
+  font-size: 13px;
+  z-index: 1000;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounceAndFade 0.65s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 200px;
+  justify-content: center;
+  cursor: default;
+  transition: all 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+.toast:hover {
+  transform: translate(-50%, -2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.error {
+  background-color: rgba(255, 77, 79, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.success {
+  background-color: rgba(82, 196, 26, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  background-color: rgba(24, 144, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes bounceAndFade {
+  0% {
+    transform: translate(-50%, -24px);
+    opacity: 0;
+    scale: 0.95;
+  }
+  40% {
+    transform: translate(-50%, 4px);
+    opacity: 0.85;
+    scale: 1.02;
+  }
+  70% {
+    transform: translate(-50%, -2px);
+    opacity: 0.95;
+    scale: 0.99;
+  }
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* Exit Animation */
+.exitAnimation {
+  animation: bounceAndFadeOut 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes bounceAndFadeOut {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    scale: 1;
+  }
+  40% {
+    transform: translate(-50%, 4px);
+    opacity: 0.7;
+    scale: 0.98;
+  }
+  100% {
+    transform: translate(-50%, -20px);
+    opacity: 0;
+    scale: 0.95;
+  }
+} 

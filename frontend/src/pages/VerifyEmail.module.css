@@ -1,0 +1,90 @@
+.background {
+  min-height: 100vh;
+  width: 100vw;
+  background: url('../images/signin-background.png') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+}
+
+.container {
+  background: #0A1623;
+  border-radius: 10px;
+  padding: 36px 36px;
+  max-width: 400px;
+  width: 100%;
+  color: #fff;
+  position: relative;
+  z-index: 2;
+  border: 3px solid #F3C96B;
+  display: flex;
+  flex-direction: column;
+  margin-top: -100px;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.logo img {
+  width: 260px;
+  height: 83px;
+  object-fit: contain;
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.message {
+  color: #B4B4B4;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.instruction {
+  color: #B4B4B4;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.link {
+  color: #F3C96B;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.link:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 28px 24px;
+  }
+
+  .logo img {
+    width: 220px;
+    height: 70px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .message, .instruction {
+    font-size: 0.95rem;
+  }
+} 

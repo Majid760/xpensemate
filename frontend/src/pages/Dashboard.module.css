@@ -1,0 +1,163 @@
+/* Dashboard.module.css - Minimal CSS for remaining custom styles */
+
+/* Basic container styles that can't be replaced with Tailwind */
+.container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.header {
+  background: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.logo img {
+  height: 40px;
+}
+
+.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+.main h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+
+.main p {
+  font-size: 1.125rem;
+  color: #6b7280;
+  line-height: 1.75;
+}
+
+/* Consistent content spacing */
+.contentSection {
+  max-width: 80rem; /* max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+  padding-top: 1.5rem; /* py-6 */
+  padding-bottom: 1.5rem;
+}
+
+/* Responsive padding adjustments to match Tailwind classes */
+@media (min-width: 640px) {
+  .contentSection {
+    padding-left: 1.5rem; /* sm:px-6 */
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contentSection {
+    padding-left: 2rem; /* lg:px-8 */
+    padding-right: 2rem;
+  }
+}
+
+/* Mobile responsiveness for sidebar */
+@media (max-width: 768px) {
+  .dashboardLayout {
+    flex-direction: column;
+  }
+  .mainContent {
+    margin-left: 0 !important;
+    padding: 0;
+  }
+  
+  .main {
+    padding: 1rem 0.75rem;
+  }
+  
+  .contentSection {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+/* Card styles for consistent appearance */
+.card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #f3f4f6;
+}
+
+.cardPadded {
+  padding: 1.5rem;
+}
+
+.cardNoPadding {
+  padding: 0;
+}
+
+/* Grid layouts */
+.analyticsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .analyticsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Global PrimeReact DataTable overrides (if still needed) */
+:global(.p-datatable .p-datatable-thead > tr > th) {
+  background: #f9fafb !important;
+  font-weight: 600 !important;
+  color: #374151 !important;
+  font-size: 0.875rem !important;
+  padding: 0.75rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+:global(.p-datatable .p-datatable-tbody > tr > td) {
+  background: white !important;
+  font-size: 0.875rem !important;
+  color: #1f2937 !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  padding: 0.75rem !important;
+}
+
+:global(.p-datatable) {
+  padding: 0 !important;
+  width: 100% !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+}
+
+:global(.p-datatable-table) {
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+:global(.p-datatable .p-datatable-wrapper) {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* Hover effects for interactive elements */
+:global(.p-datatable .p-datatable-tbody > tr:hover > td) {
+  background: #f9fafb !important;
+}
+
+/* Focus styles for accessibility */
+:global(.p-datatable .p-datatable-tbody > tr:focus > td) {
+  outline: 2px solid #6366f1 !important;
+  outline-offset: -2px !important;
+}
