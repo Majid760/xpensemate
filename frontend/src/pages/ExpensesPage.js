@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar';
 import TopBar from '../components/TopBar';
 import styles from './ExpensesPage.module.css';
 import ExpensesTable from '../components/ExpensesTable';
+import ExpenseInsight from '../components/ExpensesInsights';
 
 export default function ExpensesPage({ expanded, setExpanded }) {
   return (
@@ -13,6 +14,8 @@ export default function ExpensesPage({ expanded, setExpanded }) {
         // style={{ marginLeft: expanded ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH }}
       >
         <TopBar/>
+        <ExpenseInsight/>
+        
         <div className="w-full">
           <ExpensesTable />
         </div>
