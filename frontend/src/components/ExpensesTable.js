@@ -6,6 +6,7 @@ import ConfirmDialog from './ConfirmDialog';
 import apiService from '../services/apiService';
 import { useBudgetGoals } from '../contexts/BudgetGoalsContext';
 import BudgetGoalsExpensesModal from './BudgetGoalsExpenses';
+import ExpensesInsights from './ExpensesInsights';
 
 const ExpensesTable = () => {
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -358,10 +359,10 @@ const ExpensesTable = () => {
 
   return (
     <div className="w-full font-sans px-4 sm:px-6 lg:px-8">
+      <ExpensesInsights onAddExpense={handleAddNew} />
       {/* Card Container */}
       <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/20 overflow-hidden mx-auto max-w-full transition-all duration-300">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-3xl" />
-        
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-4 sm:px-8 pt-6 pb-4">
           <h2 className="flex items-center gap-3 text-2xl lg:text-3xl font-bold text-slate-800 tracking-tight">
@@ -369,24 +370,18 @@ const ExpensesTable = () => {
             Expenses
           </h2>
           <div className="flex items-center gap-2">
-          {selectedRows.size > 0 && (
-            <button
-              onClick={() => handleDeleteClick()}
+            {selectedRows.size > 0 && (
+              <button
+                onClick={() => handleDeleteClick()}
                 className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold px-5 py-2 rounded-xl shadow transition-all duration-200 active:scale-95 text-sm"
-            >
-              <Trash2 size={16} />
+              >
+                <Trash2 size={16} />
                 Delete ({selectedRows.size})
-            </button>
-          )}
-          <button 
-            onClick={handleAddNew}
-              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-xl shadow transition-all duration-200 active:scale-95 text-sm"
-          >
-            <Plus size={16} />
-            Add Expense
-            </button>
+              </button>
+            )}
+            {/* Remove Add Expense button here */}
+          </div>
         </div>
-      </div>
 
       {/* Table Container */}
         <div className="overflow-x-auto px-2 sm:px-6 pb-6">
