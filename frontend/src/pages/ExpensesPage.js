@@ -16,7 +16,7 @@ export default function ExpensesPage({ expanded, setExpanded }) {
         <TopBar/>
         {/* <ExpenseInsight/> */}
         
-        <div className="w-full">
+        <div className="w-full ">
           <ExpensesTable />
         </div>
       </main>

@@ -103,13 +103,31 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
 
   if (loading) {
     return (
-      <div className="w-full max-w-8xl mx-auto p-8">
-        <div className="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl p-8 text-white shadow-2xl">
-          <div className="flex items-center justify-center h-24">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
-              <p className="text-white/80 animate-pulse">Loading your insights...</p>
+      <div className="w-full font-sans py-4 sm:px-6 lg:px-4">
+        <div className="relative bg-white/95 overflow-hidden transition-all duration-300 p-4">
+          {/* Shimmer Header */}
+          <div className="flex items-center gap-3 mb-6 animate-pulse">
+            <div className="w-10 h-10 bg-slate-200 rounded-lg" />
+            <div>
+              <div className="h-5 w-32 bg-slate-200 rounded mb-2" />
+              <div className="h-3 w-24 bg-slate-100 rounded" />
             </div>
+          </div>
+          {/* Shimmer Stats Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
+            {[...Array(4)].map((_, idx) => (
+              <div key={idx} className="bg-slate-50 rounded-xl border border-slate-200 p-6 animate-pulse">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-8 h-8 bg-slate-200 rounded-lg" />
+                  <div className="h-4 w-12 bg-slate-200 rounded-full" />
+                </div>
+                <div className="mb-2">
+                  <div className="h-6 w-20 bg-slate-200 rounded mb-1" />
+                  <div className="h-4 w-16 bg-slate-100 rounded" />
+                </div>
+                <div className="h-3 w-24 bg-slate-100 rounded mt-2" />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -117,9 +135,10 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
   }
 
   return (
-    <div className="w-full max-w-8xl mx-auto px-4 py-4">
+    <div className="w-full font-sans py-4  sm:px-6 lg:px-4">
       {/* Main Card - Project Style */}
-      <div className={`relative bg-white transition-all duration-300 ${showFullDashboard ? 'p-8' : 'p-6'} overflow-hidden`}>
+      <div className={`relative bg-white/95  overflow-hidden   transition-all duration-300 ${showFullDashboard ? 'p-4' : 'p-2'} overflow-hidden`}>
+
         {/* Professional header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
           <div className="flex-1">
@@ -128,12 +147,12 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
               <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
                 <BarChart3 size={20} className="text-white" />
               </div>
-              <div>
+             <div>
                 <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">
                   Expense Insights
                 </h1>
                 <p className="text-slate-600 text-sm mt-1">Financial overview and analytics</p>
-              </div>
+             </div>
             </div>
           </div>
 
