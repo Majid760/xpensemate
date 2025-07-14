@@ -246,29 +246,29 @@ class ExpenseService {
     }
     // 2. Calculate date range
     let rangeStart, rangeEnd;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Start of today
+    const now = new Date();
+    const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())); // Start of today in UTC
 
     if (period === 'weekly') {
       // Last 7 days including today
-      rangeEnd = new Date(today);
-      rangeStart = new Date(today);
-      rangeStart.setDate(today.getDate() - 6);
+      rangeEnd = new Date(todayUTC);
+      rangeStart = new Date(todayUTC);
+      rangeStart.setUTCDate(todayUTC.getUTCDate() - 6);
     } else if (period === 'monthly') {
       // Last 30 days including today
-      rangeEnd = new Date(today);
-      rangeStart = new Date(today);
-      rangeStart.setDate(today.getDate() - 29);
+      rangeEnd = new Date(todayUTC);
+      rangeStart = new Date(todayUTC);
+      rangeStart.setUTCDate(todayUTC.getUTCDate() - 29);
     } else if (period === 'quarterly') {
       // Last 90 days including today
-      rangeEnd = new Date(today);
-      rangeStart = new Date(today);
-      rangeStart.setDate(today.getDate() - 89);
+      rangeEnd = new Date(todayUTC);
+      rangeStart = new Date(todayUTC);
+      rangeStart.setUTCDate(todayUTC.getUTCDate() - 89);
     } else if (period === 'yearly') {
       // Last 365 days including today
-      rangeEnd = new Date(today);
-      rangeStart = new Date(today);
-      rangeStart.setDate(today.getDate() - 364);
+      rangeEnd = new Date(todayUTC);
+      rangeStart = new Date(todayUTC);
+      rangeStart.setUTCDate(todayUTC.getUTCDate() - 364);
     }
     console.info('Querying expenses for user:', userId, 'from', rangeStart, 'to', rangeEnd);
     // 3. Query all expenses in range
