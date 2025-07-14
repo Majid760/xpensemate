@@ -7,24 +7,14 @@ import {
   PieChart,
   BarChart3,
   Target,
-  CreditCard,
-  ShoppingBag,
-  Coffee,
-  Car,
-  Home,
-  Smartphone,
   Award,
-  AlertCircle,
-  ArrowUp,
-  ArrowDown,
   Eye,
   EyeOff,
   Plus,
-  ChevronDown,
   ChevronUp
 } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, BarChart, Bar, AreaChart, Area } from 'recharts';
-import ExpensesTable from './ExpensesTable';
+import {  Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, AreaChart, Area } from 'recharts';
+import apiService from '../services/apiService';
 
 const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
   const [selectedPeriod, setSelectedPeriod] = useState('weekly');
@@ -33,62 +23,48 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
   const [animationKey, setAnimationKey] = useState(0);
   const [showFullDashboard, setShowFullDashboard] = useState(false);
   const [showCategoryBreakdown, setShowCategoryBreakdown] = useState(false);
-
-  // Mock data generation - replace with actual API calls
-  const generateMockData = useCallback(() => {
-    const periods = {
-      weekly: { days: 7, label: 'This Week' },
-      monthly: { days: 30, label: 'This Month' },
-      quarterly: { days: 90, label: 'This Quarter' },
-      yearly: { days: 365, label: 'This Year' }
-    };
-
-    const period = periods[selectedPeriod];
-    const categories = [
-      { name: 'Food & Dining', icon: Coffee, color: '#ef4444', amount: Math.random() * 500 + 200 },
-      { name: 'Transportation', icon: Car, color: '#3b82f6', amount: Math.random() * 300 + 100 },
-      { name: 'Shopping', icon: ShoppingBag, color: '#8b5cf6', amount: Math.random() * 400 + 150 },
-      { name: 'Housing', icon: Home, color: '#10b981', amount: Math.random() * 800 + 400 },
-      { name: 'Entertainment', icon: Smartphone, color: '#f59e0b', amount: Math.random() * 200 + 80 },
-      { name: 'Bills & Utilities', icon: CreditCard, color: '#06b6d4', amount: Math.random() * 250 + 120 }
-    ];
-
-    const trendData = Array.from({ length: period.days > 30 ? 12 : period.days }, (_, i) => ({
-      name: period.days > 30 ? `Month ${i + 1}` : `Day ${i + 1}`,
-      amount: Math.random() * 100 + 50,
-      budget: Math.random() * 120 + 80
-    }));
-
-    const totalSpent = categories.reduce((sum, cat) => sum + cat.amount, 0);
-    const avgDaily = totalSpent / period.days;
-    const previousPeriodSpent = totalSpent * (0.8 + Math.random() * 0.4);
-    const change = ((totalSpent - previousPeriodSpent) / previousPeriodSpent) * 100;
-
-    return {
-      period: period.label,
-      totalSpent,
-      avgDaily,
-      change,
-      categories,
-      trendData,
-      topSpendingDay: 'Tuesday',
-      budgetUsed: (totalSpent / (totalSpent * 1.2)) * 100,
-      savingsGoal: totalSpent * 0.2,
-      streakDays: Math.floor(Math.random() * 15) + 1
-    };
-  }, [selectedPeriod]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    let isMounted = true;
     setLoading(true);
-    // Simulate API call
-    const timer = setTimeout(() => {
-      setInsights(generateMockData());
-      setLoading(false);
-      setAnimationKey(prev => prev + 1);
-    }, 800);
+    setError(null);
+    setInsights(null);
 
-    return () => clearTimeout(timer);
-  }, [selectedPeriod, generateMockData]);
+    // Build query string
+    const params = new URLSearchParams();
+    params.append('period', selectedPeriod);
+    // (If you add custom range support, append startDate/endDate here)
+
+    apiService.get(`/expenses/stats?${params.toString()}`)
+      .then(res => {
+        if (!isMounted) return;
+        const data = res.data;
+        // Basic validation
+        if (
+          typeof data.totalSpent !== 'number' ||
+          !Array.isArray(data.trend) ||
+          !Array.isArray(data.categories)
+        ) {
+          throw new Error('Invalid data format from server');
+        }
+        setInsights(data);
+      })
+      .catch(err => {
+        if (!isMounted) return;
+        setError(
+          err.response?.data?.error ||
+          err.message ||
+          'Failed to load insights'
+        );
+        setInsights(null);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => { isMounted = false; };
+  }, [selectedPeriod]);
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
@@ -129,6 +105,23 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full font-sans py-4 sm:px-6 lg:px-4">
+        <div className="bg-white/95 rounded-2xl p-8 text-center text-red-600 font-semibold shadow">
+          <div className="mb-2">⚠️ Error loading insights</div>
+          <div className="text-sm">{error}</div>
+          <button
+            onClick={() => setSelectedPeriod(selectedPeriod)} // retry
+            className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+          >
+            Retry
+          </button>
         </div>
       </div>
     );
@@ -196,30 +189,40 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
               icon: DollarSign,
               label: "Total Spent",
               value: formatCurrency(insights.totalSpent),
-              change: "+12.5%",
-              changeType: "increase",
-              description: "vs last period"
+              change: "",
+              changeType: "neutral",
+              description: "Total spent in this period"
             },
             {
               icon: Calendar,
               label: "Daily Average",
-              value: formatCurrency(insights.avgDaily),
-              change: "-5.2%",
-              changeType: "decrease",
-              description: "vs last period"
+              value: formatCurrency(insights.dailyAverage),
+              change: "",
+              changeType: "neutral",
+              description: "Average spent per day"
             },
             {
               icon: Target,
-              label: "Budget Usage",
-              value: `${insights.budgetUsed.toFixed(0)}%`,
-              change: `${100 - insights.budgetUsed.toFixed(0)}%`,
-              changeType: "neutral",
-              description: "remaining"
+              label: "Spending Velocity",
+              value:
+                typeof insights.spendingVelocityPercent === 'number'
+                  ? `${insights.spendingVelocityPercent > 0 ? '+' : ''}${insights.spendingVelocityPercent.toFixed(1)}%`
+                  : 'N/A',
+              change: '',
+              changeType:
+                typeof insights.spendingVelocityPercent === 'number'
+                  ? insights.spendingVelocityPercent > 0
+                    ? 'increase'
+                    : insights.spendingVelocityPercent < 0
+                    ? 'decrease'
+                    : 'neutral'
+                  : 'neutral',
+              description: insights.spendingVelocityMessage || 'vs your usual pace'
             },
             {
               icon: Award,
               label: "Tracking Streak",
-              value: `${insights.streakDays}`,
+              value: `${insights.trackingStreak}`,
               change: "days",
               changeType: "neutral",
               description: "consecutive days"
@@ -282,17 +285,13 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                     </div>
                   </div>
                   <ResponsiveContainer width="100%" height={300}>
-                    <AreaChart data={insights.trendData}>
+                    <AreaChart data={insights.trend}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
-                      <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                      <XAxis dataKey="label" />
+                      <YAxis />
                       <Tooltip
-                        contentStyle={{
-                          backgroundColor: 'white',
-                          border: '1px solid #e2e8f0',
-                          borderRadius: '12px',
-                          boxShadow: '0 10px 40px -15px rgba(0, 0, 0, 0.2)'
-                        }}
+                        formatter={(value) => formatCurrency(value)}
+                        labelFormatter={(label) => label}
                       />
                       <Area
                         type="monotone"
@@ -301,14 +300,13 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                         fill="url(#colorAmount)"
                         strokeWidth={3}
                         dot={{ fill: '#6366f1', strokeWidth: 2, r: 4 }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="budget"
-                        stroke="#cbd5e1"
-                        strokeWidth={2}
-                        strokeDasharray="5 5"
-                        dot={false}
+                        label={({ x, y, value }) =>
+                          value > 0 ? (
+                            <text x={x} y={y - 10} fill="#6366f1" fontSize={12} textAnchor="middle">
+                              {formatCurrency(value)}
+                            </text>
+                          ) : null
+                        }
                       />
                       <defs>
                         <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
@@ -328,11 +326,11 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                       Categories
                     </h3>
                     <button
-                      onClick={() => setShowCategoryBreakdown(!showCategoryBreakdown)}
+                      onClick={() => setShowCategoryBreakdown(v => !v)}
                       className="text-sm text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
                     >
                       {showCategoryBreakdown ? <EyeOff size={16} /> : <Eye size={16} />}
-                      {showCategoryBreakdown ? 'Hide' : 'Details'}
+                      {showCategoryBreakdown ? 'Hide Details' : 'Show Details'}
                     </button>
                   </div>
                   <ResponsiveContainer width="100%" height={300}>
@@ -345,26 +343,35 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                         outerRadius={100}
                         paddingAngle={5}
                         dataKey="amount"
+                        nameKey="category"
+                        label={({ category, amount }) => `${category}: ${formatCurrency(amount)}`}
                       >
                         {insights.categories.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
                       <Tooltip
-                        contentStyle={{
-                          backgroundColor: 'white',
-                          border: '1px solid #e2e8f0',
-                          borderRadius: '12px',
-                          boxShadow: '0 10px 40px -15px rgba(0, 0, 0, 0.2)'
-                        }}
-                        formatter={(value) => [formatCurrency(value), 'Amount']}
+                        formatter={(value, name, props) => [formatCurrency(value), props.payload.category]}
                       />
                     </RechartsPieChart>
                   </ResponsiveContainer>
                 </div>
               </div>
 
-
+              {/* Animated details for Category Breakdown */}
+              <div
+                className={`transition-all duration-500 overflow-hidden ${showCategoryBreakdown ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+              >
+                {/* Animated details, e.g., a table of categories with spending */}
+                <ul>
+                  {insights.categories.map(cat => (
+                    <li key={cat.category} className="flex justify-between py-2 px-4">
+                      <span>{cat.category}</span>
+                      <span>{formatCurrency(cat.amount)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
 
             </div>
@@ -391,17 +398,13 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                     </div>
                   </div>
                   <ResponsiveContainer width="100%" height={300}>
-                    <AreaChart data={insights.trendData}>
+                    <AreaChart data={insights.trend}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
-                      <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                      <XAxis dataKey="label" />
+                      <YAxis />
                       <Tooltip
-                        contentStyle={{
-                          backgroundColor: 'white',
-                          border: '1px solid #e2e8f0',
-                          borderRadius: '12px',
-                          boxShadow: '0 10px 40px -15px rgba(0, 0, 0, 0.2)'
-                        }}
+                        formatter={(value) => formatCurrency(value)}
+                        labelFormatter={(label) => label}
                       />
                       <Area
                         type="monotone"
@@ -410,14 +413,13 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                         fill="url(#colorAmount)"
                         strokeWidth={3}
                         dot={{ fill: '#6366f1', strokeWidth: 2, r: 4 }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="budget"
-                        stroke="#cbd5e1"
-                        strokeWidth={2}
-                        strokeDasharray="5 5"
-                        dot={false}
+                        label={({ x, y, value }) =>
+                          value > 0 ? (
+                            <text x={x} y={y - 10} fill="#6366f1" fontSize={12} textAnchor="middle">
+                              {formatCurrency(value)}
+                            </text>
+                          ) : null
+                        }
                       />
                       <defs>
                         <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
@@ -436,13 +438,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                       <PieChart className="text-purple-600" size={24} />
                       Categories
                     </h3>
-                    <button
-                      onClick={() => setShowCategoryBreakdown(!showCategoryBreakdown)}
-                      className="text-sm text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
-                    >
-                      {showCategoryBreakdown ? <EyeOff size={16} /> : <Eye size={16} />}
-                      {showCategoryBreakdown ? 'Hide' : 'Details'}
-                    </button>
+            
                   </div>
                   <ResponsiveContainer width="100%" height={300}>
                     <RechartsPieChart>
@@ -454,28 +450,20 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                         outerRadius={100}
                         paddingAngle={5}
                         dataKey="amount"
+                        nameKey="category"
+                        label={({ category, amount }) => `${category}: ${formatCurrency(amount)}`}
                       >
                         {insights.categories.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
                       <Tooltip
-                        contentStyle={{
-                          backgroundColor: 'white',
-                          border: '1px solid #e2e8f0',
-                          borderRadius: '12px',
-                          boxShadow: '0 10px 40px -15px rgba(0, 0, 0, 0.2)'
-                        }}
-                        formatter={(value) => [formatCurrency(value), 'Amount']}
+                        formatter={(value, name, props) => [formatCurrency(value), props.payload.category]}
                       />
                     </RechartsPieChart>
                   </ResponsiveContainer>
                 </div>
               </div>
-
-
-
-
             </div>
           </div>
         )}
