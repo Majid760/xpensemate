@@ -16,6 +16,39 @@ import {
 import {  Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 import apiService from '../services/apiService';
 
+function InsightCard({ icon: Icon, title, value, subtitle, color, trend }) {
+  return (
+    <div className="bg-slate-50/50 border border-slate-200/50 rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg  relative overflow-hidden hover:border-[var(--hover-border-color)]"
+      style={{ '--hover-border-color': color }}>
+      <div className="flex justify-between items-center mb-2">
+        <div
+          className="p-1.5 rounded-xl bg-indigo-100 flex items-center justify-center"
+          style={{ color }}
+        >
+          <Icon size={18} />
+        </div>
+        <div className="flex items-center">
+          {typeof trend === 'number' && trend !== 0 && (
+            trend > 0 ?
+              <TrendingUp size={14} className="text-emerald-500" /> :
+              <TrendingDown size={14} className="text-red-500" />
+          )}
+        </div>
+      </div>
+      <div className="text-left">
+        <h3 className="text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">{title}</h3>
+        <div
+          className="text-md sm:text-lg font-extrabold leading-none mb-1 tracking-tight"
+          style={{ color }}
+        >
+          {value}
+        </div>
+        <p className="text-xs text-slate-400 m-0 font-medium">{subtitle}</p>
+      </div>
+    </div>
+  );
+}
+
 const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
   const [selectedPeriod, setSelectedPeriod] = useState('weekly');
   const [insights, setInsights] = useState(null);
@@ -184,83 +217,36 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
 
         {/* Professional insights grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              icon: DollarSign,
-              label: "Total Spent",
-              value: formatCurrency(insights.totalSpent),
-              change: "",
-              changeType: "neutral",
-              description: "Total spent in this period"
-            },
-            {
-              icon: Calendar,
-              label: "Daily Average",
-              value: formatCurrency(insights.dailyAverage),
-              change: "",
-              changeType: "neutral",
-              description: "Average spent per day"
-            },
-            {
-              icon: Target,
-              label: "Spending Velocity",
-              value:
-                typeof insights.spendingVelocityPercent === 'number'
-                  ? `${insights.spendingVelocityPercent > 0 ? '+' : ''}${insights.spendingVelocityPercent.toFixed(1)}%`
-                  : 'N/A',
-              change: '',
-              changeType:
-                typeof insights.spendingVelocityPercent === 'number'
-                  ? insights.spendingVelocityPercent > 0
-                    ? 'increase'
-                    : insights.spendingVelocityPercent < 0
-                    ? 'decrease'
-                    : 'neutral'
-                  : 'neutral',
-              description: insights.spendingVelocityMessage || 'vs your usual pace'
-            },
-            {
-              icon: Award,
-              label: "Tracking Streak",
-              value: `${insights.trackingStreak}`,
-              change: "days",
-              changeType: "neutral",
-              description: "consecutive days"
-            }
-          ].map((stat, idx) => (
-            <div
-              key={stat.label}
-              className="bg-slate-50/50 border border-slate-200/50 rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:border-indigo-500 hover:shadow-[0_0_0_3px_rgba(99,102,241,0.3)] hover:scale-105 transform"
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center border border-slate-200">
-                  <stat.icon size={16} className="text-slate-600" />
-                </div>
-                <div className={`text-xs font-medium px-2 py-1 rounded-full ${stat.changeType === 'increase'
-                    ? 'bg-green-100 text-green-700'
-                    : stat.changeType === 'decrease'
-                      ? 'bg-red-100 text-red-700'
-                      : 'bg-slate-200 text-slate-700'
-                  }`}>
-                  {stat.changeType === 'increase' && <TrendingUp size={10} className="inline mr-1" />}
-                  {stat.changeType === 'decrease' && <TrendingDown size={10} className="inline mr-1" />}
-                  {stat.change}
-                </div>
-              </div>
-
-              {/* Value */}
-              <div className="mb-2">
-                <div className="text-2xl font-bold text-slate-900 mb-1">{stat.value}</div>
-                <div className="text-sm text-slate-600">{stat.label}</div>
-              </div>
-
-              {/* Description */}
-              <div className="text-xs text-slate-500 pt-2 border-t border-slate-200">
-                {stat.description}
-              </div>
-            </div>
-          ))}
+          {/* Use the new InsightCard for each stat */}
+          <InsightCard
+            icon={DollarSign}
+            title="Total Spent"
+            value={formatCurrency(insights.totalSpent)}
+            subtitle="Total spent in this period"
+            color="#6366f1"
+          />
+          <InsightCard
+            icon={Calendar}
+            title="Daily Average"
+            value={formatCurrency(insights.dailyAverage)}
+            subtitle="Average spent per day"
+            color="#3b82f6"
+          />
+          <InsightCard
+            icon={Target}
+            title="Spending Velocity"
+            value={typeof insights.spendingVelocityPercent === 'number' ? `${insights.spendingVelocityPercent > 0 ? '+' : ''}${insights.spendingVelocityPercent.toFixed(1)}%` : 'N/A'}
+            subtitle={insights.spendingVelocityMessage || 'vs your usual pace'}
+            color="#10b981"
+            trend={typeof insights.spendingVelocityPercent === 'number' ? (insights.spendingVelocityPercent > 0 ? 1 : insights.spendingVelocityPercent < 0 ? -1 : 0) : 0}
+          />
+          <InsightCard
+            icon={Award}
+            title="Tracking Streak"
+            value={`${insights.trackingStreak}`}
+            subtitle="consecutive days"
+            color="#8b5cf6"
+          />
         </div>
 
         {/* Render the ExpensesTable below the insights grid and expanded dashboard */}

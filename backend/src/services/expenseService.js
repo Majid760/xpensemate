@@ -223,78 +223,136 @@ class ExpenseService {
     }
   }
 
-  /**
-   * Get expense stats for a given period or custom range.
-   * @param {ObjectId} userId - The user's MongoDB ObjectId.
-   * @param {Object} options - { period: string, startDate?: string|Date, endDate?: string|Date }
-   * @returns {Promise<{totalSpent: number, dailyAverage: number, spendingVelocityPercent: number, spendingVelocityMessage: string, trackingStreak: number, startDate: Date, endDate: Date}>}
-   * @throws {ValidationError} If period or dates are invalid.
-   * @throws {Error} For other errors.
-   *
-   * - totalSpent: Sum of all expenses in the range.
-   * - dailyAverage: totalSpent divided by number of days in the range.
-   * - spendingVelocityPercent: % faster/slower than user's historical average for this period type.
-   * - spendingVelocityMessage: Human-readable insight.
-   * - trackingStreak: Longest consecutive days with at least one expense.
-   * - startDate/endDate: The actual date range used.
-   */
-  async getStatsByPeriod(userId, { period, startDate, endDate }) {
-    // 1. Validate period
-    const allowedPeriods = ['weekly', 'monthly', 'quarterly', 'yearly', 'custom'];
-    if (!allowedPeriods.includes(period)) {
-      throw new ValidationError('Invalid period. Must be one of: ' + allowedPeriods.join(', '));
-    }
-    // 2. Calculate date range
-    let rangeStart, rangeEnd;
-    const now = new Date();
-    const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())); // Start of today in UTC
 
-    if (period === 'weekly') {
-      // Last 7 days including today
-      rangeEnd = new Date(todayUTC);
-      rangeStart = new Date(todayUTC);
-      rangeStart.setUTCDate(todayUTC.getUTCDate() - 6);
-    } else if (period === 'monthly') {
-      // Last 30 days including today
-      rangeEnd = new Date(todayUTC);
-      rangeStart = new Date(todayUTC);
-      rangeStart.setUTCDate(todayUTC.getUTCDate() - 29);
-    } else if (period === 'quarterly') {
-      // Last 90 days including today
-      rangeEnd = new Date(todayUTC);
-      rangeStart = new Date(todayUTC);
-      rangeStart.setUTCDate(todayUTC.getUTCDate() - 89);
-    } else if (period === 'yearly') {
-      // Last 365 days including today
-      rangeEnd = new Date(todayUTC);
-      rangeStart = new Date(todayUTC);
-      rangeStart.setUTCDate(todayUTC.getUTCDate() - 364);
+
+
+
+  /**
+ * Get expense stats for a given period or custom range.
+ * @param {ObjectId} userId - The user's MongoDB ObjectId.
+ * @param {Object} options - { period: string, startDate?: string|Date, endDate?: string|Date }
+ * @returns {Promise<{totalSpent: number, dailyAverage: number, spendingVelocityPercent: number, spendingVelocityMessage: string, trackingStreak: number, startDate: Date, endDate: Date, trend: Array, categories: Array}>}
+ * @throws {ValidationError} If period or dates are invalid.
+ * @throws {Error} For other errors.
+ */
+async getStatsByPeriod(userId, { period, startDate, endDate }) {
+    // Constants
+    const ALLOWED_PERIODS = ['weekly', 'monthly', 'quarterly', 'yearly', 'custom'];
+    const PERIOD_DAYS = {
+      weekly: 7,
+      monthly: 30,
+      quarterly: 90,
+      yearly: 365
+    };
+    const HISTORICAL_PERIODS = {
+      weekly: 8,
+      monthly: 6,
+      quarterly: 4,
+      yearly: 3
+    };
+    
+    // 1. Validate period
+    if (!ALLOWED_PERIODS.includes(period)) {
+      throw new ValidationError(`Invalid period. Must be one of: ${ALLOWED_PERIODS.join(', ')}`);
     }
-    console.info('Querying expenses for user:', userId, 'from', rangeStart, 'to', rangeEnd);
-    // 3. Query all expenses in range
+  
+    // 2. Calculate date range
+    const { rangeStart, rangeEnd } = this._calculateDateRange(period, startDate, endDate);
+    
+    console.info(`Querying expenses for user: ${userId} from ${rangeStart} to ${rangeEnd}`);
+  
+    // 3. Query all expenses in range with lean() for better performance
     const expenses = await Expense.find({
       user_id: userId,
       date: { $gte: rangeStart, $lte: rangeEnd },
       is_deleted: false
-    });
-    // 4. Calculate totalSpent
+    })
+    .populate('category_id', 'name', null, { lean: true })
+    .lean()
+    .exec();
+  
+    // 4. Calculate basic stats
     const totalSpent = expenses.reduce((sum, exp) => sum + (exp.amount || 0), 0);
-    console.info('thi is tottal spent ==>',totalSpent);
-    // 5. Calculate dailyAverage
-    const days = Math.max(1, Math.ceil((rangeEnd - rangeStart) / (1000*60*60*24)) + 1);
+    const days = Math.max(1, Math.ceil((rangeEnd - rangeStart) / (1000 * 60 * 60 * 24)) + 1);
     const dailyAverage = totalSpent / days;
-    console.info('thi is avg spent ==>',dailyAverage);
-
-    // 6. Caelculate budgetUsage (not implemented, set to null)
-    const budgetUsage = null;
-    // 7. Calculate trackingStreak (longest consecutive days with at least one expense)
-    // Build a set of all days with expenses
-    const daysWithExpense = new Set(expenses.map(exp => {
-      const d = new Date(exp.date);
-      d.setHours(0,0,0,0);
-      return d.getTime();
-    }));
-    let maxStreak = 0, currentStreak = 0;
+  
+    console.info(`Total spent: ${totalSpent}, Daily average: ${dailyAverage}`);
+  
+    // 5. Calculate tracking streak
+    const trackingStreak = this._calculateTrackingStreak(expenses, rangeStart, rangeEnd);
+  
+    // 6. Calculate spending velocity (for non-custom periods)
+    const { spendingVelocityPercent, spendingVelocityMessage } = period !== 'custom' 
+      ? await this._calculateSpendingVelocity(userId, period, rangeStart, totalSpent)
+      : { spendingVelocityPercent: null, spendingVelocityMessage: 'Not available for custom range' };
+  
+    // 7. Calculate trend data
+    const trend = this._calculateTrend(expenses, period, rangeStart, rangeEnd);
+  
+    // 8. Calculate category breakdown
+    const categories = this._calculateCategoryBreakdown(expenses);
+  
+    return {
+      totalSpent,
+      dailyAverage,
+      spendingVelocityPercent,
+      spendingVelocityMessage,
+      trackingStreak,
+      startDate: rangeStart,
+      endDate: rangeEnd,
+      trend,
+      categories
+    };
+  }
+  
+  /**
+   * Calculate date range based on period type
+   * @private
+   */
+  _calculateDateRange(period, startDate, endDate) {
+    const now = new Date();
+    const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    
+    if (period === 'custom') {
+      if (!startDate || !endDate) {
+        throw new ValidationError('Custom period requires both startDate and endDate');
+      }
+      return {
+        rangeStart: new Date(startDate),
+        rangeEnd: new Date(endDate)
+      };
+    }
+  
+    const daysToSubtract = {
+      weekly: 6,
+      monthly: 29,
+      quarterly: 89,
+      yearly: 364
+    };
+  
+    const rangeEnd = new Date(todayUTC);
+    const rangeStart = new Date(todayUTC);
+    rangeStart.setUTCDate(todayUTC.getUTCDate() - daysToSubtract[period]);
+  
+    return { rangeStart, rangeEnd };
+  }
+  
+  /**
+   * Calculate tracking streak (consecutive days with expenses)
+   * @private
+   */
+  _calculateTrackingStreak(expenses, rangeStart, rangeEnd) {
+    const daysWithExpense = new Set(
+      expenses.map(exp => {
+        const d = new Date(exp.date);
+        d.setHours(0, 0, 0, 0);
+        return d.getTime();
+      })
+    );
+  
+    let maxStreak = 0;
+    let currentStreak = 0;
+    
     for (let d = new Date(rangeStart); d <= rangeEnd; d.setDate(d.getDate() + 1)) {
       if (daysWithExpense.has(d.getTime())) {
         currentStreak++;
@@ -303,142 +361,205 @@ class ExpenseService {
         currentStreak = 0;
       }
     }
-
-    // --- Spending Velocity Calculation ---
-    let spendingVelocityPercent = null;
-    let spendingVelocityMessage = null;
-    let historicalAverages = [];
-    let periodsToLookBack = 0;
-    if (['weekly', 'monthly', 'quarterly', 'yearly'].includes(period)) {
-      if (period === 'weekly') {
-        periodsToLookBack = 8;
-      } else if (period === 'monthly') {
-        periodsToLookBack = 6;
-      } else if (period === 'quarterly') {
-        periodsToLookBack = 4;
-      } else if (period === 'yearly') {
-        periodsToLookBack = 3;
-      }
-      // Gather historical periods (excluding current)
-      for (let i = 1; i <= periodsToLookBack; i++) {
-        let histStart, histEnd;
-        if (period === 'weekly') {
-          // Find the Monday of the week, then go back i weeks
-          const monday = new Date(rangeStart);
-          monday.setDate(monday.getDate() - i * 7);
-          histStart = new Date(monday);
-          histEnd = new Date(monday);
-          histEnd.setDate(histEnd.getDate() + 6);
-        } else if (period === 'monthly') {
-          // Go back i months
-          const month = new Date(rangeStart);
-          month.setMonth(month.getMonth() - i);
-          histStart = new Date(month.getFullYear(), month.getMonth(), 1);
-          histEnd = new Date(month.getFullYear(), month.getMonth() + 1, 0);
-        } else if (period === 'quarterly') {
-          // Go back i quarters
-          const thisQuarter = Math.floor(rangeStart.getMonth() / 3);
-          const q = thisQuarter - i;
-          const year = rangeStart.getFullYear() + Math.floor(q / 4);
-          const quarter = ((q % 4) + 4) % 4;
-          histStart = new Date(year, quarter * 3, 1);
-          histEnd = new Date(year, quarter * 3 + 3, 0);
-        } else if (period === 'yearly') {
-          // Go back i years
-          const year = rangeStart.getFullYear() - i;
-          histStart = new Date(year, 0, 1);
-          histEnd = new Date(year, 11, 31);
-        }
-        // Query expenses for this historical period
-        // eslint-disable-next-line no-await-in-loop
-        const histExpenses = await Expense.find({
+  
+    return maxStreak;
+  }
+  
+  /**
+   * Calculate spending velocity compared to previous period
+   * @private
+   */
+  async _calculateSpendingVelocity(userId, period, rangeStart, totalSpent) {
+    // Get spending for the immediately previous period
+    const previousPeriodTotal = await this._getHistoricalPeriodTotal(userId, period, rangeStart, 1);
+    
+    if (previousPeriodTotal === 0) {
+      return {
+        spendingVelocityPercent: null,
+        spendingVelocityMessage: 'No data from previous period for comparison'
+      };
+    }
+  
+    const spendingVelocityPercent = ((totalSpent - previousPeriodTotal) / previousPeriodTotal) * 100;
+    const absPercent = Math.abs(Math.round(spendingVelocityPercent));
+  
+    let spendingVelocityMessage;
+    const periodNames = {
+      weekly: 'week',
+      monthly: 'month', 
+      quarterly: 'quarter',
+      yearly: 'year'
+    };
+  
+    if (Math.abs(spendingVelocityPercent) < 5) {
+      spendingVelocityMessage = `Similar spending to last ${periodNames[period]}`;
+    } else if (spendingVelocityPercent > 0) {
+      spendingVelocityMessage = `Spending ${absPercent}% more than last ${periodNames[period]}`;
+    } else {
+      spendingVelocityMessage = `Spending ${absPercent}% less than last ${periodNames[period]}`;
+    }
+  
+    return { spendingVelocityPercent, spendingVelocityMessage };
+  }
+  
+  /**
+   * Get historical period total for comparison
+   * @private
+   */
+  async _getHistoricalPeriodTotal(userId, period, rangeStart, periodsBack) {
+    const { histStart, histEnd } = this._getHistoricalDateRange(period, rangeStart, periodsBack);
+    
+    const result = await Expense.aggregate([
+      {
+        $match: {
           user_id: userId,
           date: { $gte: histStart, $lte: histEnd },
           is_deleted: false
-        });
-        const histTotal = histExpenses.reduce((sum, exp) => sum + (exp.amount || 0), 0);
-        historicalAverages.push(histTotal);
-      }
-      // Calculate average (exclude periods with zero spend if you want, or include all)
-      const validAverages = historicalAverages.filter(x => typeof x === 'number');
-      const historicalAverage = validAverages.length > 0 ? validAverages.reduce((a, b) => a + b, 0) / validAverages.length : 0;
-      if (historicalAverage > 0) {
-        spendingVelocityPercent = ((totalSpent - historicalAverage) / historicalAverage) * 100;
-        const absPercent = Math.abs(Math.round(spendingVelocityPercent));
-        if (spendingVelocityPercent > 0) {
-          spendingVelocityMessage = `Spending ${absPercent}% faster than usual this ${period}`;
-        } else if (spendingVelocityPercent < 0) {
-          spendingVelocityMessage = `Spending ${absPercent}% slower than usual this ${period}`;
-        } else {
-          spendingVelocityMessage = `Spending at your usual pace this ${period}`;
         }
-      } else {
-        spendingVelocityPercent = null;
-        spendingVelocityMessage = 'Not enough data for comparison';
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: '$amount' }
+        }
       }
-    } else {
-      spendingVelocityPercent = null;
-      spendingVelocityMessage = 'Not available for custom range';
-    }
-
-    // --- Spending Trend Calculation ---
-    // For weekly/monthly: group by day; for quarterly/yearly: group by month
-    let trend = [];
-    if (['weekly', 'monthly', 'custom'].includes(period)) {
-      // Group by day
-      const dayMap = {};
-      for (let d = new Date(rangeStart), i = 0; d <= rangeEnd; d.setDate(d.getDate() + 1), i++) {
-        const key = d.toISOString().slice(0, 10);
-        dayMap[key] = { label: `Day ${i + 1}`, amount: 0 };
-      }
-      expenses.forEach(exp => {
-        const key = new Date(exp.date).toISOString().slice(0, 10);
-        if (dayMap[key]) dayMap[key].amount += exp.amount || 0;
-      });
-      trend = Object.values(dayMap);
-    } else if (['quarterly', 'yearly'].includes(period)) {
-      // Group by month
-      const monthMap = {};
-      let idx = 0;
-      for (let d = new Date(rangeStart); d <= rangeEnd; d.setMonth(d.getMonth() + 1), idx++) {
-        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-        monthMap[key] = { label: d.toLocaleString('default', { month: 'short', year: 'numeric' }), amount: 0 };
-      }
-      expenses.forEach(exp => {
-        const d = new Date(exp.date);
-        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-        if (monthMap[key]) monthMap[key].amount += exp.amount || 0;
-      });
-      trend = Object.values(monthMap);
-    }
-
-    console.log("this is trend wowoow",trend);
-
-    // --- Category Breakdown Calculation ---
-    // Group by category name only
-    const catMap = {};
-    for (const exp of expenses) {
-      const catName = exp.category_id && exp.category_id.name ? exp.category_id.name : exp.category;
-      if (!catMap[catName]) {
-        catMap[catName] = { category: catName, amount: 0 };
-      }
-      catMap[catName].amount += exp.amount || 0;
-    }
-    const categories = Object.values(catMap);
-
-    // 8. Return stats
-    return {
-      totalSpent,
-      dailyAverage,
-      spendingVelocityPercent,
-      spendingVelocityMessage,
-      trackingStreak: maxStreak,
-      startDate: rangeStart,
-      endDate: rangeEnd,
-      trend,
-      categories
-    };
+    ]);
+  
+    return result.length > 0 ? result[0].total : 0;
   }
+  
+  /**
+   * Calculate historical date range
+   * @private
+   */
+  _getHistoricalDateRange(period, rangeStart, periodsBack) {
+    let histStart, histEnd;
+  
+    switch (period) {
+      case 'weekly': {
+        const monday = new Date(rangeStart);
+        monday.setDate(monday.getDate() - periodsBack * 7);
+        histStart = new Date(monday);
+        histEnd = new Date(monday);
+        histEnd.setDate(histEnd.getDate() + 6);
+        break;
+      }
+      case 'monthly': {
+        const month = new Date(rangeStart);
+        month.setMonth(month.getMonth() - periodsBack);
+        histStart = new Date(month.getFullYear(), month.getMonth(), 1);
+        histEnd = new Date(month.getFullYear(), month.getMonth() + 1, 0);
+        break;
+      }
+      case 'quarterly': {
+        const thisQuarter = Math.floor(rangeStart.getMonth() / 3);
+        const q = thisQuarter - periodsBack;
+        const year = rangeStart.getFullYear() + Math.floor(q / 4);
+        const quarter = ((q % 4) + 4) % 4;
+        histStart = new Date(year, quarter * 3, 1);
+        histEnd = new Date(year, quarter * 3 + 3, 0);
+        break;
+      }
+      case 'yearly': {
+        const year = rangeStart.getFullYear() - periodsBack;
+        histStart = new Date(year, 0, 1);
+        histEnd = new Date(year, 11, 31);
+        break;
+      }
+      default:
+        throw new Error(`Invalid period: ${period}`);
+    }
+  
+    return { histStart, histEnd };
+  }
+  
+  /**
+   * Calculate trend data for visualization
+   * @private
+   */
+  _calculateTrend(expenses, period, rangeStart, rangeEnd) {
+    const isDaily = ['weekly', 'monthly', 'custom'].includes(period);
+    
+    if (isDaily) {
+      return this._calculateDailyTrend(expenses, rangeStart, rangeEnd);
+    } else {
+      return this._calculateMonthlyTrend(expenses, rangeStart, rangeEnd);
+    }
+  }
+  
+  /**
+   * Calculate daily trend data
+   * @private
+   */
+  _calculateDailyTrend(expenses, rangeStart, rangeEnd) {
+    const dayMap = new Map();
+    
+    // Initialize all days with 0
+    for (let d = new Date(rangeStart), i = 0; d <= rangeEnd; d.setDate(d.getDate() + 1), i++) {
+      const key = d.toISOString().slice(0, 10);
+      dayMap.set(key, { label: `Day ${i + 1}`, amount: 0 });
+    }
+    
+    // Add expense amounts
+    expenses.forEach(exp => {
+      const key = new Date(exp.date).toISOString().slice(0, 10);
+      if (dayMap.has(key)) {
+        dayMap.get(key).amount += exp.amount || 0;
+      }
+    });
+    
+    return Array.from(dayMap.values());
+  }
+  
+  /**
+   * Calculate monthly trend data
+   * @private
+   */
+  _calculateMonthlyTrend(expenses, rangeStart, rangeEnd) {
+    const monthMap = new Map();
+    
+    // Initialize all months with 0
+    for (let d = new Date(rangeStart); d <= rangeEnd; d.setMonth(d.getMonth() + 1)) {
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      monthMap.set(key, {
+        label: d.toLocaleString('default', { month: 'short', year: 'numeric' }),
+        amount: 0
+      });
+    }
+    
+    // Add expense amounts
+    expenses.forEach(exp => {
+      const d = new Date(exp.date);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      if (monthMap.has(key)) {
+        monthMap.get(key).amount += exp.amount || 0;
+      }
+    });
+    
+    return Array.from(monthMap.values());
+  }
+  
+  /**
+   * Calculate category breakdown
+   * @private
+   */
+  _calculateCategoryBreakdown(expenses) {
+    const categoryMap = new Map();
+    
+    expenses.forEach(exp => {
+      const catName = exp.category_id?.name || exp.category || 'Uncategorized';
+      
+      if (!categoryMap.has(catName)) {
+        categoryMap.set(catName, { category: catName, amount: 0 });
+      }
+      
+      categoryMap.get(catName).amount += exp.amount || 0;
+    });
+    
+    return Array.from(categoryMap.values())
+      .sort((a, b) => b.amount - a.amount); // Sort by amount descending
+  }
+  
 }
 
 module.exports = new ExpenseService(); 
