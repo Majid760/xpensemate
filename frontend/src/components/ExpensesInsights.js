@@ -227,7 +227,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
           ].map((stat, idx) => (
             <div
               key={stat.label}
-              className="bg-slate-50 rounded-xl border border-slate-200 p-6 hover:bg-slate-100 transition-colors duration-200"
+              className="bg-slate-50/50 border border-slate-200/50 rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:border-indigo-500 hover:shadow-[0_0_0_3px_rgba(99,102,241,0.3)] hover:scale-105 transform"
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
