@@ -41,16 +41,16 @@ const VerifyEmail = () => {
         </div>
         {/* Content */}
         <div className="text-center">
-          {status === 'verifying' && (
+        {status === 'verifying' && (
             <>
               <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-4 tracking-tight">Verifying your email...</h1>
               <div className="flex justify-center items-center mb-4">
                 <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-              </div>
+          </div>
               <p className="text-slate-500 text-base">Please wait while we verify your email address.</p>
             </>
-          )}
-          {status === 'success' && (
+        )}
+        {status === 'success' && (
             <>
               <h1 className="text-3xl sm:text-4xl font-bold text-green-600 mb-4 tracking-tight">Email Verified!</h1>
               <p className="text-slate-700 text-base mb-2">{message}</p>
@@ -58,20 +58,20 @@ const VerifyEmail = () => {
                 You can now{' '}
                 <Link to="/login" className="text-indigo-600 font-semibold hover:underline transition-colors">sign in</Link>{' '}
                 to continue.
-              </p>
+            </p>
             </>
-          )}
-          {status === 'error' && (
+        )}
+        {status === 'error' && (
             <>
               <h1 className="text-3xl sm:text-4xl font-bold text-red-600 mb-4 tracking-tight">Verification Failed</h1>
               <p className="text-slate-700 text-base mb-2">{error}</p>
               <p className="text-slate-500 text-base">
                 Please try again or{' '}
                 <Link to="/login" className="text-indigo-600 font-semibold hover:underline transition-colors">go to login</Link>.
-              </p>
+            </p>
             </>
           )}
-        </div>
+          </div>
       </div>
     </div>
   );

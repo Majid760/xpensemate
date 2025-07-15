@@ -419,37 +419,36 @@ const ExpensesTable = () => {
         const isSelected = selectedRows.has(expense._id || expense.id);
         const expenseDate = new Date(expense.date);
         const isRecent = (new Date() - expenseDate) / (1000 * 60 * 60 * 24) <= 7; // Within 7 days
-        
+        const amountColor =
+          expense.amount > 1000
+            ? 'text-red-500'
+            : expense.amount > 500
+            ? 'text-amber-500'
+            : 'text-emerald-600';
+        const dotColor =
+          expense.amount > 1000
+            ? 'bg-red-500'
+            : expense.amount > 500
+            ? 'bg-amber-500'
+            : 'bg-emerald-500';
         return (
           <div
             key={expense._id || expense.id}
-            className={`relative bg-white rounded-2xl border-2 transition-all duration-300 cursor-pointer group hover:shadow-lg ${
-              isSelected 
-                ? 'border-indigo-400 shadow-md bg-indigo-50/30' 
-                : 'border-slate-200 hover:border-slate-300'
-            } animate-[fadeIn_0.4s] overflow-hidden`}
+            className={`relative bg-white border border-slate-200 rounded-xl p-5 transition-all duration-200 group cursor-pointer overflow-hidden animate-[fadeIn_0.4s] ${
+              isSelected ? 'ring-2 ring-indigo-400 border-indigo-400' : ''
+            } hover:shadow-xl hover:border-slate-300`}
             onClick={() => handleRowSelect(expense._id || expense.id)}
           >
-            {/* Top Border Color Based on Amount */}
-            <div className={`absolute top-0 left-0 right-0 h-1 ${
-              expense.amount > 1000 
-                ? 'bg-gradient-to-r from-red-500 to-red-600' 
-                : expense.amount > 500 
-                ? 'bg-gradient-to-r from-amber-500 to-amber-600'
-                : 'bg-gradient-to-r from-emerald-500 to-emerald-600'
-            }`} />
-
-            {/* Selection Checkbox */}
-            <div className="absolute top-4 left-4 z-10">
+            {/* Checkbox */}
+            <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10">
               <input
                 type="checkbox"
                 checked={isSelected}
                 onChange={() => handleRowSelect(expense._id || expense.id)}
                 onClick={e => e.stopPropagation()}
-                className="w-5 h-5 text-indigo-600 border-2 border-slate-300 rounded-md focus:ring-indigo-500 focus:ring-2 transition-all"
+                className="w-5 h-5 text-indigo-600 border-2 border-slate-300 rounded focus:ring-indigo-500 focus:ring-2 transition-all bg-white"
               />
             </div>
-
             {/* Actions Menu */}
             <div className="absolute top-4 right-4 z-10 action-menu-container">
               <button 
@@ -457,14 +456,13 @@ const ExpensesTable = () => {
                   e.stopPropagation(); 
                   setOpenMenuId(openMenuId === expense._id ? null : expense._id); 
                 }} 
-                className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all duration-200 opacity-0 group-hover:opacity-100" 
+                className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition-all duration-200 border border-slate-200 bg-white shadow-sm" 
                 aria-label="Actions"
               >
                 <MoreVertical size={18} />
               </button>
-              
               {openMenuId === expense._id && (
-                <div className="absolute right-0 top-full mt-2 w-40 bg-white rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 z-20 animate-fadeIn border border-slate-200">
+                <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 z-20 animate-fadeIn border border-slate-200">
                   <div className="py-2">
                     <button 
                       onClick={e => { 
@@ -490,101 +488,78 @@ const ExpensesTable = () => {
                 </div>
               )}
             </div>
-
             {/* Card Content */}
-            <div className="p-6 pt-8">
-              {/* Header Section */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-bold text-slate-900 truncate pr-2" title={expense.name}>
-                    {expense.name}
-                  </h3>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
-                      {expense.category}
-                    </span>
-                    {isRecent && (
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                        Recent
-                      </span>
-                    )}
-                  </div>
-                </div>
+            <div className="flex flex-col gap-2 pl-10 pr-12">
+              {/* Top row: Name & Amount */}
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-base font-bold text-slate-900 truncate pr-2" title={expense.name}>
+                  {expense.name}
+                </span>
+                <span className={`text-lg font-extrabold font-mono ${amountColor}`}>{formatCurrency(expense.amount)}</span>
               </div>
-
-              {/* Date and Time */}
-              <div className="flex items-center space-x-2 mb-3">
-                <div className="flex items-center space-x-1 text-sm text-slate-600">
+              {/* Second row: Category & Date */}
+              <div className="flex items-center justify-between mb-1">
+                <span className="inline-flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full ${dotColor}`}></span>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
+                    {expense.category}
+                  </span>
+                </span>
+                <span className="text-xs text-slate-400 flex items-center gap-1">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <span className="font-medium">{formatDate(expense.date)}</span>
-                </div>
-                {expense.time && (
-                  <div className="flex items-center space-x-1 text-sm text-slate-500">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>{expense.time}</span>
-                  </div>
-                )}
+                  {formatDate(expense.date)}
+                </span>
               </div>
-
-              {/* Location */}
-              {expense.location && (
-                <div className="flex items-center space-x-1 text-sm text-slate-500 mb-3">
-                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span className="truncate" title={expense.location}>
-                    {expense.location}
-                  </span>
-                </div>
-              )}
-
-              {/* Detail */}
-              {expense.detail && (
-                <div className="text-sm text-slate-600 mb-4 line-clamp-2" title={expense.detail}>
-                  {expense.detail}
-                </div>
-              )}
-
-              {/* Amount and Payment Method */}
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="text-2xl font-bold text-slate-900 font-mono">
-                    {formatCurrency(expense.amount)}
-                  </div>
+              {/* Optional row: details, location, payment method */}
+              {(expense.detail || expense.location || expense.payment_method) && (
+                <div className="flex items-center gap-4 text-xs text-slate-400 mt-1">
+                  {expense.detail && (
+                    <span className="italic truncate" title={expense.detail}>{expense.detail}</span>
+                  )}
+                  {expense.location && (
+                    <span className="flex items-center gap-1" title={expense.location}>
+                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      {expense.location}
+                    </span>
+                  )}
                   {expense.payment_method && (
-                    <div className="text-sm text-slate-500 capitalize mt-1">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1111.21 3h.01" />
+                      </svg>
                       {expense.payment_method.replace('_', ' ')}
-                    </div>
+                    </span>
                   )}
                 </div>
-                <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
+              )}
+              {/* Paid/Pending & Budget Goal */}
+              <div className="flex items-center justify-between mt-2">
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
                   expense.amount > 0 
                     ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' 
                     : 'bg-amber-100 text-amber-700 border border-amber-200'
                 }`}>
-                  <div className={`w-2 h-2 rounded-full mr-2 ${
+                  <span className={`w-2 h-2 rounded-full mr-2 ${
                     expense.amount > 0 ? 'bg-emerald-500' : 'bg-amber-500'
-                  }`}></div>
+                  }`}></span>
                   {expense.amount > 0 ? 'Paid' : 'Pending'}
-                </div>
-              </div>
-
-              {/* Budget Goal Association */}
-              {expense.budget_goal_id && (
-                <div className="flex items-center space-x-2 pt-3 border-t border-slate-100">
-                  <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                  <span className="text-sm text-slate-600">
-                    Linked to budget goal
+                </span>
+                {expense.budget_goal_id && (
+                  <span className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span className="text-xs text-slate-600">
+                      Linked to budget goal
+                    </span>
                   </span>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         );
@@ -594,39 +569,42 @@ const ExpensesTable = () => {
 
   {/* Pagination */}
   {totalRows > perPage && (
-    <div className="mt-8 flex flex-col md:flex-row items-center justify-between gap-4 px-4">
-      <div className="text-sm text-slate-500">
-        Showing <span className="font-semibold text-slate-700">{startIndex + 1}</span> to{' '}
-        <span className="font-semibold text-slate-700">{Math.min(endIndex, totalRows)}</span> of{' '}
-        <span className="font-semibold text-slate-700">{totalRows}</span> expenses
+    <div className="px-2 sm:px-6 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-slate-100 mt-6">
+      <div className="text-sm text-slate-600">
+        Showing <span className="font-bold text-slate-700">{startIndex + 1}</span> to <span className="font-bold text-slate-700">{Math.min(endIndex, totalRows)}</span> of <span className="font-bold text-slate-700">{totalRows}</span> expenses
       </div>
       <div className="flex items-center gap-2">
-        <button 
-          onClick={() => handlePageChange(currentPage - 1)} 
-          disabled={currentPage === 1} 
-          className="p-3 text-slate-400 hover:text-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-200 hover:bg-indigo-50"
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="p-2 text-slate-400 hover:text-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-200"
         >
           <ChevronLeft size={20} />
         </button>
         <div className="flex items-center gap-1">
-          {[...Array(totalPages)].map((_, index) => (
-            <button 
-              key={index + 1} 
-              onClick={() => handlePageChange(index + 1)} 
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                currentPage === index + 1 
-                  ? 'bg-indigo-600 text-white shadow-lg' 
-                  : 'text-slate-600 hover:bg-indigo-100 hover:text-indigo-700'
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
-        <button 
-          onClick={() => handlePageChange(currentPage + 1)} 
-          disabled={currentPage === totalPages} 
-          className="p-3 text-slate-400 hover:text-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-200 hover:bg-indigo-50"
+                {[...Array(totalPages)].map((_, index) => {
+                  const isActive = currentPage === index + 1;
+                  return (
+                    <button
+                      key={index + 1}
+                      onClick={() => handlePageChange(index + 1)}
+                      className={
+                        'px-3 py-1 rounded-xl text-sm font-bold transition-all duration-200 focus:outline-none ' +
+                        (isActive
+                          ? 'bg-indigo-600 text-white shadow ring-2 ring-indigo-300 scale-105'
+                          : 'text-slate-600 hover:bg-indigo-100')
+                      }
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {index + 1}
+                    </button>
+                  );
+                })}
+                </div>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="p-2 text-slate-400 hover:text-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-200"
         >
           <ChevronRight size={20} />
         </button>

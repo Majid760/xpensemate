@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   TrendingUp,
   TrendingDown,
@@ -11,7 +11,9 @@ import {
   Eye,
   EyeOff,
   Plus,
-  ChevronUp
+  ChevronUp,
+  MoreVertical,
+  ChevronDown
 } from 'lucide-react';
 import {  Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 import apiService from '../services/apiService';
@@ -57,6 +59,20 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
   const [showFullDashboard, setShowFullDashboard] = useState(false);
   const [showCategoryBreakdown, setShowCategoryBreakdown] = useState(false);
   const [error, setError] = useState(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [isPeriodOpen, setIsPeriodOpen] = useState(false);
+  const periodRef = useRef(null);
+
+  // Close period dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (periodRef.current && !periodRef.current.contains(event.target)) {
+        setIsPeriodOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -160,12 +176,18 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
     );
   }
 
+  const periodOptions = [
+    { value: 'weekly', label: 'Weekly' },
+    { value: 'monthly', label: 'Monthly' },
+    { value: 'quarterly', label: 'Quarterly' },
+    { value: 'yearly', label: 'Yearly' },
+  ];
+
   return (
     <div className="w-full font-sans py-4  sm:px-6 lg:px-4">
       {/* Main Card - Project Style */}
       <div className={`relative bg-white/95  overflow-hidden   transition-all duration-300 ${showFullDashboard ? 'p-4' : 'p-2'} overflow-hidden`}>
 
-        {/* Professional header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
           <div className="flex-1">
             {/* Title section */}
@@ -183,39 +205,54 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onAddExpense}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-4 py-2.5 font-medium transition-colors duration-200 flex items-center gap-2 focus:ring-2 focus:ring-indigo-200 focus:outline-none"
-            >
-              <Plus size={18} />
-              Add Expense
-            </button>
-
-            <button
-              onClick={() => setShowFullDashboard(!showFullDashboard)}
-              className="bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg px-4 py-2.5 font-medium transition-colors duration-200 flex items-center gap-2 focus:ring-2 focus:ring-slate-200 focus:outline-none"
-            >
-              <div className={`transition-transform duration-200 ${showFullDashboard ? 'rotate-180' : 'rotate-0'}`}>
-                {showFullDashboard ? <ChevronUp size={18} /> : <Eye size={18} />}
-              </div>
-              {showFullDashboard ? "Hide Details" : "View Details"}
-            </button>
-
-            <select
-              value={selectedPeriod}
-              onChange={(e) => setSelectedPeriod(e.target.value)}
-              className="appearance-none bg-white border border-slate-300 text-slate-700 rounded-lg px-4 py-2.5 pr-10 font-medium focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300 transition-colors duration-200 cursor-pointer"
-            >
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="quarterly">Quarterly</option>
-              <option value="yearly">Yearly</option>
-            </select>
-          </div>
+         <div className="flex flex-wrap items-center gap-4">
+           <button
+             onClick={onAddExpense}
+             className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white font-semibold text-base shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-200 focus:ring-2 focus:ring-indigo-300 focus:outline-none"
+           >
+             <Plus size={20} />
+             Add Expense
+           </button>
+           <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-2 py-1 shadow-sm">
+             <button
+               onClick={() => setShowFullDashboard(!showFullDashboard)}
+               className="flex items-center gap-2 px-4 py-2 rounded-full font-medium text-slate-700 bg-white hover:bg-slate-100 transition-colors duration-200 focus:ring-2 focus:ring-indigo-200 focus:outline-none"
+             >
+               <span className={`transition-transform duration-200 ${showFullDashboard ? 'rotate-180' : 'rotate-0'}`}>{showFullDashboard ? <ChevronUp size={18} /> : <Eye size={18} />}</span>
+               <span className="hidden sm:inline">{showFullDashboard ? "Hide Details" : "View Details"}</span>
+             </button>
+             {/* Custom period dropdown */}
+             <div className="relative" ref={periodRef}>
+               <button
+                 type="button"
+                 className="flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-2 font-medium text-slate-700 transition-all duration-200 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                 onClick={() => setIsPeriodOpen((o) => !o)}
+               >
+                 <span>{periodOptions.find(opt => opt.value === selectedPeriod)?.label || 'Period'}</span>
+                 <ChevronDown size={16} className={`transition-transform duration-200 ${isPeriodOpen ? 'rotate-180' : ''}`} />
+               </button>
+               {isPeriodOpen && (
+                 <div className="absolute mt-2 right-0 w-44 bg-white border border-slate-200 rounded-2xl shadow-xl z-20 overflow-hidden animate-fadeIn">
+                   {periodOptions.map(opt => (
+                     <button
+                       key={opt.value}
+                       type="button"
+                       className={`w-full text-left px-4 py-3 text-sm font-semibold capitalize transition-colors duration-150 ${selectedPeriod === opt.value ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-indigo-50 hover:text-indigo-600'}`}
+                       onClick={() => {
+                         setSelectedPeriod(opt.value);
+                         setIsPeriodOpen(false);
+                       }}
+                     >
+                       {opt.label}
+                     </button>
+                   ))}
+                 </div>
+               )}
+             </div>
+           </div>
+         </div>
         </div>
 
-        {/* Professional insights grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Use the new InsightCard for each stat */}
           <InsightCard
