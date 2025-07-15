@@ -43,29 +43,25 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
-function StatCard({ icon: Icon, value, label, color, textColor }) {
+function StatCard({ icon: Icon, value, label, color, textColor, subtitle }) {
   return (
     <div
       className="bg-slate-50/50 border border-slate-200/50 rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg  relative overflow-hidden hover:border-[var(--hover-border-color)] hover:z-10"
       style={{ '--hover-border-color': color }}
     >
-      <div className="flex justify-between items-center mb-2 w-full">
+      <div className="flex items-center mb-2">
         <div
-          className="p-1.5 rounded-xl bg-indigo-100 flex items-center justify-center"
+          className="p-2 rounded-xl bg-slate-100 flex items-center justify-center mr-2"
           style={{ color }}
         >
-          <Icon size={18} />
+          <Icon size={20} />
         </div>
+        <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide ml-1">{label}</h3>
       </div>
-      <div className="text-left w-full">
-        <h3 className="text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">{label}</h3>
-        <div
-          className={`text-md sm:text-lg font-extrabold leading-none mb-1 tracking-tight ${textColor || 'text-slate-900'}`}
-          style={{ color }}
-        >
-          {value}
-        </div>
-      </div>
+      <div className={`text-lg font-extrabold tracking-tight ${textColor || 'text-slate-900'}`}>{value}</div>
+      {subtitle && (
+        <div className="text-xs text-slate-400 mt-1 font-medium">{subtitle}</div>
+      )}
     </div>
   );
 }
@@ -188,6 +184,7 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
             label="Total Goals"
             color="#6366f1"
             textColor="text-slate-900"
+            subtitle="Total number of goals"
           />
           <StatCard
             icon={TrendingUp}
@@ -195,6 +192,7 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
             label="Active Goals"
             color="#3b82f6"
             textColor="text-blue-700"
+            subtitle="Goals currently active"
           />
           <StatCard
             icon={CheckCircle}
@@ -202,6 +200,7 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
             label="Achieved"
             color="#10b981"
             textColor="text-green-700"
+            subtitle="Goals achieved this period"
           />
           <StatCard
             icon={XCircle}
@@ -209,6 +208,7 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
             label="Failed/Terminated"
             color="#ef4444"
             textColor="text-red-700"
+            subtitle="Goals not completed"
           />
         </div>
         {/* Animated details wrapper */}
@@ -224,34 +224,43 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
           }}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCard
-              icon={DollarSign}
-              value={formatCurrency(mockInsights.totalBudgeted)}
-              label="Total Budgeted"
-              color="#8b5cf6"
-              textColor="text-purple-700"
-            />
-            <StatCard
-              icon={TrendingUp}
-              value={mockInsights.avgProgress + '%'}
-              label="Avg. Progress"
-              color="#10b981"
-              textColor="text-emerald-700"
-            />
-            <StatCard
-              icon={Calendar}
-              value={formatDate(mockInsights.closestDeadline)}
-              label="Closest Deadline"
-              color="#f59e0b"
-              textColor="text-orange-700"
-            />
-            <StatCard
-              icon={AlertTriangle}
-              value={mockInsights.overdueGoals}
-              label="Overdue Goals"
-              color="#ef4444"
-              textColor="text-red-600"
-            />
+            {[{
+              icon: DollarSign,
+              value: formatCurrency(mockInsights.totalBudgeted),
+              label: 'Total Budgeted',
+              color: '#8b5cf6',
+              textColor: 'text-purple-700',
+              subtitle: 'Total amount budgeted',
+            }, {
+              icon: TrendingUp,
+              value: mockInsights.avgProgress + '%',
+              label: 'Avg. Progress',
+              color: '#10b981',
+              textColor: 'text-emerald-700',
+              subtitle: 'Average progress across all goals',
+            }, {
+              icon: Calendar,
+              value: formatDate(mockInsights.closestDeadline),
+              label: 'Closest Deadline',
+              color: '#f59e0b',
+              textColor: 'text-orange-700',
+              subtitle: 'Next upcoming deadline',
+            }, {
+              icon: AlertTriangle,
+              value: mockInsights.overdueGoals,
+              label: 'Overdue Goals',
+              color: '#ef4444',
+              textColor: 'text-red-600',
+              subtitle: 'Goals past their deadline',
+            }].map((props, idx) => (
+              <div
+                key={props.label}
+                className={`transition-all duration-500 ${showDetails ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} delay-[${idx * 75}ms]`}
+                style={{ transitionDelay: `${idx * 75}ms` }}
+              >
+                <StatCard {...props} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
