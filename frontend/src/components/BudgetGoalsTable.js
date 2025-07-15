@@ -256,6 +256,7 @@ const BudgetGoalsTable = () => {
         
         // Optimistically update local state
         const updatedGoal = {
+          ...originalGoal,
           ...goalData,
           category: goalData.category
         };
