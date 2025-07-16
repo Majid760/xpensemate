@@ -238,6 +238,123 @@ class BudgetGoalService {
     return { expenses };
   }
 
+  /**
+   * Get analytics/stats for budget goals by period.
+   * @param {ObjectId} userId
+   * @param {Object} options - { period: string, startDate?: string|Date, endDate?: string|Date, closestCount?: number }
+   * @returns {Promise<Object>} Analytics for the period
+   */
+  async getGoalStatsByPeriod(userId, { period, startDate, endDate, closestCount = 3 }) {
+    try {
+      const ALLOWED_PERIODS = ['weekly', 'monthly', 'quarterly', 'yearly', 'custom'];
+      if (!ALLOWED_PERIODS.includes(period)) {
+        throw new ValidationError(`Invalid period. Must be one of: ${ALLOWED_PERIODS.join(', ')}`);
+      }
+
+      // Calculate date range
+      const now = new Date();
+      let rangeStart, rangeEnd;
+      if (period === 'custom') {
+        if (!startDate || !endDate) {
+          throw new ValidationError('Custom period requires both startDate and endDate');
+        }
+        rangeStart = new Date(startDate);
+        rangeEnd = new Date(endDate);
+      } else {
+        rangeEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+        switch (period) {
+          case 'weekly':
+            rangeStart = new Date(rangeEnd);
+            rangeStart.setUTCDate(rangeEnd.getUTCDate() - 6);
+            break;
+          case 'monthly':
+            rangeStart = new Date(rangeEnd);
+            rangeStart.setUTCDate(rangeEnd.getUTCDate() - 29);
+            break;
+          case 'quarterly':
+            rangeStart = new Date(rangeEnd);
+            rangeStart.setUTCDate(rangeEnd.getUTCDate() - 89);
+            break;
+          case 'yearly':
+            rangeStart = new Date(rangeEnd);
+            rangeStart.setUTCDate(rangeEnd.getUTCDate() - 364);
+            break;
+        }
+      }
+
+      // Query all goals in the period
+      const matchBase = {
+        user_id: userId,
+        is_deleted: false,
+        date: { $gte: rangeStart, $lte: rangeEnd }
+      };
+
+      // Aggregate counts by status and total budget for active
+      const statusAgg = await BudgetGoal.aggregate([
+        { $match: matchBase },
+        {
+          $group: {
+            _id: '$status',
+            count: { $sum: 1 },
+            totalBudget: {
+              $sum: {
+                $cond: [{ $eq: ['$status', 'active'] }, '$amount', 0]
+              }
+            },
+            avgProgress: {
+              $avg: {
+                $cond: [{ $eq: ['$status', 'achieved'] }, '$progress', null]
+              }
+            }
+          }
+        }
+      ]);
+
+      // Format status counts
+      const statusCounts = statusAgg.reduce((acc, s) => {
+        acc[s._id] = s.count;
+        if (s._id === 'active') acc.totalActiveBudget = s.totalBudget;
+        if (s._id === 'achieved') acc.avgAchievedProgress = s.avgProgress;
+        return acc;
+      }, { totalActiveBudget: 0, avgAchievedProgress: 0 });
+
+      // Total goals in period
+      const totalGoals = await BudgetGoal.countDocuments(matchBase);
+
+      // Overdue goals: date < today, status not achieved/terminated/failed
+      const overdueGoals = await BudgetGoal.find({
+        ...matchBase,
+        date: { $lt: now },
+        status: { $nin: ['achieved', 'terminated', 'failed'] }
+      }).sort({ date: 1 }).lean();
+
+      // Closest to deadline: soonest date >= today, still active
+      const closestGoals = await BudgetGoal.find({
+        ...matchBase,
+        date: { $gte: now },
+        status: 'active'
+      })
+        .sort({ date: 1 })
+        .limit(closestCount)
+        .lean();
+
+      return {
+        period,
+        rangeStart,
+        rangeEnd,
+        statusCounts,
+        totalGoals,
+        totalActiveBudget: statusCounts.totalActiveBudget,
+        avgAchievedProgress: statusCounts.avgAchievedProgress,
+        overdueGoals,
+        closestGoals
+      };
+    } catch (error) {
+      logger.error('Error in getGoalStatsByPeriod:', error);
+      throw error;
+    }
+  }
+
   // Private helper methods
   _buildFilter(userId, options) {
     const filter = { user_id: userId, is_deleted: false };

@@ -22,5 +22,7 @@ router.delete('/budget-goal/:id', requireAuth, budgetGoalController.deleteBudget
 router.get('/budget-goal/:id/progress', requireAuth, budgetGoalController.getBudgetGoalProgress);
 // Get all expense for specific budget 
 router.get('/budget-goal/:id/expenses', requireAuth, budgetGoalController.getExpensesForBudgetGoal);
+// Get goal stats by period
+router.get('/budget-goal/stats', requireAuth, budgetGoalController.getGoalStatsByPeriod);
 
 module.exports = router; 

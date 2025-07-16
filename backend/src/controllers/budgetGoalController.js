@@ -1,6 +1,6 @@
-const BudgetGoalService = require('../services/BudgetGoalService');
 const { handleAsync } = require('../utils/asyncHandler');
 const { validatePaginationParams } = require('../utils/validators');
+const BudgetGoalService = require('../services/budgetGoalService');
 
 const budgetGoalController = {
   createBudgetGoal: async (req, res) => {
@@ -131,6 +131,25 @@ const budgetGoalController = {
     } catch (error) {
       console.error('Error in getting expenses for budget goal:', error);
       res.status(500).json({ error: 'Failed to fetch expenses for budget goal.' });
+    }
+  },
+
+  getGoalStatsByPeriod: async (req, res) => {
+    try {
+      const { period, startDate, endDate, closestCount } = req.query;
+      if (!period) {
+        return res.status(400).json({ error: 'Missing required period parameter.' });
+      }
+      const stats = await BudgetGoalService.getGoalStatsByPeriod(req.user._id, {
+        period,
+        startDate,
+        endDate,
+        closestCount: closestCount ? parseInt(closestCount) : undefined
+      });
+      res.json(stats);
+    } catch (error) {
+      console.error('Error in getting goal stats by period:', error);
+      res.status(500).json({ error: 'Failed to fetch goal stats by period.' });
     }
   }
 };
