@@ -136,6 +136,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
             <div>
               <div className="h-5 w-32 bg-slate-200 rounded mb-2" />
               <div className="h-3 w-24 bg-slate-100 rounded" />
+              
             </div>
           </div>
           {/* Shimmer Stats Grid */}

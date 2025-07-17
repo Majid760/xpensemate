@@ -247,12 +247,10 @@ class BudgetGoalService {
    */
   async getGoalStatsByPeriod(userId, { period, startDate, endDate, closestCount = 3 }) {
     try {
-      console.log("woowowowowowowo enteredddddd => 123");
       const ALLOWED_PERIODS = ['weekly', 'monthly', 'quarterly', 'yearly', 'custom'];
       console.info("this is data ==>",period);
       console.info("this is data ==>",startDate);
       console.info("this is data ==>",endDate);
-
 
       if (!ALLOWED_PERIODS.includes(period)) {
         throw new ValidationError(`Invalid period. Must be one of: ${ALLOWED_PERIODS.join(', ')}`);

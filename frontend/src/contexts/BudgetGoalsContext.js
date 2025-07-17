@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
+import apiService from '../services/apiService';
 
 const BudgetGoalsContext = createContext();
 
@@ -19,8 +20,19 @@ export function BudgetGoalsProvider({ children }) {
     );
   };
 
+  // Memoized fetchGoalsByPeriod to prevent infinite loop
+  const fetchGoalsByPeriod = useCallback(async (period) => {
+    try {
+      const res = await apiService.get('/budget-goals', { params: { period } });
+      setGoals(res.data.budgetGoals || []);
+    } catch (error) {
+      setGoals([]);
+      // Optionally handle error here
+    }
+  }, []);
+
   return (
-    <BudgetGoalsContext.Provider value={{ goals, setAllGoals, updateGoal }}>
+    <BudgetGoalsContext.Provider value={{ goals, setAllGoals, updateGoal, fetchGoalsByPeriod }}>
       {children}
     </BudgetGoalsContext.Provider>
   );
