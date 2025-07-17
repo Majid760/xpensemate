@@ -4,6 +4,7 @@ import { TrendingUp, TrendingDown, AlertTriangle, Calendar, DollarSign, Target, 
 import WeeklyStatsSkeleton from './WeeklyStatsSkeleton';
 import { useTranslation } from 'react-i18next';
 import apiService from '../services/apiService';
+import StatCard from './StatCard';
 
 const COLORS = {
   primary: '#6366f1',
@@ -99,39 +100,6 @@ function DonutStat({ value, max, label, color = COLORS.primary, icon: Icon, subt
   );
 }
 
-function InsightCard({ icon: Icon, title, value, subtitle, color, trend }) {
-  return (
-    <div className="bg-slate-50/50 border border-slate-200/50 rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg  relative overflow-hidden hover:border-[var(--hover-border-color)]" 
-    style={{ '--hover-border-color': color }}>
-    
-      <div className="flex justify-between items-center mb-2">
-        <div 
-          className="p-1.5 rounded-xl bg-indigo-100 flex items-center justify-center"
-          style={{ color }}
-        >
-          <Icon size={18} />
-        </div>
-        <div className="flex items-center">
-          {trend && (
-            trend > 0 ? 
-            <TrendingUp size={14} className="text-emerald-500" /> : 
-            <TrendingDown size={14} className="text-red-500" />
-          )}
-        </div>
-      </div>
-      <div className="text-left">
-        <h3 className="text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">{title}</h3>
-        <div 
-          className="text-md sm:text-lg font-extrabold leading-none mb-1 tracking-tight"
-          style={{ color }}
-        >
-          {value}
-        </div>
-        <p className="text-xs text-slate-400 m-0 font-medium">{subtitle}</p>
-      </div>
-    </div>
-  );
-}
 
 function DailySpendingChart({ data }) {
   return (
@@ -353,25 +321,23 @@ const WeeklyStats = forwardRef((props, ref) => {
           <div>
             <h3 className="text-lg lg:text-xl font-bold text-slate-800 mb-4 lg:mb-5 tracking-tight">{t('weeklyStats.insights')}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-              <InsightCard
+              <StatCard
                 icon={TrendingUp}
-                title={t('weeklyStats.highestDay')}
+                label={t('weeklyStats.highestDay')}
                 value={`$${highestDay.total.toLocaleString()}`}
                 subtitle={t('weeklyStats.on', { date: highestDay.date || 'N/A' })}
                 color={COLORS.success}
-                trend={1}
               />
-              <InsightCard
+              <StatCard
                 icon={TrendingDown}
-                title={t('weeklyStats.lowestDay')}
+                label={t('weeklyStats.lowestDay')}
                 value={`$${lowestDay.total.toLocaleString()}`}
                 subtitle={t('weeklyStats.on', { date: lowestDay.date || 'N/A' })}
                 color={COLORS.warning}
-                trend={-1}
               />
-              <InsightCard
+              <StatCard
                 icon={DollarSign}
-                title={t('weeklyStats.dailyAverage')}
+                label={t('weeklyStats.dailyAverage')}
                 value={`$${Math.round(dailyAverage).toLocaleString()}`}
                 subtitle={t('weeklyStats.across')}
                 color={COLORS.blue}

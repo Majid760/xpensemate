@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import apiService from '../services/apiService';
 import { useBudgetGoals } from '../contexts/BudgetGoalsContext';
+import StatCard from './StatCard';
 
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('en-US', {
@@ -32,31 +33,6 @@ const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
-
-function StatCard({ icon: Icon, value, label, color, textColor, subtitle, loading }) {
-  return (
-    <div
-      className="bg-slate-50/50 border border-slate-200/50 rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg  relative overflow-hidden hover:border-[var(--hover-border-color)] hover:z-10"
-      style={{ '--hover-border-color': color }}
-    >
-      <div className="flex items-center mb-2">
-        <div
-          className="p-2 rounded-xl bg-slate-100 flex items-center justify-center mr-2"
-          style={{ color }}
-        >
-          <Icon size={20} />
-        </div>
-        <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide ml-1">{label}</h3>
-      </div>
-      <div className={`text-lg font-extrabold tracking-tight ${textColor || 'text-slate-900'}`}>
-        {loading ? <span className="inline-block w-12 h-5 bg-slate-200 rounded animate-pulse" /> : value}
-      </div>
-      {subtitle && (
-        <div className="text-xs text-slate-400 mt-1 font-medium">{subtitle}</div>
-      )}
-    </div>
-  );
-}
 
 const periodOptions = [
   { value: 'weekly', label: 'Weekly' },
@@ -229,8 +205,8 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard
             icon={Award}
-            value={statData.totalGoals}
             label="Total Goals"
+            value={statData.totalGoals}
             color="#6366f1"
             textColor="text-slate-900"
             subtitle="Total number of goals"
@@ -238,8 +214,8 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
           />
           <StatCard
             icon={TrendingUp}
-            value={statData.activeGoals}
             label="Active Goals"
+            value={statData.activeGoals}
             color="#3b82f6"
             textColor="text-blue-700"
             subtitle="Goals currently active"
@@ -247,8 +223,8 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
           />
           <StatCard
             icon={CheckCircle}
-            value={statData.achievedGoals}
             label="Achieved"
+            value={statData.achievedGoals}
             color="#10b981"
             textColor="text-green-700"
             subtitle="Goals achieved this period"
@@ -256,8 +232,8 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
           />
           <StatCard
             icon={XCircle}
-            value={statData.failedGoals + statData.terminatedGoals}
             label="Failed/Terminated"
+            value={statData.failedGoals + statData.terminatedGoals}
             color="#ef4444"
             textColor="text-red-700"
             subtitle="Goals not completed"
@@ -279,32 +255,32 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[{
               icon: DollarSign,
-              value: formatCurrency(statData.totalBudgeted),
               label: 'Total Budgeted',
+              value: formatCurrency(statData.totalBudgeted),
               color: '#8b5cf6',
               textColor: 'text-purple-700',
               subtitle: 'Total amount budgeted for active goals',
               loading,
             }, {
               icon: TrendingUp,
-              value: statData.avgProgress + '%',
               label: 'Avg. Progress',
+              value: statData.avgProgress + '%',
               color: '#10b981',
               textColor: 'text-emerald-700',
               subtitle: 'Average progress across all goals',
               loading,
             }, {
               icon: Calendar,
-              value: formatDate(statData.closestDeadline),
               label: 'Closest Deadline',
+              value: formatDate(statData.closestDeadline),
               color: '#f59e0b',
               textColor: 'text-orange-700',
               subtitle: 'Next upcoming deadline',
               loading,
             }, {
               icon: AlertTriangle,
-              value: statData.overdueGoals,
               label: 'Overdue Goals',
+              value: statData.overdueGoals,
               color: '#ef4444',
               textColor: 'text-red-600',
               subtitle: 'Goals past their deadline',

@@ -17,36 +17,29 @@ import {
 } from 'lucide-react';
 import {  Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 import apiService from '../services/apiService';
+import StatCard from './StatCard';
 
-function InsightCard({ icon: Icon, title, value, subtitle, color, trend }) {
+function InsightCard({ icon: Icon, title, value, subtitle, color, textColor, loading }) {
   return (
-    <div className="bg-slate-50/50 border border-slate-200/50 rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg  relative overflow-hidden hover:border-[var(--hover-border-color)]"
-      style={{ '--hover-border-color': color }}>
-      <div className="flex justify-between items-center mb-2">
+    <div
+      className="bg-slate-50/50 border border-slate-200/50 rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg  relative overflow-hidden hover:border-[var(--hover-border-color)] hover:z-10"
+      style={{ '--hover-border-color': color }}
+    >
+      <div className="flex items-center mb-2">
         <div
-          className="p-1.5 rounded-xl bg-indigo-100 flex items-center justify-center"
+          className="p-2 rounded-xl bg-slate-100 flex items-center justify-center mr-2"
           style={{ color }}
         >
-          <Icon size={18} />
+          <Icon size={20} />
         </div>
-        <div className="flex items-center">
-          {typeof trend === 'number' && trend !== 0 && (
-            trend > 0 ?
-              <TrendingUp size={14} className="text-emerald-500" /> :
-              <TrendingDown size={14} className="text-red-500" />
-          )}
-        </div>
+        <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide ml-1">{title}</h3>
       </div>
-      <div className="text-left">
-        <h3 className="text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">{title}</h3>
-        <div
-          className="text-md sm:text-lg font-extrabold leading-none mb-1 tracking-tight"
-          style={{ color }}
-        >
-          {value}
-        </div>
-        <p className="text-xs text-slate-400 m-0 font-medium">{subtitle}</p>
+      <div className={`text-lg font-extrabold tracking-tight ${textColor || 'text-slate-900'}`}> 
+        {loading ? <span className="inline-block w-12 h-5 bg-slate-200 rounded animate-pulse" /> : value}
       </div>
+      {subtitle && (
+        <div className="text-xs text-slate-400 mt-1 font-medium">{subtitle}</div>
+      )}
     </div>
   );
 }
@@ -125,40 +118,6 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
   };
 
   const COLORS = ['#ef4444', '#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#06b6d4'];
-
-  if (loading) {
-    return (
-      <div className="w-full font-sans py-4 sm:px-6 lg:px-4">
-        <div className="relative bg-white/95 overflow-hidden transition-all duration-300 p-4">
-          {/* Shimmer Header */}
-          <div className="flex items-center gap-3 mb-6 animate-pulse">
-            <div className="w-10 h-10 bg-slate-200 rounded-lg" />
-            <div>
-              <div className="h-5 w-32 bg-slate-200 rounded mb-2" />
-              <div className="h-3 w-24 bg-slate-100 rounded" />
-              
-            </div>
-          </div>
-          {/* Shimmer Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
-            {[...Array(4)].map((_, idx) => (
-              <div key={idx} className="bg-slate-50 rounded-xl border border-slate-200 p-6 animate-pulse">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-8 h-8 bg-slate-200 rounded-lg" />
-                  <div className="h-4 w-12 bg-slate-200 rounded-full" />
-                </div>
-                <div className="mb-2">
-                  <div className="h-6 w-20 bg-slate-200 rounded mb-1" />
-                  <div className="h-4 w-16 bg-slate-100 rounded" />
-                </div>
-                <div className="h-3 w-24 bg-slate-100 rounded mt-2" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (error) {
     return (
@@ -255,35 +214,37 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Use the new InsightCard for each stat */}
-          <InsightCard
+          <StatCard
             icon={DollarSign}
-            title="Total Spent"
-            value={formatCurrency(insights.totalSpent)}
+            label="Total Spent"
+            value={formatCurrency(insights?.totalSpent ?? 0)}
             subtitle="Total spent in this period"
             color="#6366f1"
+            loading={loading}
           />
-          <InsightCard
+          <StatCard
             icon={Calendar}
-            title="Daily Average"
-            value={formatCurrency(insights.dailyAverage)}
+            label="Daily Average"
+            value={formatCurrency(insights?.dailyAverage ?? 0)}
             subtitle="Average spent per day"
             color="#3b82f6"
+            loading={loading}
           />
-          <InsightCard
+          <StatCard
             icon={Target}
-            title="Spending Velocity"
-            value={typeof insights.spendingVelocityPercent === 'number' ? `${insights.spendingVelocityPercent > 0 ? '+' : ''}${insights.spendingVelocityPercent.toFixed(1)}%` : 'N/A'}
-            subtitle={insights.spendingVelocityMessage || 'vs your usual pace'}
+            label="Spending Velocity"
+            value={typeof insights?.spendingVelocityPercent === 'number' ? `${insights?.spendingVelocityPercent > 0 ? '+' : ''}${insights?.spendingVelocityPercent.toFixed(1)}%` : 'N/A'}
+            subtitle={insights?.spendingVelocityMessage ?? 'vs your usual pace'}
             color="#10b981"
-            trend={typeof insights.spendingVelocityPercent === 'number' ? (insights.spendingVelocityPercent > 0 ? 1 : insights.spendingVelocityPercent < 0 ? -1 : 0) : 0}
+            loading={loading}
           />
-          <InsightCard
+          <StatCard
             icon={Award}
-            title="Tracking Streak"
-            value={`${insights.trackingStreak}`}
+            label="Tracking Streak"
+            value={`${insights?.trackingStreak ?? 0}`}
             subtitle="consecutive days"
             color="#8b5cf6"
+            loading={loading}
           />
         </div>
 
@@ -309,7 +270,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                     </div>
                   </div>
                   <ResponsiveContainer width="100%" height={300}>
-                    <AreaChart data={insights.trend}>
+                    <AreaChart data={insights?.trend ?? []}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                       <XAxis dataKey="label" />
                       <YAxis />
@@ -360,7 +321,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                   <ResponsiveContainer width="100%" height={300}>
                     <RechartsPieChart>
                       <Pie
-                        data={insights.categories}
+                        data={insights?.categories ?? []}
                         cx="50%"
                         cy="50%"
                         innerRadius={60}
@@ -370,7 +331,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                         nameKey="category"
                         label={({ category, amount }) => `${category}: ${formatCurrency(amount)}`}
                       >
-                        {insights.categories.map((entry, index) => (
+                        {insights?.categories?.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
@@ -388,7 +349,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
               >
                 {/* Animated details, e.g., a table of categories with spending */}
                 <ul>
-                  {insights.categories.map(cat => (
+                  {insights?.categories?.map(cat => (
                     <li key={cat.category} className="flex justify-between py-2 px-4">
                       <span>{cat.category}</span>
                       <span>{formatCurrency(cat.amount)}</span>
@@ -422,7 +383,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                     </div>
                   </div>
                   <ResponsiveContainer width="100%" height={300}>
-                    <AreaChart data={insights.trend}>
+                    <AreaChart data={insights?.trend ?? []}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                       <XAxis dataKey="label" />
                       <YAxis />
@@ -467,7 +428,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                   <ResponsiveContainer width="100%" height={300}>
                     <RechartsPieChart>
                       <Pie
-                        data={insights.categories}
+                        data={insights?.categories ?? []}
                         cx="50%"
                         cy="50%"
                         innerRadius={60}
@@ -477,7 +438,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
                         nameKey="category"
                         label={({ category, amount }) => `${category}: ${formatCurrency(amount)}`}
                       >
-                        {insights.categories.map((entry, index) => (
+                        {insights?.categories?.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
