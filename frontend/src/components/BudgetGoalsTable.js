@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { MoreVertical, Plus, Trash2, ChevronLeft, ChevronRight, Edit, ChevronDown, Calendar, DollarSign, TrendingUp, AlertCircle } from 'lucide-react';
+import { MoreVertical, Plus, Trash2, ChevronLeft, ChevronRight, Edit, ChevronDown, Calendar, DollarSign, TrendingUp, AlertCircle, Target } from 'lucide-react';
 
 import BudgetGoalDialog from './BudgetGoalPopUp';
 import Toast from './Toast';
@@ -439,36 +439,34 @@ const BudgetGoalsTable = () => {
   return (
     <div className="w-full font-sans px-4 sm:px-6 lg:px-8">
       {/* Card Container with gradient border and shadow */}
-      <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/20 overflow-visible mx-auto max-w-full transition-all duration-300">
+      <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/20 overflow-hidden mx-auto max-w-full transition-all duration-300">
         {/* Gradient top border */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-3xl" />
         <BudgetInsights onAddBudget={() => setShowGoalDialog(true)} />
 
         {/* Header with title and controls */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-4 sm:px-8 pt-6 pb-4">
-          <h2 className="flex items-center gap-3 text-2xl lg:text-3xl font-bold text-slate-800 tracking-tight">
-            <Plus className="text-indigo-500" size={28} />
-            Budget Goals
-          </h2>
+          <div className="flex items-center gap-3">
+            <Target className="text-indigo-500" size={28} />
+            <h2 className="text-2xl lg:text-3xl font-bold text-slate-800 tracking-tight">
+              Budget Goals
+            </h2>
+          </div>
+          {/* Show delete button if any goals are selected */}
+          {selectedRows.size > 0 && (
+            <button
+              onClick={() => handleDeleteClick()}
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold text-sm shadow transition-all duration-200"
+            >
+              <Trash2 size={16} />
+              Delete ({selectedRows.size})
+            </button>
+          )}
         </div>
 
         {/* Cards Container */}
         <div className="px-2 sm:px-6 pb-6">
-          {/* Header with select all checkbox */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                checked={contextGoals && contextGoals.length > 0 && selectedRows.size === contextGoals.length}
-                onChange={handleSelectAll}
-                className="w-5 h-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
-              />
-              <span className="text-sm font-medium text-slate-600">
-                Select All ({selectedRows.size} of {contextGoals.length})
-              </span>
-            </div>
-          </div>
-
+          {/* Remove select all checkbox and label */}
           {/* Goals Grid */}
           {loading ? (
             <div className="text-center py-12">
