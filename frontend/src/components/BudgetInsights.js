@@ -15,18 +15,7 @@ import {
   Eye,
   ChevronUp
 } from 'lucide-react';
-
-const mockInsights = {
-  totalGoals: 8,
-  activeGoals: 4,
-  achievedGoals: 2,
-  failedGoals: 1,
-  terminatedGoals: 1,
-  totalBudgeted: 12000,
-  avgProgress: 67,
-  closestDeadline: '2024-07-10',
-  overdueGoals: 1,
-};
+import apiService from '../services/apiService';
 
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('en-US', {
@@ -34,7 +23,7 @@ const formatCurrency = (amount) => {
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
-  }).format(amount);
+  }).format(amount || 0);
 };
 
 const formatDate = (dateString) => {
@@ -43,7 +32,7 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
-function StatCard({ icon: Icon, value, label, color, textColor, subtitle }) {
+function StatCard({ icon: Icon, value, label, color, textColor, subtitle, loading }) {
   return (
     <div
       className="bg-slate-50/50 border border-slate-200/50 rounded-2xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg  relative overflow-hidden hover:border-[var(--hover-border-color)] hover:z-10"
@@ -58,7 +47,9 @@ function StatCard({ icon: Icon, value, label, color, textColor, subtitle }) {
         </div>
         <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide ml-1">{label}</h3>
       </div>
-      <div className={`text-lg font-extrabold tracking-tight ${textColor || 'text-slate-900'}`}>{value}</div>
+      <div className={`text-lg font-extrabold tracking-tight ${textColor || 'text-slate-900'}`}>
+        {loading ? <span className="inline-block w-12 h-5 bg-slate-200 rounded animate-pulse" /> : value}
+      </div>
       {subtitle && (
         <div className="text-xs text-slate-400 mt-1 font-medium">{subtitle}</div>
       )}
@@ -80,6 +71,39 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
   const periodRef = useRef(null);
   const detailsWrapperRef = useRef(null);
   const [detailsHeight, setDetailsHeight] = useState('auto');
+  const [insights, setInsights] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Fetch insights from API using apiService
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    setError(null);
+    setInsights(null);
+    const params = { period: selectedPeriod };
+    apiService.get('/budget/goal-insights', { params })
+      .then(res => {
+        console.log("this is data =>",res);
+        if (!isMounted) return;
+        const data = res.data;
+        setInsights(data);
+      })
+      .catch(err => {
+        console.log("shit this is error =>",err);
+        if (!isMounted) return;
+        setError(
+          err.response?.data?.error ||
+          err.message ||
+          'Failed to fetch budget insights'
+        );
+        setInsights(null);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+    return () => { isMounted = false; };
+  }, [selectedPeriod]);
 
   // Close period dropdown on outside click
   useEffect(() => {
@@ -97,7 +121,6 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
     const wrapper = detailsWrapperRef.current;
     if (!wrapper) return;
     if (showDetails) {
-      // Expand: set to scrollHeight, then auto after transition
       wrapper.style.height = wrapper.scrollHeight + 'px';
       wrapper.style.opacity = 1;
       const timeout = setTimeout(() => {
@@ -105,16 +128,27 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
       }, 500);
       return () => clearTimeout(timeout);
     } else {
-      // Collapse: set to px height, then to 0
       if (wrapper.style.height === 'auto') {
         wrapper.style.height = wrapper.scrollHeight + 'px';
-        // Force reflow
         void wrapper.offsetHeight;
       }
       wrapper.style.height = '0px';
       wrapper.style.opacity = 0;
     }
   }, [showDetails]);
+
+  // Map API data to UI
+  const statData = insights ? {
+    totalGoals: insights.totalGoals || 0,
+    activeGoals: (insights.statusCounts && insights.statusCounts.active) || 0,
+    achievedGoals: (insights.statusCounts && insights.statusCounts.achieved) || 0,
+    failedGoals: (insights.statusCounts && (insights.statusCounts.failed || 0)),
+    terminatedGoals: (insights.statusCounts && (insights.statusCounts.terminated || 0)),
+    totalBudgeted: insights.totalActiveBudget || 0,
+    avgProgress: Math.round(insights.avgAchievedProgress || 0),
+    closestDeadline: (insights.closestGoals && insights.closestGoals[0]?.date) || null,
+    overdueGoals: (insights.overdueGoals && insights.overdueGoals.length) || 0,
+  } : {};
 
   return (
     <div className="w-full font-sans py-4 sm:px-6 lg:px-0">
@@ -177,38 +211,45 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
           </div>
         </div>
         {/* Stat Grid */}
+        {error && (
+          <div className="text-red-600 font-semibold mb-4">{error}</div>
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard
             icon={Award}
-            value={mockInsights.totalGoals}
+            value={statData.totalGoals}
             label="Total Goals"
             color="#6366f1"
             textColor="text-slate-900"
             subtitle="Total number of goals"
+            loading={loading}
           />
           <StatCard
             icon={TrendingUp}
-            value={mockInsights.activeGoals}
+            value={statData.activeGoals}
             label="Active Goals"
             color="#3b82f6"
             textColor="text-blue-700"
             subtitle="Goals currently active"
+            loading={loading}
           />
           <StatCard
             icon={CheckCircle}
-            value={mockInsights.achievedGoals}
+            value={statData.achievedGoals}
             label="Achieved"
             color="#10b981"
             textColor="text-green-700"
             subtitle="Goals achieved this period"
+            loading={loading}
           />
           <StatCard
             icon={XCircle}
-            value={mockInsights.failedGoals + mockInsights.terminatedGoals}
+            value={statData.failedGoals + statData.terminatedGoals}
             label="Failed/Terminated"
             color="#ef4444"
             textColor="text-red-700"
             subtitle="Goals not completed"
+            loading={loading}
           />
         </div>
         {/* Animated details wrapper */}
@@ -226,32 +267,36 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[{
               icon: DollarSign,
-              value: formatCurrency(mockInsights.totalBudgeted),
+              value: formatCurrency(statData.totalBudgeted),
               label: 'Total Budgeted',
               color: '#8b5cf6',
               textColor: 'text-purple-700',
               subtitle: 'Total amount budgeted',
+              loading,
             }, {
               icon: TrendingUp,
-              value: mockInsights.avgProgress + '%',
+              value: statData.avgProgress + '%',
               label: 'Avg. Progress',
               color: '#10b981',
               textColor: 'text-emerald-700',
               subtitle: 'Average progress across all goals',
+              loading,
             }, {
               icon: Calendar,
-              value: formatDate(mockInsights.closestDeadline),
+              value: formatDate(statData.closestDeadline),
               label: 'Closest Deadline',
               color: '#f59e0b',
               textColor: 'text-orange-700',
               subtitle: 'Next upcoming deadline',
+              loading,
             }, {
               icon: AlertTriangle,
-              value: mockInsights.overdueGoals,
+              value: statData.overdueGoals,
               label: 'Overdue Goals',
               color: '#ef4444',
               textColor: 'text-red-600',
               subtitle: 'Goals past their deadline',
+              loading,
             }].map((props, idx) => (
               <div
                 key={props.label}

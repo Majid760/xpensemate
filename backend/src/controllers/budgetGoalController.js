@@ -136,7 +136,9 @@ const budgetGoalController = {
 
   getGoalStatsByPeriod: async (req, res) => {
     try {
+      console.log("entered 123 =>", req.body);
       const { period, startDate, endDate, closestCount } = req.query;
+      console.log("heeehheehehehe =>", req.body);
       if (!period) {
         return res.status(400).json({ error: 'Missing required period parameter.' });
       }

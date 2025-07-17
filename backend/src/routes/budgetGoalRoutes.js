@@ -23,6 +23,6 @@ router.get('/budget-goal/:id/progress', requireAuth, budgetGoalController.getBud
 // Get all expense for specific budget 
 router.get('/budget-goal/:id/expenses', requireAuth, budgetGoalController.getExpensesForBudgetGoal);
 // Get goal stats by period
-router.get('/budget-goal/stats', requireAuth, budgetGoalController.getGoalStatsByPeriod);
+router.get('/budget/goal-insights', requireAuth, budgetGoalController.getGoalStatsByPeriod);
 
 module.exports = router; 
