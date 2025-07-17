@@ -24,7 +24,7 @@ const ExpensesTable = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteType, setDeleteType] = useState(null); // 'single' or 'multiple'
   const [deleteId, setDeleteId] = useState(null);
-  const { activeGoals, fetchActiveGoals } = useBudgetGoals();
+  const { activeGoals, fetchGoalsByPeriod } = useBudgetGoals();
   const [budgetModalOpen, setBudgetModalOpen] = useState(false);
   const [selectedBudgetGoal, setSelectedBudgetGoal] = useState(null);
 
@@ -355,7 +355,7 @@ const ExpensesTable = () => {
     }
   };
 
-  useEffect(() => { fetchActiveGoals(); }, [fetchActiveGoals]);
+  useEffect(() => { fetchGoalsByPeriod(); }, [fetchGoalsByPeriod]);
 
   return (
     <div className="w-full font-sans  sm:px-6 lg:px-8">

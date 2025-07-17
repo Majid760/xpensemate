@@ -5,8 +5,8 @@ import { useBudgetGoals } from '../contexts/BudgetGoalsContext';
 
 export default function QuickAccess({ onAddPayment, onAddExpense, onAddBudgetGoal }) {
   const { t } = useTranslation();
-  const { activeGoals, fetchActiveGoals } = useBudgetGoals();
-  useEffect(() => { fetchActiveGoals(); }, [fetchActiveGoals]);
+  const { activeGoals, fetchGoalsByPeriod } = useBudgetGoals();
+  useEffect(() => { fetchGoalsByPeriod(); }, [fetchGoalsByPeriod]);
   const quickActions = [
     {
       icon: FaChartBar,
