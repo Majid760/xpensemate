@@ -6,6 +6,13 @@ const { validateObjectId } = require('../utils/validators');
 const { NotFoundError, ValidationError } = require('../utils/errors');
 
 class BudgetGoalService {
+  /**
+   * Creates a new budget goal for a user.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {Object} budgetGoalData - Goal details (name, amount, date, etc.).
+   * @returns {Promise<Object>} The created budget goal document.
+   * @notes Sets status to 'active' if not provided.
+   */
   async createBudgetGoal(userId, budgetGoalData) {
     try {
       const budgetGoal = new BudgetGoal({
@@ -22,6 +29,13 @@ class BudgetGoalService {
     }
   }
 
+  /**
+   * Fetches a paginated list of budget goals for a user, with optional filters.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {Object} options - Pagination, date range, category, status, sorting.
+   * @returns {Promise<Object>} Object with budgetGoals (array), total, page, totalPages.
+   * @notes Enriches each goal with current spending.
+   */
   async getBudgetGoals(userId, options = {}) {
     try {
       const {
@@ -63,6 +77,13 @@ class BudgetGoalService {
     }
   }
 
+  /**
+   * Fetches a single budget goal by its ID for a user.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {ObjectId} goalId - The goal's ID.
+   * @returns {Promise<Object>} The budget goal document.
+   * @throws If not found or invalid ID.
+   */
   async getBudgetGoalById(userId, goalId) {
     try{
     if (!validateObjectId(goalId)) {
@@ -85,6 +106,14 @@ class BudgetGoalService {
   }
   }
 
+  /**
+   * Updates a budget goal's details.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {ObjectId} goalId - The goal's ID.
+   * @param {Object} updateData - Fields to update.
+   * @returns {Promise<Object>} The updated budget goal document.
+   * @throws If not found or invalid ID.
+   */
   async updateBudgetGoal(userId, goalId, updateData) {
     if (!validateObjectId(goalId)) {
       throw new ValidationError('Invalid budget goal ID');
@@ -106,6 +135,13 @@ class BudgetGoalService {
     return budgetGoal;
   }
 
+  /**
+   * Soft-deletes a budget goal (marks as deleted).
+   * @param {ObjectId} userId - The user's ID.
+   * @param {ObjectId} goalId - The goal's ID.
+   * @returns {Promise<Object>} Success message.
+   * @throws If not found or invalid ID.
+   */
   async deleteBudgetGoal(userId, goalId) {
     if (!validateObjectId(goalId)) {
       throw new ValidationError('Invalid budget goal ID');
@@ -124,6 +160,13 @@ class BudgetGoalService {
     return { message: 'Budget goal deleted successfully' };
   }
 
+  /**
+   * Gets a summary of budget goals for a user for a specific month, grouped by category.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {number} year - Year.
+   * @param {number} month - Month (1-based).
+   * @returns {Promise<Array>} Array of summaries per category.
+   */
   async getMonthlySummary(userId, year, month) {
     try {
       const summary = await BudgetGoal.aggregate([
@@ -195,6 +238,12 @@ class BudgetGoalService {
     }
   }
 
+  /**
+   * Gets the progress and status of a specific budget goal.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {ObjectId} goalId - The goal's ID.
+   * @returns {Promise<Object>} Object with progress, status, amount, and currentAmount.
+   */
   async getBudgetGoalProgress(userId, goalId) {
 
     const budgetGoal = await this.getBudgetGoalById(userId, goalId);
@@ -207,6 +256,13 @@ class BudgetGoalService {
     };
   }
 
+  /**
+   * Fetches all budget goals for a user within a date range.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {string|Date} startDate - Start date.
+   * @param {string|Date} endDate - End date.
+   * @returns {Promise<Array>} Array of budget goals.
+   */
   async getBudgetGoalsByDateRange(userId, startDate, endDate) {
     if (!startDate || !endDate) {
       throw new ValidationError('Start date and end date are required');
@@ -224,6 +280,12 @@ class BudgetGoalService {
     return budgetGoals;
   }
 
+  /**
+   * Gets all expenses linked to a specific budget goal.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {ObjectId} goalId - The goal's ID.
+   * @returns {Promise<Object>} Object with expenses array (populated with category info).
+   */
   async getExpensesForBudgetGoal(userId, goalId) {
     // Verify goal exists and belongs to user
     await this.getBudgetGoalById(userId, goalId);
@@ -240,10 +302,10 @@ class BudgetGoalService {
   }
 
   /**
-   * Get analytics/stats for budget goals by period.
-   * @param {ObjectId} userId
-   * @param {Object} options - { period: string, startDate?: string|Date, endDate?: string|Date, closestCount?: number }
-   * @returns {Promise<Object>} Analytics for the period
+   * Returns analytics/stats for budget goals in a given period (weekly, monthly, etc.).
+   * @param {ObjectId} userId - The user's ID.
+   * @param {Object} options - { period, startDate, endDate, closestCount }.
+   * @returns {Promise<Object>} Analytics for the period.
    */
   async getGoalStatsByPeriod(userId, { period, startDate, endDate, closestCount = 3 }) {
     try {
@@ -361,6 +423,12 @@ class BudgetGoalService {
   }
 
   // Private helper methods
+  /**
+   * Private helper to build a MongoDB filter for queries.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {Object} options - Filter options (date, category, status).
+   * @returns {Object} MongoDB filter object.
+   */
   _buildFilter(userId, options) {
     const filter = { user_id: userId, is_deleted: false };
 
@@ -382,6 +450,12 @@ class BudgetGoalService {
     return filter;
   }
 
+  /**
+   * Private helper to add current spending to each budget goal.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {Array} budgetGoals - Array of budget goals.
+   * @returns {Promise<Array>} Array of budget goals, each with a currentSpending field.
+   */
   async _enrichWithExpenses(userId, budgetGoals) {
     if (!budgetGoals.length) return budgetGoals;
 
