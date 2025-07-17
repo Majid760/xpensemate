@@ -8,6 +8,7 @@ import apiService from '../services/apiService';
 import Portal from './Portal';
 import BudgetGoalsExpensesModal from './BudgetGoalsExpenses';
 import BudgetInsights from './BudgetInsights';
+import { useBudgetGoals } from '../contexts/BudgetGoalsContext';
 
 const BudgetGoalsTable = () => {
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -29,6 +30,8 @@ const BudgetGoalsTable = () => {
   const [expensesModalOpen, setExpensesModalOpen] = useState(false);
   const [selectedGoalForExpenses, setSelectedGoalForExpenses] = useState(null);
 
+  const { goals: contextGoals, setAllGoals, updateGoal } = useBudgetGoals();
+
   // Calculate pagination
   const totalPages = Math.ceil(totalRows / perPage);
   const startIndex = (currentPage - 1) * perPage;
@@ -37,7 +40,7 @@ const BudgetGoalsTable = () => {
   // Memoized fetch function to prevent unnecessary re-renders
   const fetchGoals = useCallback(async (page, limit) => {
     if (pageCache[page]) {
-      setGoals(pageCache[page].goals || []);
+      setAllGoals(pageCache[page].goals || []);
       setTotalRows(pageCache[page].total || 0);
       setCurrentPage(pageCache[page].page || 1);
       setPerPage(limit);
@@ -76,7 +79,7 @@ const BudgetGoalsTable = () => {
       }));
 
       // Update state
-      setGoals(fetchedGoals);
+      setAllGoals(fetchedGoals);
       setTotalRows(fetchedTotal);
       setCurrentPage(fetchedPage);
       setPerPage(limit);
@@ -99,14 +102,14 @@ const BudgetGoalsTable = () => {
       });
 
       // Reset state on error
-      setGoals([]);
+      setAllGoals([]);
       setTotalRows(0);
       setCurrentPage(1);
     } finally {
       setLoading(false);
       setIsInitialLoad(false);
     }
-  }, [pageCache]);
+  }, [pageCache, setAllGoals]);
 
   // Initial load
   useEffect(() => {
@@ -147,12 +150,12 @@ const BudgetGoalsTable = () => {
   };
 
   const handleSelectAll = () => {
-    if (!goals || goals.length === 0) return;
+    if (!contextGoals || contextGoals.length === 0) return;
     
-    if (selectedRows.size === goals.length) {
+    if (selectedRows.size === contextGoals.length) {
       setSelectedRows(new Set());
     } else {
-      setSelectedRows(new Set(goals.map(goal => goal._id || goal.id)));
+      setSelectedRows(new Set(contextGoals.map(goal => goal._id || goal.id)));
     }
   };
 
@@ -160,11 +163,11 @@ const BudgetGoalsTable = () => {
   const handleDelete = async () => {
     if (selectedRows.size > 0) {
       // Store original state for potential rollback
-      const originalGoals = [...goals];
+      const originalGoals = [...contextGoals];
       const originalTotal = totalRows;
 
       // Optimistically remove selected items from local state
-      setGoals(prev => prev.filter(goal => !selectedRows.has(goal._id || goal.id)));
+      setAllGoals(prev => prev.filter(goal => !selectedRows.has(goal._id || goal.id)));
       setTotalRows(prev => Math.max(0, prev - selectedRows.size));
       setSelectedRows(new Set());
 
@@ -179,7 +182,7 @@ const BudgetGoalsTable = () => {
         });
       } catch (error) {
         // Revert local state on error
-        setGoals(originalGoals);
+        setAllGoals(originalGoals);
         setTotalRows(originalTotal);
         console.error("Error deleting selected goals:", error.response?.data || error.message);
         setToast({
@@ -194,10 +197,10 @@ const BudgetGoalsTable = () => {
   const handleRowDelete = async (id) => {
     setOpenMenuId(null); // Close menu
     // Store original state for potential rollback
-    const originalGoals = [...goals];
+    const originalGoals = [...contextGoals];
     const originalTotal = totalRows;
     // Optimistically remove the item from local state
-    setGoals(prev => prev.filter(goal => (goal._id || goal.id) !== id));
+    setAllGoals(prev => prev.filter(goal => (goal._id || goal.id) !== id));
     setTotalRows(prev => Math.max(0, prev - 1));
     try {
       // Attempt to delete on backend
@@ -209,7 +212,7 @@ const BudgetGoalsTable = () => {
       });
     } catch (error) {
       // Revert local state on error
-      setGoals(originalGoals);
+      setAllGoals(originalGoals);
       setTotalRows(originalTotal);
       console.error("Error deleting goal:", error.response?.data || error.message);
       setToast({
@@ -222,7 +225,7 @@ const BudgetGoalsTable = () => {
   // handle the edit of single record
   const handleEdit = (id) => {
     setOpenMenuId(null);
-    const goal = goals.find(g => (g._id || g.id) === id);
+    const goal = contextGoals.find(g => (g._id || g.id) === id);
     if (goal) {
       setGoalToEdit(goal);
       setShowGoalDialog(true);
@@ -252,7 +255,7 @@ const BudgetGoalsTable = () => {
 
       if (isEditMode && goalData._id) {
         // Store the original goal for potential rollback
-        const originalGoal = goals.find(g => g._id === goalData._id);
+        const originalGoal = contextGoals.find(g => g._id === goalData._id);
         
         // Optimistically update local state
         const updatedGoal = {
@@ -261,23 +264,22 @@ const BudgetGoalsTable = () => {
           category: goalData.category
         };
         
-        setGoals(prev => prev.map(g => 
+        setAllGoals(prev => prev.map(g => 
           g._id === goalData._id ? updatedGoal : g
         ));
 
         try {
           // Update backend without affecting local state
           await apiService.put(`/budget-goal/${goalData._id}`, backendData, { withCredentials: true });
+          updateGoal(updatedGoal);
           setToast({
             type: 'success',
             message: 'Goal updated successfully!'
           });
           
-          // Dispatch event to refresh budget goals
-          window.dispatchEvent(new CustomEvent('budgetGoalUpdated'));
         } catch (error) {
           // Revert local state on error
-          setGoals(prev => prev.map(g => 
+          setAllGoals(prev => prev.map(g => 
             g._id === goalData._id ? originalGoal : g
           ));
           throw error;
@@ -293,7 +295,7 @@ const BudgetGoalsTable = () => {
         };
         
         // Optimistically add to local state
-        setGoals(prev => [tempGoal, ...prev.filter(g => g.id !== tempGoal.id)]);
+        setAllGoals(prev => [tempGoal, ...prev.filter(g => g.id !== tempGoal.id)]);
         setTotalRows(prev => prev + 1);
         setCurrentPage(1);
 
@@ -301,7 +303,7 @@ const BudgetGoalsTable = () => {
           const response = await apiService.post('/create-budget-goal', backendData, { withCredentials: true });
           
           // Update temporary entry with real data
-          setGoals(prev => prev.map(g => 
+          setAllGoals(prev => prev.map(g => 
             g._id === tempGoal._id 
               ? { ...response.data, id: response.data._id, category: response.data.category_id ? response.data.category_id.name : response.data.category } 
               : g
@@ -311,11 +313,9 @@ const BudgetGoalsTable = () => {
             message: 'Goal added successfully!'
           });
           
-          // Dispatch event to refresh budget goals
-          window.dispatchEvent(new CustomEvent('budgetGoalUpdated'));
         } catch (error) {
           // Remove temporary entry on error
-          setGoals(prev => prev.filter(g => g._id !== tempGoal._id));
+          setAllGoals(prev => prev.filter(g => g._id !== tempGoal._id));
           setTotalRows(prev => Math.max(0, prev - 1));
           throw error;
         }
@@ -390,11 +390,11 @@ const BudgetGoalsTable = () => {
     // Prevent row selection when clicking the dropdown
     e.stopPropagation();
     
-    const originalGoals = [...goals];
+    const originalGoals = [...contextGoals];
     
     try {
       // Find the goal to update
-      const goalToUpdate = goals.find(goal => goal._id === goalId);
+      const goalToUpdate = contextGoals.find(goal => goal._id === goalId);
       if (!goalToUpdate) {
         throw new Error('Goal not found');
       }
@@ -413,10 +413,11 @@ const BudgetGoalsTable = () => {
       };
 
       // Optimistically update local state
-      setGoals(prev => prev.map(goal => 
+      setAllGoals(prev => prev.map(goal => 
         goal._id === goalId ? { ...goal, status: newStatus } : goal
       ));
-
+      // Update context
+      updateGoal({ ...goalToUpdate, status: newStatus });
       // Update backend with all required fields
       await apiService.put(`/budget-goal/${goalId}`, updateData, { withCredentials: true });
 
@@ -426,7 +427,7 @@ const BudgetGoalsTable = () => {
       });
     } catch (error) {
       // Revert on error
-      setGoals(originalGoals);
+      setAllGoals(originalGoals);
       console.error("Error updating status:", error.response?.data || error.message);
       setToast({
         type: 'error',
@@ -458,12 +459,12 @@ const BudgetGoalsTable = () => {
             <div className="flex items-center gap-3">
               <input
                 type="checkbox"
-                checked={goals && goals.length > 0 && selectedRows.size === goals.length}
+                checked={contextGoals && contextGoals.length > 0 && selectedRows.size === contextGoals.length}
                 onChange={handleSelectAll}
                 className="w-5 h-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
               />
               <span className="text-sm font-medium text-slate-600">
-                Select All ({selectedRows.size} of {goals.length})
+                Select All ({selectedRows.size} of {contextGoals.length})
               </span>
             </div>
           </div>
@@ -474,7 +475,7 @@ const BudgetGoalsTable = () => {
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
               <p className="text-slate-500">Loading goals...</p>
             </div>
-          ) : !goals || goals.length === 0 ? (
+          ) : !contextGoals || contextGoals.length === 0 ? (
             <div className="text-center py-12">
               <div className="text-slate-300 mb-4">
                 <Plus size={48} className="mx-auto" />
@@ -490,7 +491,7 @@ const BudgetGoalsTable = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {goals.map((goal) => (
+              {contextGoals.map((goal) => (
                 <div
                   key={goal._id || goal.id}
                   onClick={() => {

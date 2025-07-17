@@ -16,6 +16,7 @@ import {
   ChevronUp
 } from 'lucide-react';
 import apiService from '../services/apiService';
+import { useBudgetGoals } from '../contexts/BudgetGoalsContext';
 
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('en-US', {
@@ -65,6 +66,7 @@ const periodOptions = [
 ];
 
 const BudgetInsights = ({ onAddBudget = () => {} }) => {
+  const { goals } = useBudgetGoals();
   const [selectedPeriod, setSelectedPeriod] = useState('monthly');
   const [isPeriodOpen, setIsPeriodOpen] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
@@ -75,35 +77,43 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch insights from API using apiService
+  // Calculate insights locally from goals
   useEffect(() => {
-    let isMounted = true;
     setLoading(true);
     setError(null);
-    setInsights(null);
-    const params = { period: selectedPeriod };
-    apiService.get('/budget/goal-insights', { params })
-      .then(res => {
-        console.log("this is data =>",res);
-        if (!isMounted) return;
-        const data = res.data;
-        setInsights(data);
-      })
-      .catch(err => {
-        console.log("shit this is error =>",err);
-        if (!isMounted) return;
-        setError(
-          err.response?.data?.error ||
-          err.message ||
-          'Failed to fetch budget insights'
-        );
-        setInsights(null);
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false);
-      });
-    return () => { isMounted = false; };
-  }, [selectedPeriod]);
+    if (!goals || goals.length === 0) {
+      setInsights(null);
+      setLoading(false);
+      return;
+    }
+    // Filter goals by selectedPeriod if needed (implement your own logic)
+    // For now, use all goals
+    const activeGoals = goals.filter(g => g.status === 'active');
+    const achievedGoals = goals.filter(g => g.status === 'achieved');
+    const failedGoals = goals.filter(g => g.status === 'failed');
+    const terminatedGoals = goals.filter(g => g.status === 'terminated');
+    const totalBudgeted = activeGoals.reduce((sum, g) => sum + (g.amount || 0), 0);
+    const avgProgress = achievedGoals.length > 0 ? achievedGoals.reduce((sum, g) => sum + (g.progress || 0), 0) / achievedGoals.length : 0;
+    // Closest deadline
+    const closestGoals = goals.filter(g => g.date).sort((a, b) => new Date(a.date) - new Date(b.date));
+    const overdueGoals = goals.filter(g => g.date && new Date(g.date) < new Date() && !['achieved', 'terminated', 'failed'].includes(g.status));
+    setInsights({
+      totalGoals: goals.length,
+      statusCounts: {
+        active: activeGoals.length,
+        achieved: achievedGoals.length,
+        failed: failedGoals.length,
+        terminated: terminatedGoals.length,
+        totalActiveBudget: totalBudgeted,
+        avgAchievedProgress: avgProgress
+      },
+      totalActiveBudget: totalBudgeted,
+      avgAchievedProgress: avgProgress,
+      closestGoals,
+      overdueGoals
+    });
+    setLoading(false);
+  }, [goals, selectedPeriod]);
 
   // Close period dropdown on outside click
   useEffect(() => {
@@ -271,7 +281,7 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
               label: 'Total Budgeted',
               color: '#8b5cf6',
               textColor: 'text-purple-700',
-              subtitle: 'Total amount budgeted',
+              subtitle: 'Total amount budgeted for active goals',
               loading,
             }, {
               icon: TrendingUp,

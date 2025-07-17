@@ -1,38 +1,27 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
-import apiService from '../services/apiService';
+import React, { createContext, useContext, useState } from 'react';
 
 const BudgetGoalsContext = createContext();
 
+export function useBudgetGoals() {
+  return useContext(BudgetGoalsContext);
+}
+
 export function BudgetGoalsProvider({ children }) {
-  const [activeGoals, setActiveGoals] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [goals, setGoals] = useState([]);
 
-  /**
-   * Fetch active budget goals from /dashboard/goals
-   * @param {Object} params - Optional query params (e.g., { status, period })
-   */
-  const fetchActiveGoals = useCallback(async (params = { status: 'active', period: 'monthly' }) => {
-    setLoading(true);
-    try {
-      const res = await apiService.get('/dashboard/goals', { params });
-      setActiveGoals(res.data.goals || []);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // Set all goals (after fetching from backend)
+  const setAllGoals = (newGoals) => setGoals(newGoals);
 
-  // Expose a refresh function for convenience
-  const refreshActiveGoals = (params = { status: 'active', period: 'monthly' }) => {
-    fetchActiveGoals(params);
+  // Update a single goal (after local update)
+  const updateGoal = (updatedGoal) => {
+    setGoals(goals =>
+      goals.map(goal => goal._id === updatedGoal._id ? updatedGoal : goal)
+    );
   };
 
   return (
-    <BudgetGoalsContext.Provider value={{ activeGoals, loading, fetchActiveGoals, refreshActiveGoals }}>
+    <BudgetGoalsContext.Provider value={{ goals, setAllGoals, updateGoal }}>
       {children}
     </BudgetGoalsContext.Provider>
   );
-}
-
-export function useBudgetGoals() {
-  return useContext(BudgetGoalsContext);
 } 
