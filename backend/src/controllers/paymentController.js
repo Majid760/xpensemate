@@ -3,9 +3,12 @@ const logger = require('../utils/logger');
 const { validateObjectId } = require('../utils/validators');
 
 const paymentController = {
-  // @desc    Create new payment
-  // @route   POST /api/payments
-  // @access  Private
+  /**
+   * Handles HTTP request to create a new payment.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with the created payment or error.
+   */
   createPayment: async (req, res) => {
     try {
       const { name, amount, date, payer, payment_type, custom_payment_type, notes } = req.body;
@@ -28,9 +31,12 @@ const paymentController = {
     }
   },
 
-  // @desc    Get all payments for a user with pagination and filters
-  // @route   GET /api/payments
-  // @access  Private
+  /**
+   * Handles HTTP request to fetch all payments for a user with pagination and filters.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with payments array, pagination info, or error.
+   */
   getPayments: async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1;
@@ -74,9 +80,12 @@ const paymentController = {
     }
   },
 
-  // @desc    Get single payment by ID
-  // @route   GET /api/payments/:id
-  // @access  Private
+  /**
+   * Handles HTTP request to fetch a single payment by ID.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with the payment or 404/error.
+   */
   getPaymentById: async (req, res) => {
     try {
       const payment = await Payment.findOne({
@@ -96,9 +105,12 @@ const paymentController = {
     }
   },
 
-  // @desc    Update a payment
-  // @route   PUT /api/payments/:id
-  // @access  Private
+  /**
+   * Handles HTTP request to update a payment.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with the updated payment or error.
+   */
   updatePayment: async (req, res) => {
     try {
       const { name, amount, date, payer, payment_type, custom_payment_type, notes } = req.body;
@@ -129,9 +141,12 @@ const paymentController = {
     }
   },
 
-  // @desc    Delete a payment (soft delete)
-  // @route   DELETE /api/payments/:id
-  // @access  Private
+  /**
+   * Handles HTTP request to delete (soft-delete) a payment.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with success message or error.
+   */
   deletePayment: async (req, res) => {
     try {
       const payment = await Payment.findOneAndUpdate(
@@ -151,9 +166,12 @@ const paymentController = {
     }
   },
 
-  // @desc    Get monthly payment summary
-  // @route   GET /api/payments/summary/monthly
-  // @access  Private
+  /**
+   * Handles HTTP request to get a monthly payment summary.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with summary array or error.
+   */
   getMonthlySummary: async (req, res) => {
     try {
       const year = parseInt(req.query.year) || new Date().getFullYear();
@@ -188,9 +206,12 @@ const paymentController = {
     }
   },
 
-  // @desc    Get payments by date ranges
-  // @route   GET /api/payments/date-range
-  // @access  Private
+  /**
+   * Handles HTTP request to fetch payments by date range.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with payments array or error.
+   */
   getPaymentsByDateRange: async (req, res) => {
     try {
       const { startDate, endDate } = req.query;

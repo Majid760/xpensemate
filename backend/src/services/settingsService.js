@@ -16,6 +16,12 @@ class SettingsService {
     ];
   }
 
+  /**
+   * Gets a user by ID.
+   * @param {ObjectId} userId - The user's ID.
+   * @returns {Promise<Object>} The user document.
+   * @throws If user not found.
+   */
   async getUser(userId) {
     try {
       const user = await User.findById(userId);
@@ -29,6 +35,13 @@ class SettingsService {
     }
   }
 
+  /**
+   * Updates a user's settings with provided data.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {Object} updateData - Fields to update.
+   * @returns {Promise<Object>} The updated user document.
+   * @throws If user not found.
+   */
   async updateUser(userId, updateData) {
     try {
       logger.info('Finding user for update:', { userId });
@@ -83,6 +96,11 @@ class SettingsService {
     }
   }
 
+  /**
+   * Calculates the profile completion percentage for a user.
+   * @param {Object} user - The user object.
+   * @returns {number} Profile completion percentage (0-100).
+   */
   calculateProfileCompletion(user) {
     const totalFields = this.requiredFields.length + this.optionalFields.length;
     let completedFields = 0;

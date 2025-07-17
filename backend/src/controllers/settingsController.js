@@ -4,6 +4,12 @@ const logger = require('../utils/logger');
 const authController = require('./authController');
 
 class SettingsController {
+  /**
+   * Handles HTTP request to get the current user and profile completion.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with user object and profile completion or error.
+   */
   async getUser(req, res) {
     try {
       const user = await authController.getUser(req, res);
@@ -19,6 +25,12 @@ class SettingsController {
     }
   }
 
+  /**
+   * Handles HTTP request to update user settings.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with updated user object and profile completion or error.
+   */
   async updateUser(req, res) {
     try {
       logger.info('Updating user settings:', { userId: req.user._id, updateData: req.body });
@@ -44,6 +56,12 @@ class SettingsController {
     }
   }
 
+  /**
+   * Handles HTTP request to upload a profile photo.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with uploaded photo URL or error.
+   */
   async uploadProfilePhoto(req, res) {
     try {
       if (!req.file) {
@@ -68,6 +86,12 @@ class SettingsController {
     }
   }
 
+  /**
+   * Handles HTTP request to upload a cover photo.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with uploaded cover photo URL or error.
+   */
   async uploadCoverPhoto(req, res) {
     try {
       if (!req.file) {
