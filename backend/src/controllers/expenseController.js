@@ -1,4 +1,5 @@
 const ExpenseService = require('../services/expenseService');
+const BudgetGoalService = require('../services/budgetGoalService');
 const logger = require('../utils/logger');
 
 const expenseController = {
@@ -11,6 +12,18 @@ const expenseController = {
   createExpense: async (req, res) => {
     try {
       const expense = await ExpenseService.createExpense(req.user._id, req.body);
+
+      // If expense is linked to a budget goal, update the budget
+      if (req.body.budget_goal_id && expense.amount) {
+        await BudgetGoalService.updateBudgetGoal(
+          req.user._id,
+          req.body.budget_goal_id,
+          { $inc: { remainingBalance: -Math.abs(expense.amount) } } // subtract expense from budget
+        );
+        // Or, if you track currentSpending, you might do:
+        // { $inc: { currentSpending: Math.abs(expense.amount) } }
+      }
+
       res.status(201).json(expense);
     } catch (error) {
       if (error.name === 'ValidationError') {

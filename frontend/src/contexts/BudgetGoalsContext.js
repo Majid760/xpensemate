@@ -8,7 +8,11 @@ export function useBudgetGoals() {
 }
 
 export function BudgetGoalsProvider({ children }) {
+  //ative goals within period 
   const [goals, setGoals] = useState([]);
+
+  // all active goals without period
+  const [activeGoals, setActiveGoals] = useState([]);
 
   // Set all goals (after fetching from backend)
   const setAllGoals = (newGoals) => setGoals(newGoals);
@@ -31,8 +35,24 @@ export function BudgetGoalsProvider({ children }) {
     }
   }, []);
 
+  // Fetch all active goals
+  const fetchActiveGoals = useCallback(async () => {
+    try {
+      const res = await apiService.get('/budget-goals', { params: { status: 'active' } });
+      setActiveGoals(res.data.budgetGoals || []);
+    } catch (error) {
+      setActiveGoals([]);
+      // Optionally handle error here
+    }
+  }, []);
+
+  // Refresh active goals (alias for fetchActiveGoals)
+  const refreshActiveGoals = useCallback(() => {
+    fetchActiveGoals();
+  }, [fetchActiveGoals]);
+
   return (
-    <BudgetGoalsContext.Provider value={{ goals, setAllGoals, updateGoal, fetchGoalsByPeriod }}>
+    <BudgetGoalsContext.Provider value={{ goals, setAllGoals, updateGoal, fetchGoalsByPeriod, activeGoals, fetchActiveGoals, refreshActiveGoals }}>
       {children}
     </BudgetGoalsContext.Provider>
   );
