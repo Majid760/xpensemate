@@ -3,7 +3,6 @@ import Sidebar from '../components/Sidebar';
 import TopBar from '../components/TopBar';
 import styles from './ExpensesPage.module.css';
 import ExpensesTable from '../components/ExpensesTable';
-import ExpenseInsight from '../components/ExpensesInsights';
 
 export default function ExpensesPage({ expanded, setExpanded }) {
   return (

@@ -124,7 +124,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
       {/* Main Card - Project Style */}
       <div className={`relative bg-white/95  overflow-hidden   transition-all duration-300 ${showFullDashboard ? 'p-4' : 'p-2'} overflow-hidden`}>
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-4">
           <div className="flex-1">
             {/* Title section */}
             <div className="flex items-center gap-3 mb-2">

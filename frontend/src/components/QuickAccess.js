@@ -34,7 +34,7 @@ export default function QuickAccess({ onAddPayment, onAddExpense, onAddBudgetGoa
     },
   ];
   return (
-    <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl border border-slate-200/20 font-sans max-w-full transition-all duration-300 relative overflow-hidden   mb-8">
+    <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl border border-slate-200/20 font-sans max-w-full transition-all duration-300 relative overflow-hidden mb-8">
       {/* Gradient top border */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-3xl"></div>
       {/* Header Section */}

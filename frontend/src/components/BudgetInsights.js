@@ -13,7 +13,6 @@ import {
   ChevronUp,
   BarChart3
 } from 'lucide-react';
-import apiService from '../services/apiService';
 import { useBudgetGoals } from '../contexts/BudgetGoalsContext';
 import StatCard from './StatCard';
 
