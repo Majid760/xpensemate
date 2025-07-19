@@ -1,6 +1,5 @@
 const Expense = require('../models/Expense');
-const Category = require('../models/Category');
-const Payment = require('../models/Payment');
+const Wallet = require('../models/Wallet');
 const BudgetGoal = require('../models/BudgetGoal');
 const { validateObjectId } = require('../utils/validators');
 const logger = require('../utils/logger');
@@ -31,7 +30,7 @@ class DashboardController {
       startOfWeek.setUTCDate(endOfToday.getUTCDate() - 6); // Get 7 days back from today
 
       // 1. Get total payments (income) for the week
-      const payments = await Payment.aggregate([
+      const payments = await Wallet.aggregate([
         {
           $match: {
             user_id: userId,
@@ -511,15 +510,15 @@ class DashboardController {
       ] = await Promise.all([
         // Daily
         Expense.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfToday, $lte: endOfToday } }).lean(),
-        Payment.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfToday, $lte: endOfToday } }).lean(),
+        Wallet.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfToday, $lte: endOfToday } }).lean(),
         BudgetGoal.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfToday, $lte: endOfToday } }).lean(),
         // Weekly
         Expense.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfWeek, $lte: endOfToday } }).lean(),
-        Payment.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfWeek, $lte: endOfToday } }).lean(),
+        Wallet.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfWeek, $lte: endOfToday } }).lean(),
         BudgetGoal.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfWeek, $lte: endOfToday } }).lean(),
         // Monthly
         Expense.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfMonth, $lte: endOfMonth } }).lean(),
-        Payment.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfMonth, $lte: endOfMonth } }).lean(),
+        Wallet.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfMonth, $lte: endOfMonth } }).lean(),
         BudgetGoal.find({ user_id: userId, is_deleted: false, created_at: { $gte: startOfMonth, $lte: endOfMonth } }).lean(),
       ]);
 

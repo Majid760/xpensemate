@@ -1,8 +1,8 @@
-const Payment = require('../models/Payment');
+const Wallet = require('../models/Wallet');
 const logger = require('../utils/logger');
 const { validateObjectId } = require('../utils/validators');
 
-const paymentController = {
+const walletController = {
   /**
    * Handles HTTP request to create a new payment.
    * @param {Object} req - Express request object.
@@ -13,7 +13,7 @@ const paymentController = {
     try {
       const { name, amount, date, payer, payment_type, custom_payment_type, notes } = req.body;
       
-      const payment = new Payment({
+      const payment = new Wallet({
         user_id: req.user._id,
         name,
         amount,
@@ -60,10 +60,10 @@ const paymentController = {
       }
 
       // Get total count for pagination
-      const total = await Payment.countDocuments(filter);
+      const total = await Wallet.countDocuments(filter);
 
       // Get payments with pagination
-      const payments = await Payment.find(filter)
+      const payments = await Wallet.find(filter)
         .sort({ created_at: -1 })
         .skip(skip)
         .limit(limit);
@@ -88,14 +88,14 @@ const paymentController = {
    */
   getPaymentById: async (req, res) => {
     try {
-      const payment = await Payment.findOne({
+      const payment = await Wallet.findOne({
         _id: req.params.id,
         user_id: req.user._id,
         is_deleted: false
       });
 
       if (!payment) {
-        return res.status(404).json({ error: 'Payment not found' });
+        return res.status(404).json({ error: 'Wallet not found' });
       }
 
       res.json(payment);
@@ -115,7 +115,7 @@ const paymentController = {
     try {
       const { name, amount, date, payer, payment_type, custom_payment_type, notes } = req.body;
 
-      const payment = await Payment.findOneAndUpdate(
+      const payment = await Wallet.findOneAndUpdate(
         { _id: req.params.id, user_id: req.user._id, is_deleted: false },
         {
           name,
@@ -131,7 +131,7 @@ const paymentController = {
       );
 
       if (!payment) {
-        return res.status(404).json({ error: 'Payment not found' });
+        return res.status(404).json({ error: 'Wallet not found' });
       }
 
       res.json(payment);
@@ -149,17 +149,17 @@ const paymentController = {
    */
   deletePayment: async (req, res) => {
     try {
-      const payment = await Payment.findOneAndUpdate(
+      const payment = await Wallet.findOneAndUpdate(
         { _id: req.params.id, user_id: req.user._id, is_deleted: false },
         { is_deleted: true, updated_at: new Date() },
         { new: true }
       );
 
       if (!payment) {
-        return res.status(404).json({ error: 'Payment not found' });
+        return res.status(404).json({ error: 'Wallet not found' });
       }
 
-      res.json({ message: 'Payment deleted successfully' });
+      res.json({ message: 'Wallet deleted successfully' });
     } catch (error) {
       logger.error('Error deleting payment:', { error: error.message });
       res.status(500).json({ error: 'Failed to delete payment' });
@@ -176,7 +176,7 @@ const paymentController = {
     try {
       const year = parseInt(req.query.year) || new Date().getFullYear();
 
-      const summary = await Payment.aggregate([
+      const summary = await Wallet.aggregate([
         {
           $match: {
             user_id: req.user._id,
@@ -221,7 +221,7 @@ const paymentController = {
         return res.status(400).json({ error: 'Start date and end date are required' });
       }
 
-      const payments = await Payment.find({
+      const payments = await Wallet.find({
         user_id,
         date: {
           $gte: new Date(startDate),
@@ -238,4 +238,4 @@ const paymentController = {
   }
 };
 
-module.exports = paymentController; 
+module.exports = walletController; 

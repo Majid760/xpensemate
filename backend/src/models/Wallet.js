@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const paymentSchema = new mongoose.Schema({
+const walletSchema = new mongoose.Schema({
     user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User', 
@@ -96,10 +96,10 @@ const paymentSchema = new mongoose.Schema({
 });
 
 // Indexes for faster queries
-paymentSchema.index({ user_id: 1, date: -1 });
+walletSchema.index({ user_id: 1, date: -1 });
 
 // Static method to get monthly payment summary
-paymentSchema.statics.getMonthlySummary = async function(userId, year, month) {
+walletSchema.statics.getMonthlySummary = async function(userId, year, month) {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0);
     
@@ -121,11 +121,11 @@ paymentSchema.statics.getMonthlySummary = async function(userId, year, month) {
 };
 
 // Instance method to soft delete
-paymentSchema.methods.softDelete = async function() {
+walletSchema.methods.softDelete = async function() {
     this.is_deleted = true;
     return this.save();
 };
 
-const Payment = mongoose.model('Payment', paymentSchema);
+const Wallet = mongoose.model('Wallet', walletSchema);
 
-module.exports = Payment; 
+module.exports = Wallet; 
