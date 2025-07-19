@@ -1,5 +1,6 @@
-const Payment = require('../models/Payment');
-const logger = require('../utils/logger');
+import PaymentService from '../services/PaymentService.js';
+import WalletService from '../services/WalletService.js';
+import logger from '../utils/logger.js';
 const { validateObjectId } = require('../utils/validators');
 
 const paymentController = {
@@ -11,21 +12,8 @@ const paymentController = {
    */
   createPayment: async (req, res) => {
     try {
-      const { name, amount, date, payer, payment_type, custom_payment_type, notes } = req.body;
-      
-      const payment = new Payment({
-        user_id: req.user._id,
-        name,
-        amount,
-        date,
-        payer,
-        payment_type,
-        custom_payment_type,
-        notes
-      });
-      await payment.save();
-
-      const wallet = await WalletService.getWalletByUserId(req.user._id);
+      const payment = await PaymentService.createPayment(req.user._id, req.body);
+      let wallet = await WalletService.getWalletByUserId(req.user._id);
       if (!wallet) {
         wallet = await WalletService.createWallet(req.user._id, { balance: payment.amount });
       } else {
@@ -48,38 +36,13 @@ const paymentController = {
     try {
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 10;
-      const skip = (page - 1) * limit;
-
-      // Build filter object
-      const filter = { user_id: req.user._id, is_deleted: false };
-
-      // Add date range filter if provided
-      if (req.query.startDate && req.query.endDate) {
-        filter.date = {
-          $gte: new Date(req.query.startDate),
-          $lte: new Date(req.query.endDate)
-        };
-      }
-
-      // Add payment type filter if provided
-      if (req.query.payment_type) {
-        filter.payment_type = req.query.payment_type;
-      }
-
-      // Get total count for pagination
-      const total = await Payment.countDocuments(filter);
-
-      // Get payments with pagination
-      const payments = await Payment.find(filter)
-        .sort({ created_at: -1 })
-        .skip(skip)
-        .limit(limit);
-
+      const { startDate, endDate, payment_type } = req.query;
+      const result = await PaymentService.getPayments(req.user._id, { page, limit, startDate, endDate, payment_type });
       res.json({
-        payments,
-        total,
-        page,
-        totalPages: Math.ceil(total / limit)
+        payments: result.payments,
+        total: result.total,
+        page: result.page,
+        totalPages: result.totalPages
       });
     } catch (error) {
       logger.error('Error fetching payments:', { error: error.message });
@@ -95,16 +58,10 @@ const paymentController = {
    */
   getPaymentById: async (req, res) => {
     try {
-      const payment = await Payment.findOne({
-        _id: req.params.id,
-        user_id: req.user._id,
-        is_deleted: false
-      });
-
+      const payment = await PaymentService.getPaymentById(req.user._id, req.params.id);
       if (!payment) {
         return res.status(404).json({ error: 'Payment not found' });
       }
-
       res.json(payment);
     } catch (error) {
       logger.error('Error fetching payment:', { error: error.message });
@@ -120,27 +77,10 @@ const paymentController = {
    */
   updatePayment: async (req, res) => {
     try {
-      const { name, amount, date, payer, payment_type, custom_payment_type, notes } = req.body;
-
-      const payment = await Payment.findOneAndUpdate(
-        { _id: req.params.id, user_id: req.user._id, is_deleted: false },
-        {
-          name,
-          amount,
-          date,
-          payer,
-          payment_type,
-          custom_payment_type,
-          notes,
-          updated_at: new Date()
-        },
-        { new: true, runValidators: true }
-      );
-
+      const payment = await PaymentService.updatePayment(req.user._id, req.params.id, req.body);
       if (!payment) {
         return res.status(404).json({ error: 'Payment not found' });
       }
-
       res.json(payment);
     } catch (error) {
       logger.error('Error updating payment:', { error: error.message });
@@ -156,16 +96,10 @@ const paymentController = {
    */
   deletePayment: async (req, res) => {
     try {
-      const payment = await Payment.findOneAndUpdate(
-        { _id: req.params.id, user_id: req.user._id, is_deleted: false },
-        { is_deleted: true, updated_at: new Date() },
-        { new: true }
-      );
-
+      const payment = await PaymentService.deletePayment(req.user._id, req.params.id);
       if (!payment) {
         return res.status(404).json({ error: 'Payment not found' });
       }
-
       res.json({ message: 'Payment deleted successfully' });
     } catch (error) {
       logger.error('Error deleting payment:', { error: error.message });
@@ -182,30 +116,7 @@ const paymentController = {
   getMonthlySummary: async (req, res) => {
     try {
       const year = parseInt(req.query.year) || new Date().getFullYear();
-
-      const summary = await Payment.aggregate([
-        {
-          $match: {
-            user_id: req.user._id,
-            date: {
-              $gte: new Date(`${year}-01-01T00:00:00.000Z`),
-              $lte: new Date(`${year}-12-31T23:59:59.999Z`),
-            },
-            is_deleted: false
-          },
-        },
-        {
-          $group: {
-            _id: { $month: '$date' },
-            totalAmount: { $sum: '$amount' },
-            payments: { $push: '$name' }
-          },
-        },
-        {
-          $sort: { '_id': 1 },
-        },
-      ]);
-
+      const summary = await PaymentService.getMonthlySummary(req.user._id, year);
       res.json(summary);
     } catch (error) {
       logger.error('Error fetching monthly summary:', { error: error.message });
@@ -222,21 +133,10 @@ const paymentController = {
   getPaymentsByDateRange: async (req, res) => {
     try {
       const { startDate, endDate } = req.query;
-      const user_id = req.user._id;
-
       if (!startDate || !endDate) {
         return res.status(400).json({ error: 'Start date and end date are required' });
       }
-
-      const payments = await Payment.find({
-        user_id,
-        date: {
-          $gte: new Date(startDate),
-          $lte: new Date(endDate)
-        },
-        is_deleted: false
-      });
-
+      const payments = await PaymentService.getPaymentsByDateRange(req.user._id, startDate, endDate);
       res.json(payments);
     } catch (error) {
       logger.error('Error fetching payments by date range:', { error: error.message });
@@ -245,4 +145,4 @@ const paymentController = {
   }
 };
 
-module.exports = paymentController; 
+export default paymentController; 
