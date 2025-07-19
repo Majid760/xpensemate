@@ -19,13 +19,6 @@ router.delete('/expense/:id', requireAuth,expenseController.deleteExpense);
 
 // expense insight endpoints
 
-/**
- * @route GET /expenses/stats
- * @query {string} period - One of: weekly, monthly, quarterly, yearly, custom
- * @query {string} [startDate] - Required if period=custom
- * @query {string} [endDate] - Required if period=custom
- * @desc Get spending stats and velocity insight for the selected period
- */
 router.get('/expenses/stats', requireAuth, expenseController.getStats);
 
 
