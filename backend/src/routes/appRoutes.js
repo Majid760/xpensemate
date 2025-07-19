@@ -8,7 +8,7 @@ const dashboard = require('./dashboardRoutes');
 const budgetGoalsRoutes = require('./budgetGoalRoutes');
 const settingRoutes = require('./settingsRoutes');
 const expenseRoutes = require('./expenseRoutes.js');
-const walletRoutes = require('./walletRoutes.js');
+const paymentRoutes = require('./paymentRoutes.js');
 
 
 // Public routes (no authentication required)
@@ -35,7 +35,7 @@ router.post('/support/submit', requireAuth, supportController.submitSupportReque
 router.use('/',budgetGoalsRoutes);
 router.use('/',expenseRoutes);
 
-router.use('/',walletRoutes);
+router.use('/',paymentRoutes);
 
 
 // Mount dashboard/user dashboard routes
