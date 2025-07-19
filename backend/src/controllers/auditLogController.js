@@ -1,6 +1,6 @@
-const AuditLog = require('../models/AuditLog');
-const { validateObjectId } = require('../utils/validators');
-const { handleError } = require('../utils/errorHandler');
+import AuditLog from '../models/AuditLog.js';
+import { validateObjectId } from '../utils/validators.js';
+import { handleError } from '../utils/errorHandler.js';
 
 
 const auditLogController = {
@@ -105,4 +105,4 @@ const auditLogController = {
   }
 };
 
-module.exports = auditLogController; 
+export default auditLogController; 

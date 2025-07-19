@@ -1,6 +1,6 @@
 // utils/asyncHandler.js
-const logger = require('./logger');
-const { AppError } = require('./errors');
+import logger from './logger.js';
+import { AppError } from './errors.js';
 
 const handleAsync = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch((error) => {
@@ -25,4 +25,4 @@ const handleAsync = (fn) => (req, res, next) => {
   });
 };
 
-module.exports = { handleAsync };
+export { handleAsync };

@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import paymentController from '../controllers/paymentController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { validatePayment } from '../middleware/validators.js';
+
 const router = express.Router();
-const paymentController = require('../controllers/paymentController');
-const { requireAuth } = require('../middleware/auth');
-const {  validatePayment } = require('../middleware/validators');
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Payment routes  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // Create a new payment
@@ -18,6 +19,4 @@ router.put('/payment/:id', requireAuth, validatePayment, paymentController.updat
 // Delete a payment
 router.delete('/payment/:id', requireAuth, paymentController.deletePayment);
 
-
-
-module.exports = router; 
+export default router; 

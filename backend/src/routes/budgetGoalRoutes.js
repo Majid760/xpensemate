@@ -1,9 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const budgetGoalController = require('../controllers/budgetGoalController');
-const { requireAuth } = require('../middleware/auth');
-const {  validateBudgetGoal } = require('../middleware/validators');
-
+import budgetGoalController from '../controllers/budgetGoalController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { validateBudgetGoal } from '../middleware/validators.js';
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Budget Goals routes  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // Create a new budget goal
@@ -25,4 +24,4 @@ router.get('/budget-goal/:id/expenses', requireAuth, budgetGoalController.getExp
 // Get goal stats by period
 router.get('/budget/goal-insights', requireAuth, budgetGoalController.getGoalStatsByPeriod);
 
-module.exports = router; 
+export default router; 

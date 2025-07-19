@@ -1,8 +1,7 @@
 import PaymentService from '../services/PaymentService.js';
 import WalletService from '../services/WalletService.js';
 import logger from '../utils/logger.js';
-const { validateObjectId } = require('../utils/validators');
-
+import { validateObjectId } from '../utils/validators.js';
 const paymentController = {
   /**
    * Handles HTTP request to create a new payment.

@@ -1,7 +1,7 @@
-const settingsService = require('../services/settingsService');
-const storageService = require('../services/storageService');
-const logger = require('../utils/logger');
-const authController = require('./authController');
+import settingsService from '../services/settingsService.js';
+import storageService from '../services/storageService.js';
+import logger from '../utils/logger.js';
+import authController from './authController.js';
 
 class SettingsController {
   /**
@@ -117,4 +117,4 @@ class SettingsController {
   }
 }
 
-module.exports = new SettingsController(); 
+export default new SettingsController(); 

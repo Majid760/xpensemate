@@ -1,4 +1,4 @@
-const Payment = require('../models/Payment');
+import Payment from '../models/Payment.js';
 
 class PaymentService {
   /**
@@ -120,4 +120,4 @@ class PaymentService {
   }
 }
 
-module.exports = new PaymentService(); 
+export default new PaymentService(); 

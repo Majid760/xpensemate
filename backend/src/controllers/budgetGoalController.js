@@ -1,6 +1,6 @@
-const { handleAsync } = require('../utils/asyncHandler');
-const { validatePaginationParams } = require('../utils/validators');
-const BudgetGoalService = require('../services/budgetGoalService');
+import { handleAsync } from '../utils/asyncHandler.js';
+import { validatePaginationParams } from '../utils/validators.js';
+import BudgetGoalService from '../services/budgetGoalService.js';
 
 const budgetGoalController = {
   /**
@@ -214,4 +214,4 @@ const budgetGoalController = {
   }
 };
 
-module.exports = budgetGoalController;
+export default budgetGoalController;

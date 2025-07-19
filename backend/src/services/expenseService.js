@@ -1,8 +1,8 @@
-const Expense = require('../models/Expense');
-const Category = require('../models/Category');
-const logger = require('../utils/logger');
-const { validateObjectId } = require('../utils/validators');
-const { NotFoundError, ValidationError } = require('../utils/errors');
+import Expense from '../models/Expense.js';
+import Category from '../models/Category.js';
+import logger from '../utils/logger.js';
+import { validateObjectId } from '../utils/validators.js';
+import { NotFoundError, ValidationError } from '../utils/errors.js';
 
 /**
  * Service for managing user expenses.
@@ -562,4 +562,4 @@ async getStatsByPeriod(userId, { period, startDate, endDate }) {
   
 }
 
-module.exports = new ExpenseService(); 
+export default new ExpenseService(); 

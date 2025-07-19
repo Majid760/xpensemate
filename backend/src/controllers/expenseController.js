@@ -1,7 +1,7 @@
-const ExpenseService = require('../services/expenseService');
-const BudgetGoalService = require('../services/budgetGoalService');
-const WalletService = require('../services/WalletService');
-const logger = require('../utils/logger');
+import ExpenseService from '../services/expenseService.js';
+import BudgetGoalService from '../services/budgetGoalService.js';
+import WalletService from '../services/WalletService.js';
+import logger from '../utils/logger.js';
 
 const expenseController = {
   /**
@@ -182,4 +182,4 @@ const expenseController = {
   },
 };
 
-module.exports = expenseController; 
+export default expenseController; 

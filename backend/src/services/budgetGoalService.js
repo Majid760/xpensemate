@@ -1,9 +1,9 @@
-const BudgetGoal = require('../models/BudgetGoal');
-const Category = require('../models/Category');
-const Expense = require('../models/Expense');
-const logger = require('../utils/logger');
-const { validateObjectId } = require('../utils/validators');
-const { NotFoundError, ValidationError } = require('../utils/errors');
+import BudgetGoal from '../models/BudgetGoal.js';
+import Category from '../models/Category.js';
+import Expense from '../models/Expense.js';
+import logger from '../utils/logger.js';
+import { validateObjectId } from '../utils/validators.js';
+import { NotFoundError, ValidationError } from '../utils/errors.js';
 
 class BudgetGoalService {
   /**
@@ -488,5 +488,4 @@ class BudgetGoalService {
   }
 }
 
-
-module.exports = new BudgetGoalService();
+export default new BudgetGoalService();

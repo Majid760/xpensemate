@@ -1,5 +1,5 @@
-const WalletService = require('../services/WalletService');
-const logger = require('../utils/logger');
+import WalletService from '../services/WalletService.js';
+import logger from '../utils/logger.js';
 
 const walletController = {
   // Create a wallet for a user
@@ -88,4 +88,4 @@ const walletController = {
   }
 };
 
-module.exports = walletController; 
+export default walletController; 

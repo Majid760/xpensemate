@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const settingsController = require('../controllers/settingsController');
-const { requireAuth } = require('../middleware/auth');
-const storageService = require('../services/storageService');
+import settingsController from '../controllers/settingsController.js';
+import { requireAuth } from '../middleware/auth.js';
+import storageService from '../services/storageService.js';
 
 // Get user settings
 router.get('/get-user', requireAuth, settingsController.getUser);
@@ -16,6 +16,6 @@ router.post('/upload-profile', requireAuth, storageService.profileUpload.single(
 // Upload cover photo
 router.post('/upload-cover', requireAuth, storageService.coverUpload.single('photo'), settingsController.uploadCoverPhoto);
 
-module.exports = router; 
+export default router; 
 
 

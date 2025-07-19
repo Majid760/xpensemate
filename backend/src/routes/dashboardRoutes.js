@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { requireAuth } = require('../middleware/auth');
-const dashboardController = require('../controllers/dashboardController');
+import { requireAuth } from '../middleware/auth.js';
+import dashboardController from '../controllers/dashboardController.js';
 
 // Dashboard Stats APIs
 router.get('/expenses/weekly-stats', requireAuth, dashboardController.getWeeklyStats);
@@ -10,7 +10,6 @@ router.get('/dashboard/budget-goals/stats', requireAuth, dashboardController.get
 router.get('/dashboard/expense/stats', requireAuth, dashboardController.getWeeklyExpenseAnalytics);
 router.get('/dashboard/activity', requireAuth, dashboardController.getUserActivityByPeriod);
 
-
 router.get('/dashboard/goals',requireAuth, dashboardController.getGoalsByStatusAndPeriod);
 
-module.exports = router;
+export default router;

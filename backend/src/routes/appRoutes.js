@@ -1,15 +1,14 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const authController = require('../controllers/authController');
-const supportController = require('../controllers/supportController');
-const { requireAuth } = require('../middleware/auth');
-const utilityController = require('../controllers/utility_controller');
-const dashboard = require('./dashboardRoutes');
-const budgetGoalsRoutes = require('./budgetGoalRoutes');
-const settingRoutes = require('./settingsRoutes');
-const expenseRoutes = require('./expenseRoutes.js');
-const paymentRoutes = require('./paymentRoutes.js');
-
+import authController from '../controllers/authController.js';
+import supportController from  '../controllers/supportController.js';
+import { requireAuth } from '../middleware/auth.js';
+import utilityController from '../controllers/utility_controller.js';
+import dashboard from './dashboardRoutes.js';
+import budgetGoalsRoutes from './budgetGoalRoutes.js';
+import settingRoutes from './settingsRoutes.js';
+import expenseRoutes from './expenseRoutes.js';
+import paymentRoutes from './paymentRoutes.js';
 
 // Public routes (no authentication required)
 router.post('/auth/register', authController.register);
@@ -37,11 +36,10 @@ router.use('/',expenseRoutes);
 
 router.use('/',paymentRoutes);
 
-
 // Mount dashboard/user dashboard routes
 router.use('/', dashboard);
 
 // Mount setting routes
 router.use('/settings',settingRoutes);
 
-module.exports = router;
+export default router;

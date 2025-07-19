@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const auditLogController = require('../controllers/auditLogController');
-const { authenticate, authorize } = require('../middleware/auth');
+import auditLogController from '../controllers/auditLogController.js';
+import { authenticate, authorize } from '../middleware/auth.js';
 
 // Apply authentication middleware to all routes
 router.use(authenticate);
@@ -18,4 +18,4 @@ router.get('/document/:collection_name/:document_id', auditLogController.getDocu
 // Get audit logs for a specific user
 router.get('/user/:user_id', auditLogController.getUserLogs);
 
-module.exports = router; 
+export default router; 

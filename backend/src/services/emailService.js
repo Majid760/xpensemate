@@ -1,7 +1,7 @@
-const nodemailer = require('nodemailer');
-const { RateLimiterMemory } = require('rate-limiter-flexible');
-const { validateEmail } = require('../utils/validators');
-const logger = require('../utils/logger');
+import nodemailer from 'nodemailer';
+import { RateLimiterMemory } from 'rate-limiter-flexible';
+import { validateEmail } from '../utils/validators.js';
+import logger from '../utils/logger.js';
 
 // Rate limiter configuration
 const rateLimiter = new RateLimiterMemory({
@@ -371,4 +371,4 @@ class EmailService {
   }
 }
 
-module.exports = new EmailService(); 
+export default new EmailService(); 

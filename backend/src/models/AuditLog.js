@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const auditLogSchema = new mongoose.Schema({
     user_id: { 
@@ -34,4 +34,4 @@ auditLogSchema.index({ collection_name: 1, document_id: 1 });
 
 const AuditLog = mongoose.model('AuditLog', auditLogSchema);
 
-module.exports = AuditLog; 
+export default AuditLog; 

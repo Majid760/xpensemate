@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const budgetGoalSchema = new mongoose.Schema({
   user_id: {
@@ -122,4 +122,4 @@ budgetGoalSchema.methods.softDelete = async function() {
 
 const BudgetGoal = mongoose.model('BudgetGoal', budgetGoalSchema);
 
-module.exports = BudgetGoal; 
+export default BudgetGoal; 

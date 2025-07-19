@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -81,7 +81,4 @@ const sendPasswordResetEmail = async (email, token) => {
   }
 };
 
-module.exports = {
-  sendVerificationEmail,
-  sendPasswordResetEmail
-}; 
+export { sendVerificationEmail, sendPasswordResetEmail }; 

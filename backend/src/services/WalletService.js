@@ -1,4 +1,4 @@
-const Wallet = require('../models/Wallet');
+import Wallet from '../models/Wallet.js';
 
 class WalletService {
   async createWallet(userId, data = {}) {
@@ -44,4 +44,4 @@ class WalletService {
   }
 }
 
-module.exports = new WalletService(); 
+export default new WalletService(); 

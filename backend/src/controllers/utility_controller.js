@@ -1,4 +1,4 @@
-const Subscription = require('../models/NewsSubscription');
+import Subscription from '../models/NewsSubscription.js';
 
 class UtilityController {
   async subscribeEmail(req, res) {
@@ -21,4 +21,4 @@ class UtilityController {
   }
 }
 
-module.exports = new UtilityController();
+export default new UtilityController();

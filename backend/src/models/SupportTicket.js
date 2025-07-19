@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const supportTicketSchema = new mongoose.Schema({
     user_id: { 
@@ -79,4 +79,4 @@ supportTicketSchema.pre('save', function(next) {
 
 const SupportTicket = mongoose.model('SupportTicket', supportTicketSchema);
 
-module.exports = SupportTicket; 
+export default SupportTicket; 

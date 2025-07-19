@@ -1,5 +1,5 @@
-const emailService = require('../services/emailService');
-const logger = require('../utils/logger');
+import emailService from '../services/emailService.js';
+import logger from '../utils/logger.js';
 
 class SupportController {
   /**
@@ -71,4 +71,4 @@ class SupportController {
   }
 }
 
-module.exports = new SupportController(); 
+export default new SupportController(); 

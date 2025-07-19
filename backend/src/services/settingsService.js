@@ -1,5 +1,6 @@
-const User = require('../models/User');
-const logger = require('../utils/logger');
+
+import User from '../models/User.js';
+import logger from '../utils/logger.js';
 
 class SettingsService {
   constructor() {
@@ -125,4 +126,4 @@ class SettingsService {
   }
 }
 
-module.exports = new SettingsService(); 
+export default  new SettingsService();
