@@ -24,6 +24,13 @@ const paymentController = {
         notes
       });
       await payment.save();
+
+      const wallet = await WalletService.getWalletByUserId(req.user._id);
+      if (!wallet) {
+        wallet = await WalletService.createWallet(req.user._id, { balance: payment.amount });
+      } else {
+        wallet = await WalletService.incrementBalance(req.user._id, payment.amount);
+      }
       res.status(201).json(payment);
     } catch (error) {
       logger.error('Error creating payment:', { error: error.message });

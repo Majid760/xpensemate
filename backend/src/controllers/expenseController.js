@@ -1,5 +1,6 @@
 const ExpenseService = require('../services/expenseService');
 const BudgetGoalService = require('../services/budgetGoalService');
+const WalletService = require('../services/WalletService');
 const logger = require('../utils/logger');
 
 const expenseController = {
@@ -11,17 +12,28 @@ const expenseController = {
    */
   createExpense: async (req, res) => {
     try {
+      // 1. Check wallet and balance
+      const wallet = await WalletService.getWalletByUserId(req.user._id);
+      if (!wallet) {
+        return res.status(400).json({ error: 'Wallet not found for user.' });
+      }
+      if (wallet.balance < req.body.amount) {
+        return res.status(400).json({ error: 'Insufficient wallet balance.' });
+      }
+
+      // 2. Create the expense
       const expense = await ExpenseService.createExpense(req.user._id, req.body);
 
-      // If expense is linked to a budget goal, update the budget
+      // 3. Subtract from wallet
+      await WalletService.decrementBalance(req.user._id, expense.amount);
+
+      // 4. (Optional) Update budget goal if needed
       if (req.body.budget_goal_id && expense.amount) {
         await BudgetGoalService.updateBudgetGoal(
           req.user._id,
           req.body.budget_goal_id,
-          { $inc: { remainingBalance: -Math.abs(expense.amount) } } // subtract expense from budget
+          { $inc: { remainingBalance: -Math.abs(expense.amount) } }
         );
-        // Or, if you track currentSpending, you might do:
-        // { $inc: { currentSpending: Math.abs(expense.amount) } }
       }
 
       res.status(201).json(expense);
