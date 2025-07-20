@@ -105,63 +105,57 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
   };
 
   return (
-    <div className="relative bg-gradient-to-br from-slate-50 to-white backdrop-blur-sm transition-all duration-500 p-4 mb-6 mt-2 py-6 sm:px-6 lg:px-8">
+    <div className="relative bg-gradient-to-br from-slate-50 to-white backdrop-blur-sm transition-all duration-500 p-4 mb-6 mt-2 py-4 sm:px-6 lg:px-8">
       {/* Header Row */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-            <DollarSign className="text-white" size={28} />
-          </div>
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-1">
-              Payment Insights
-            </h2>
-            <p className="text-slate-600 text-base">Comprehensive overview of your payment analytics</p>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-4">
+        <div className="flex-1">
+          {/* Title section */}
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+              <DollarSign size={20} className="text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">
+                Payment Insights
+              </h1>
+              <p className="text-slate-600 text-sm mt-1">Comprehensive overview of your payment analytics</p>
+            </div>
           </div>
         </div>
-        
+        {/* Action buttons */}
         <div className="flex flex-wrap items-center gap-4">
           <button
             onClick={onAddPayment}
-            className="group flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 focus:ring-4 focus:ring-indigo-300/50 focus:outline-none relative overflow-hidden"
+            className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white font-semibold text-base shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-200 focus:ring-2 focus:ring-indigo-300 focus:outline-none"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-            <Plus size={22} className="relative z-10" />
-            <span className="relative z-10">Add Payment</span>
+            <Plus size={20} />
+            Add Payment
           </button>
-          
-          <div className="flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-2 shadow-lg">
+          <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-2 py-1 shadow-sm">
             <button
               onClick={() => setShowDetails(v => !v)}
-              className="flex items-center gap-3 px-6 py-3 rounded-xl font-bold text-slate-700 bg-white hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 focus:ring-3 focus:ring-indigo-200 focus:outline-none shadow-sm hover:shadow-md"
+              className="flex items-center gap-2 px-4 py-2 rounded-full font-medium text-slate-700 bg-white hover:bg-slate-100 transition-colors duration-200 focus:ring-2 focus:ring-indigo-200 focus:outline-none"
             >
-              <span className={`transition-all duration-300 ${showDetails ? 'rotate-180 text-indigo-600' : 'rotate-0'}`}>
-                {showDetails ? <ChevronUp size={20} /> : <Eye size={20} />}
-              </span>
-              <span className="hidden sm:inline">{showDetails ? 'Hide Details' : 'View Details'}</span>
+              <span className={`transition-transform duration-200 ${showDetails ? 'rotate-180' : 'rotate-0'}`}>{showDetails ? <ChevronUp size={18} /> : <Eye size={18} />}</span>
+              <span className="hidden sm:inline">{showDetails ? "Hide Details" : "View Details"}</span>
             </button>
-            
+            {/* Period dropdown (reuse the same as ExpensesInsights) */}
             <div className="relative" ref={periodRef}>
               <button
                 type="button"
-                className="flex items-center gap-3 bg-white border border-slate-200 rounded-xl px-6 py-3 font-bold text-slate-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100 focus:outline-none focus:ring-3 focus:ring-indigo-200 shadow-sm hover:shadow-md"
-                onClick={() => setIsPeriodOpen(o => !o)}
+                className="flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-2 font-medium text-slate-700 transition-all duration-200 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                onClick={() => setIsPeriodOpen((o) => !o)}
               >
-                <span>{periodOptions.find(opt => opt.value === selectedPeriod)?.label || 'Monthly'}</span>
-                <ChevronDown size={18} className={`transition-transform duration-300 ${isPeriodOpen ? 'rotate-180 text-indigo-600' : ''}`} />
+                <span>{periodOptions.find(opt => opt.value === selectedPeriod)?.label || 'Period'}</span>
+                <ChevronDown size={16} className={`transition-transform duration-200 ${isPeriodOpen ? 'rotate-180' : ''}`} />
               </button>
-              
               {isPeriodOpen && (
-                <div className="absolute mt-3 right-0 w-48 bg-white/95 backdrop-blur-lg border border-slate-200 rounded-2xl shadow-2xl z-20 overflow-hidden animate-in slide-in-from-top-2 duration-300">
+                <div className="absolute mt-2 right-0 w-44 bg-white border border-slate-200 rounded-2xl shadow-xl z-20 overflow-hidden animate-fadeIn">
                   {periodOptions.map(opt => (
                     <button
                       key={opt.value}
                       type="button"
-                      className={`w-full text-left px-6 py-4 text-sm font-bold transition-all duration-200 ${
-                        selectedPeriod === opt.value 
-                          ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white' 
-                          : 'text-slate-700 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:text-indigo-700'
-                      }`}
+                      className={`w-full text-left px-4 py-3 text-sm font-semibold capitalize transition-colors duration-150 ${selectedPeriod === opt.value ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-indigo-50 hover:text-indigo-600'}`}
                       onClick={() => {
                         setSelectedPeriod(opt.value);
                         setIsPeriodOpen(false);

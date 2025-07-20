@@ -1,4 +1,5 @@
 import Payment from '../models/Payment.js';
+import WalletService from './WalletService.js';
 
 class PaymentService {
   /**
@@ -117,6 +118,122 @@ class PaymentService {
       date: { $gte: new Date(startDate), $lte: new Date(endDate) },
       is_deleted: false
     });
+  }
+
+  /**
+   * Gets payment statistics for a user for a given period.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {Object} options - { period: string, startDate?: string|Date, endDate?: string|Date }
+   * @returns {Promise<Object>} Stats: totalAmount, avgPayment, totalPayments, walletBalance, startDate, endDate
+   */
+  async getStatsByPeriod(userId, { period, startDate, endDate }) {
+    const ALLOWED_PERIODS = ['weekly', 'monthly', 'quarterly', 'yearly', 'custom'];
+    if (!ALLOWED_PERIODS.includes(period)) {
+      throw new Error(`Invalid period. Must be one of: ${ALLOWED_PERIODS.join(', ')}`);
+    }
+    // Calculate date range
+    const now = new Date();
+    const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    let rangeStart, rangeEnd;
+    if (period === 'custom') {
+      if (!startDate || !endDate) {
+        throw new Error('Custom period requires both startDate and endDate');
+      }
+      rangeStart = new Date(startDate);
+      rangeEnd = new Date(endDate);
+    } else {
+      rangeEnd = new Date(todayUTC);
+      switch (period) {
+        case 'weekly':
+          rangeStart = new Date(todayUTC);
+          rangeStart.setUTCDate(todayUTC.getUTCDate() - 6);
+          break;
+        case 'monthly':
+          rangeStart = new Date(todayUTC);
+          rangeStart.setUTCDate(todayUTC.getUTCDate() - 29);
+          break;
+        case 'quarterly':
+          rangeStart = new Date(todayUTC);
+          rangeStart.setUTCDate(todayUTC.getUTCDate() - 89);
+          break;
+        case 'yearly':
+          rangeStart = new Date(todayUTC);
+          rangeStart.setUTCDate(todayUTC.getUTCDate() - 364);
+          break;
+      }
+    }
+    // Query payments in range
+    const payments = await Payment.find({
+      user_id: userId,
+      date: { $gte: rangeStart, $lte: rangeEnd },
+      is_deleted: false
+    });
+    const totalAmount = payments.reduce((sum, p) => sum + (p.amount || 0), 0);
+    const totalPayments = payments.length;
+    const days = Math.max(1, Math.ceil((rangeEnd - rangeStart) / (1000 * 60 * 60 * 24)) + 1);
+    const avgPayment = totalPayments > 0 ? totalAmount / totalPayments : 0;
+    // Get wallet balance
+    const wallet = await WalletService.getWalletByUserId(userId);
+    const walletBalance = wallet ? wallet.balance : 0;
+
+    // 1. Monthly Revenue Trend (for the year of rangeEnd)
+    const year = rangeEnd.getFullYear();
+    const monthlyTrendAgg = await Payment.aggregate([
+      {
+        $match: {
+          user_id: userId,
+          date: {
+            $gte: new Date(`${year}-01-01T00:00:00.000Z`),
+            $lte: new Date(`${year}-12-31T23:59:59.999Z`)
+          },
+          is_deleted: false
+        }
+      },
+      {
+        $group: {
+          _id: { $month: '$date' },
+          totalAmount: { $sum: '$amount' }
+        }
+      },
+      { $sort: { '_id': 1 } }
+    ]);
+    const monthlyTrend = Array.from({ length: 12 }, (_, i) => {
+      const found = monthlyTrendAgg.find(r => r._id === i + 1);
+      return { month: i + 1, totalAmount: found ? found.totalAmount : 0 };
+    });
+
+    // 2. Revenue Sources Breakdown (for the selected period)
+    const sourcesAgg = await Payment.aggregate([
+      {
+        $match: {
+          user_id: userId,
+          date: { $gte: rangeStart, $lte: rangeEnd },
+          is_deleted: false
+        }
+      },
+      {
+        $group: {
+          _id: '$payment_type',
+          totalAmount: { $sum: '$amount' }
+        }
+      }
+    ]);
+    const revenueSources = sourcesAgg.map(r => ({
+      payment_type: r._id || 'Other',
+      totalAmount: r.totalAmount
+    }));
+
+    return {
+      period,
+      startDate: rangeStart,
+      endDate: rangeEnd,
+      totalAmount,
+      avgPayment,
+      totalPayments,
+      walletBalance,
+      monthlyTrend,      // <--- for line chart
+      revenueSources     // <--- for donut chart
+    };
   }
 }
 

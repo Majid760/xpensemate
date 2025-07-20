@@ -141,6 +141,26 @@ const paymentController = {
       logger.error('Error fetching payments by date range:', { error: error.message });
       res.status(500).json({ error: 'Failed to fetch payments by date range!' });
     }
+  },
+
+  /**
+   * Handles HTTP request to get payment statistics for a given period.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with payment stats or error.
+   */
+  getPaymentStatsByPeriod: async (req, res) => {
+    try {
+      const { period, startDate, endDate } = req.query;
+      if (!period) {
+        return res.status(400).json({ error: 'Period is required' });
+      }
+      const stats = await PaymentService.getStatsByPeriod(req.user._id, { period, startDate, endDate });
+      res.json(stats);
+    } catch (error) {
+      logger.error('Error fetching payment stats by period:', { error: error.message });
+      res.status(500).json({ error: 'Failed to fetch payment stats by period' });
+    }
   }
 };
 

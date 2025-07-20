@@ -18,5 +18,7 @@ router.get('/payment/:id', requireAuth, paymentController.getPaymentById);
 router.put('/payment/:id', requireAuth, validatePayment, paymentController.updatePayment);
 // Delete a payment
 router.delete('/payment/:id', requireAuth, paymentController.deletePayment);
+// Get payment stats by period
+router.get('/payments/stats', requireAuth, paymentController.getPaymentStatsByPeriod);
 
 export default router; 
