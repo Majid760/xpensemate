@@ -223,17 +223,93 @@ class PaymentService {
       totalAmount: r.totalAmount
     }));
 
-    return {
-      period,
-      startDate: rangeStart,
-      endDate: rangeEnd,
-      totalAmount,
-      avgPayment,
-      totalPayments,
-      walletBalance,
-      monthlyTrend,      // <--- for line chart
-      revenueSources     // <--- for donut chart
-    };
+    // Calculate previous period for growth
+    let prevRangeStart, prevRangeEnd;
+    if (period !== 'custom') {
+      prevRangeEnd = new Date(rangeStart);
+      prevRangeEnd.setDate(prevRangeEnd.getDate() - 1);
+      switch (period) {
+        case 'weekly':
+          prevRangeStart = new Date(prevRangeEnd);
+          prevRangeStart.setDate(prevRangeEnd.getDate() - 6);
+          break;
+        case 'monthly':
+          prevRangeStart = new Date(prevRangeEnd);
+          prevRangeStart.setDate(prevRangeEnd.getDate() - 29);
+          break;
+        case 'quarterly':
+          prevRangeStart = new Date(prevRangeEnd);
+          prevRangeStart.setDate(prevRangeEnd.getDate() - 89);
+          break;
+        case 'yearly':
+          prevRangeStart = new Date(prevRangeEnd);
+          prevRangeStart.setDate(prevRangeEnd.getDate() - 364);
+          break;
+      }
+      // Query previous period payments (same length as current period)
+      const prevPayments = await Payment.find({
+        user_id: userId,
+        date: { $gte: prevRangeStart, $lte: prevRangeEnd },
+        is_deleted: false
+      });
+      const prevTotalAmount = prevPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
+      // Calculate growth
+      let periodGrowth = 0;
+      if (prevTotalAmount > 0) {
+        periodGrowth = ((totalAmount - prevTotalAmount) / prevTotalAmount) * 100;
+      } else if (totalAmount > 0) {
+        periodGrowth = 100;
+      } else {
+        periodGrowth = 0;
+      }
+      // Calculate top payer for the period using 'payer' field
+      const topPayerAgg = await Payment.aggregate([
+        {
+          $match: {
+            user_id: userId,
+            date: { $gte: rangeStart, $lte: rangeEnd },
+            is_deleted: false
+          }
+        },
+        {
+          $group: {
+            _id: '$payer',
+            totalAmount: { $sum: '$amount' }
+          }
+        },
+        { $sort: { totalAmount: -1 } },
+        { $limit: 1 }
+      ]);
+      const topPayer = topPayerAgg[0]?._id || null;
+      const topPayerAmount = topPayerAgg[0]?.totalAmount || 0;
+      return {
+        period,
+        startDate: rangeStart,
+        endDate: rangeEnd,
+        totalAmount,
+        avgPayment,
+        totalPayments,
+        walletBalance,
+        monthlyTrend,
+        revenueSources,
+        periodGrowth,
+        topPayer,
+        topPayerAmount
+      };
+    } else {
+      // For custom period, skip growth and top payer
+      return {
+        period,
+        startDate: rangeStart,
+        endDate: rangeEnd,
+        totalAmount,
+        avgPayment,
+        totalPayments,
+        walletBalance,
+        monthlyTrend,
+        revenueSources
+      };
+    }
   }
 }
 

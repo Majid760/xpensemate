@@ -30,6 +30,7 @@ const PaymentsTable = () => {
   const [dateFilter] = useState({ startDate: null, endDate: null });
   const [amountFilter] = useState({ min: null, max: null });
   const [showInsights, setShowInsights] = useState(true);
+  const [selectedPeriod, setSelectedPeriod] = useState('weekly'); // Default to weekly
 
   // Mock data for demonstration
   useEffect(() => {
@@ -235,9 +236,9 @@ const PaymentsTable = () => {
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-3xl" />
 
         <PaymentInsight
-          insights={insights}
-          loading={loading}
           onAddPayment={() => setShowPaymentDialog(true)}
+          selectedPeriod={selectedPeriod}
+          setSelectedPeriod={setSelectedPeriod}
         />
        
 

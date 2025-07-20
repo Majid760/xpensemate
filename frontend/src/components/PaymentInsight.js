@@ -1,9 +1,8 @@
-import React, { useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Wallet, TrendingUp, BarChart3, User, DollarSign, Plus, Eye, ChevronUp, ChevronDown } from 'lucide-react';
 import StatCard from "./StatCard";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, Legend, AreaChart, Area, LineChart, Line } from 'recharts';
-
-
+import { ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, Legend, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
+import apiService from '../services/apiService';
 
 const periodOptions = [
   { value: 'weekly', label: 'Weekly' },
@@ -12,24 +11,6 @@ const periodOptions = [
   { value: 'yearly', label: 'Yearly' },
 ];
 
-const dummyMonthlyData = [
-  { month: 'Jan', total: 1200, growth: 5.2 },
-  { month: 'Feb', total: 1500, growth: 8.1 },
-  { month: 'Mar', total: 1100, growth: -2.3 },
-  { month: 'Apr', total: 1800, growth: 12.4 },
-  { month: 'May', total: 1600, growth: 6.8 },
-  { month: 'Jun', total: 2000, growth: 15.2 },
-];
-
-const dummyCategoryData = [
-  { name: 'Salary', value: 4000, percentage: 57.1 },
-  { name: 'Bonus', value: 1200, percentage: 17.1 },
-  { name: 'Loan', value: 800, percentage: 11.4 },
-  { name: 'Tax', value: 600, percentage: 8.6 },
-  { name: 'Other', value: 400, percentage: 5.7 },
-];
-
-const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 const GRADIENT_COLORS = [
   ['#6366f1', '#8b5cf6'],
   ['#10b981', '#06d6a0'],
@@ -38,14 +19,6 @@ const GRADIENT_COLORS = [
   ['#8b5cf6', '#a78bfa']
 ];
 
-const dummyPayerData = [
-  { payer: 'Tech Corp', amount: 3500, trend: 12.5 },
-  { payer: 'Bank', amount: 2000, trend: -3.2 },
-  { payer: 'Client A', amount: 1200, trend: 8.7 },
-  { payer: 'Client B', amount: 900, trend: 15.3 },
-];
-
-// Custom tooltip components
 const CustomTooltip = ({ active, payload, label, formatter }) => {
   if (active && payload && payload.length) {
     return (
@@ -62,14 +35,57 @@ const CustomTooltip = ({ active, payload, label, formatter }) => {
   return null;
 };
 
-function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSelectedPeriod }) {
+function PaymentInsight({ onAddPayment, selectedPeriod, setSelectedPeriod }) {
+  const [insights, setInsights] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Fetch payment stats when selectedPeriod changes
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchStats() {
+      setLoading(true);
+      setError(null);
+      try {
+        console.log('wowowo this sis data 123');
+
+        const res = await apiService.get(`/payments/stats?period=${selectedPeriod}`);
+        console.log('wowowo this sis data', res.data);
+        if (isMounted) setInsights(res.data);
+      } catch (err) {
+        if (isMounted) {
+          setError(
+            err.response?.data?.error ||
+            err.message ||
+            'Failed to load payment insights.'
+          );
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+    if (selectedPeriod) fetchStats();
+    return () => { isMounted = false; };
+  }, [selectedPeriod]);
+
+  // Map API data for charts
+  const monthlyData = insights?.monthlyTrend?.map((item) => ({
+    month: new Date(2000, item.month - 1, 1).toLocaleString('default', { month: 'short' }),
+    total: item.totalAmount,
+  })) || [];
+
+  const categoryData = insights?.revenueSources?.map((item) => ({
+    name: item.payment_type,
+    value: item.totalAmount,
+  })) || [];
+
   const [showDetails, setShowDetails] = useState(false);
   const periodRef = useRef(null);
   const [isPeriodOpen, setIsPeriodOpen] = useState(false);
   const detailsRef = useRef(null);
 
   // Close period dropdown on outside click
-  React.useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (periodRef.current && !periodRef.current.contains(event.target)) {
         setIsPeriodOpen(false);
@@ -78,8 +94,6 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  if (!insights) return null;
 
   const formatCurrency = (amount) => {
     const numericAmount = parseFloat(amount);
@@ -92,17 +106,18 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
     }).format(numericAmount);
   };
 
-  // Mock insights data for demo
-  const mockInsights = {
-    totalAmount: 12500,
-    paymentCount: 24,
-    monthlyGrowth: 12.5,
-    thisMonthTotal: 2800,
-    averageAmount: 520,
-    topPayer: 'Tech Corp',
-    topPayerAmount: 3500,
-    ...insights
-  };
+  // Error state
+  if (error) {
+    return (
+      <div className="p-6 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold">
+        {error}
+      </div>
+    );
+  }
+
+  // Do nothing here; always render the cards and pass loading to StatCard
+
+  // Always render cards, even if insights is null/undefined
 
   return (
     <div className="relative bg-gradient-to-br from-slate-50 to-white backdrop-blur-sm transition-all duration-500 p-4 mb-6 mt-2 py-4 sm:px-6 lg:px-8">
@@ -139,7 +154,7 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
               <span className={`transition-transform duration-200 ${showDetails ? 'rotate-180' : 'rotate-0'}`}>{showDetails ? <ChevronUp size={18} /> : <Eye size={18} />}</span>
               <span className="hidden sm:inline">{showDetails ? "Hide Details" : "View Details"}</span>
             </button>
-            {/* Period dropdown (reuse the same as ExpensesInsights) */}
+            {/* Period dropdown */}
             <div className="relative" ref={periodRef}>
               <button
                 type="button"
@@ -176,24 +191,24 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
         <StatCard
           icon={Wallet}
           label="Total Revenue"
-          value={formatCurrency(mockInsights.totalAmount)}
-          subtitle={`From ${mockInsights.paymentCount} payments`}
+          value={insights && typeof insights.walletBalance === 'number' ? formatCurrency(insights.walletBalance) : 'N/A'}
+          subtitle="Wallet Balance"
           color="#6366f1"
           loading={loading}
         />
         <StatCard
           icon={TrendingUp}
-          label="Monthly Growth"
-          value={`${mockInsights.monthlyGrowth >= 0 ? '+' : ''}${mockInsights.monthlyGrowth.toFixed(1)}%`}
-          subtitle={`This month: ${formatCurrency(mockInsights.thisMonthTotal)}`}
+          label={`Growth (${periodOptions.find(opt => opt.value === selectedPeriod)?.label || ''})`}
+          value={insights && typeof insights.periodGrowth === 'number' ? `${insights.periodGrowth >= 0 ? '+' : ''}${insights.periodGrowth.toFixed(1)}%` : 'N/A'}
+          subtitle={insights && typeof insights.periodGrowth === 'number' ? (insights.periodGrowth >= 0 ? 'Increase from previous period' : 'Decrease from previous period') : ''}
           color="#10b981"
-          textColor={mockInsights.monthlyGrowth >= 0 ? 'text-green-600' : 'text-red-600'}
+          textColor={insights && typeof insights.periodGrowth === 'number' && insights.periodGrowth >= 0 ? 'text-green-600' : 'text-red-600'}
           loading={loading}
         />
         <StatCard
           icon={BarChart3}
           label="Average Payment"
-          value={formatCurrency(mockInsights.averageAmount)}
+          value={insights && typeof insights.avgPayment === 'number' ? formatCurrency(insights.avgPayment) : 'N/A'}
           subtitle="Per transaction"
           color="#f59e0b"
           loading={loading}
@@ -201,14 +216,14 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
         <StatCard
           icon={User}
           label="Top Payer"
-          value={mockInsights.topPayer}
-          subtitle={formatCurrency(mockInsights.topPayerAmount)}
+          value={insights && insights.topPayer ? insights.topPayer : 'N/A'}
+          subtitle={insights && typeof insights.topPayerAmount === 'number' && insights.topPayerAmount > 0 ? formatCurrency(insights.topPayerAmount) : ''}
           color="#8b5cf6"
           loading={loading}
         />
       </div>
 
-      {/* Enhanced Animated Details Section */}
+      {/* Details Section */}
       <div
         ref={detailsRef}
         className={`transition-all duration-700 ease-in-out overflow-hidden ${
@@ -230,12 +245,10 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
                   <BarChart3 className="text-white" size={20} />
                 </div>
                 Monthly Revenue Trend
-                <div className="ml-auto text-sm text-green-600 font-semibold bg-green-100 px-3 py-1 rounded-full">
-                  +15.2% this month
-                </div>
+                {/* You can add a dynamic growth badge here if you calculate it */}
               </h3>
               <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={dummyMonthlyData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                <AreaChart data={monthlyData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
@@ -286,7 +299,7 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
                     ))}
                   </defs>
                   <Pie
-                    data={dummyCategoryData}
+                    data={categoryData}
                     cx="50%"
                     cy="50%"
                     innerRadius={70}
@@ -297,7 +310,7 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
                     label={({ name, value }) => `${name}: ${formatCurrency(value)}`}
                     isAnimationActive={true}
                   >
-                    {dummyCategoryData.map((entry, index) => (
+                    {categoryData.map((entry, index) => (
                       <Cell 
                         key={`cell-${index}`} 
                         fill={`url(#gradient${index})`}
@@ -310,7 +323,7 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
                   <Legend 
                     verticalAlign="bottom" 
                     height={36}
-                    formatter={(value, entry) => (
+                    formatter={(value) => (
                       <span className="text-sm font-semibold text-slate-700">{value}</span>
                     )}
                   />
@@ -318,7 +331,6 @@ function PaymentInsight({ insights, loading, onAddPayment, selectedPeriod, setSe
               </ResponsiveContainer>
             </div>
           </div>
-        
         </div>
       </div>
     </div>
