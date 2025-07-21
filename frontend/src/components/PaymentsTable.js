@@ -269,7 +269,7 @@ const PaymentsTable = () => {
   };
 
   const handleAddNew = () => {
-    console.log('yeeeees etenrerelrkj eljf');
+    setPaymentToEdit(null); // Reset edit state for new payment
     setShowPaymentDialog(true);
   };
 
@@ -485,7 +485,7 @@ const PaymentsTable = () => {
                           </div>
                           {payment.notes && (
                             <div className="mt-1 text-xs text-slate-400 italic truncate" title={payment.notes}>
-                              "{payment.notes}"
+                              {payment.notes.length > 20 ? `${payment.notes.slice(0, 20)}...` : payment.notes}
                             </div>
                           )}
                         </div>

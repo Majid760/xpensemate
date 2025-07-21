@@ -54,6 +54,22 @@ const PaymentDialog = ({ onClose, onSuccess, paymentToEdit }) => {
     }
   }, [paymentToEdit]);
 
+  useEffect(() => {
+    if (!paymentToEdit) {
+      setFormData({
+        name: '',
+        amount: '',
+        date: new Date().toISOString().split('T')[0],
+        payer: '',
+        payment_type: 'one_time',
+        custom_payment_type: '',
+        detail: ''
+      });
+      setShowCustomTypeInput(false);
+      setErrors({});
+    }
+  }, [paymentToEdit]);
+
 
   const paymentTypes = [
     { value: 'salary', label: 'Salary' },
