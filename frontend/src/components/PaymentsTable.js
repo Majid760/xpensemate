@@ -2,13 +2,53 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import StatCard from "./StatCard";
 import PaymentInsight from './PaymentInsight';
 import PaymentPopUp from './PaymentPopUp';
+import Toast from './Toast';
 import { 
   MoreVertical, Plus, Trash2, ChevronLeft, ChevronRight, Edit, DollarSign,
   TrendingUp, TrendingDown, Calendar, User, CreditCard, Receipt,
   BarChart3, PieChart, ArrowUpRight, ArrowDownRight, Clock, Target,
   Wallet, AlertCircle, CheckCircle, Award, Zap
 } from 'lucide-react';
+import apiService from '../services/apiService';
+import ConfirmDialog from './ConfirmDialog';
 
+
+const ShimmerRow = () => (
+  <tr className="group transition-all duration-300">
+    {/* Checkbox */}
+    <td className="px-3 py-4 text-center">
+      <div className="w-4 h-4 bg-slate-200 rounded animate-pulse mx-auto" />
+    </td>
+    {/* Payment Details */}
+    <td className="px-3 py-4">
+      <div className="flex items-start gap-3">
+        <div className="flex-shrink-0 w-10 h-10 bg-slate-200 rounded-xl animate-pulse" />
+        <div className="flex-grow min-w-0 space-y-2">
+          <div className="h-4 w-32 bg-slate-200 rounded animate-pulse" />
+          <div className="h-3 w-24 bg-slate-200 rounded animate-pulse" />
+          <div className="h-3 w-20 bg-slate-200 rounded animate-pulse" />
+        </div>
+      </div>
+    </td>
+    {/* Amount */}
+    <td className="px-3 py-4 text-center">
+      <div className="flex flex-col items-center space-y-2">
+        <div className="h-4 w-16 bg-slate-200 rounded animate-pulse" />
+        <div className="h-3 w-12 bg-slate-200 rounded animate-pulse" />
+      </div>
+    </td>
+    {/* Payment Type */}
+    <td className="px-3 py-4 text-center">
+      <div className="flex justify-center">
+        <div className="h-6 w-20 bg-slate-200 rounded-full animate-pulse" />
+      </div>
+    </td>
+    {/* Actions */}
+    <td className="px-3 py-4 text-center">
+      <div className="h-8 w-8 bg-slate-200 rounded-xl mx-auto animate-pulse" />
+    </td>
+  </tr>
+);
 
 const PaymentsTable = () => {
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -24,31 +64,128 @@ const PaymentsTable = () => {
   const [paymentToEdit, setPaymentToEdit] = useState(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [deleteType, setDeleteType] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
   const [searchTerm] = useState('');
   const [dateFilter] = useState({ startDate: null, endDate: null });
   const [amountFilter] = useState({ min: null, max: null });
   const [showInsights, setShowInsights] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('weekly'); // Default to weekly
+  const [error, setError] = useState(null);
 
-  // Mock data for demonstration
+  // Fetch payments from API with pagination and cache
   useEffect(() => {
-    const mockPayments = [
-      { _id: '1', name: 'Salary Payment', amount: 5000, date: '2024-01-15', payer: 'Tech Corp', payment_type: 'salary', notes: 'Monthly salary payment' },
-      { _id: '2', name: 'Freelance Project', amount: 1200, date: '2024-01-10', payer: 'Creative Agency', payment_type: 'one_time', notes: 'Website design project' },
-      { _id: '3', name: 'Commission', amount: 800, date: '2024-01-08', payer: 'Sales Team', payment_type: 'commission', notes: 'Q4 sales commission' },
-      { _id: '4', name: 'Subscription Revenue', amount: 99, date: '2024-01-05', payer: 'Client A', payment_type: 'subscription', notes: 'Monthly subscription' },
-      { _id: '5', name: 'Bonus Payment', amount: 2000, date: '2024-01-03', payer: 'Tech Corp', payment_type: 'bonus', notes: 'Year-end bonus' },
-      { _id: '6', name: 'Refund', amount: 150, date: '2024-01-02', payer: 'Service Provider', payment_type: 'refund', notes: 'Service refund' },
-      { _id: '7', name: 'Consulting Fee', amount: 1500, date: '2024-01-01', payer: 'Startup Inc', payment_type: 'one_time', notes: 'Strategy consultation' },
-    ];
-    
-    setPayments(mockPayments);
-    setTotalRows(mockPayments.length);
-    setLoading(false);
-    setIsInitialLoad(false);
-  }, []);
+    let isMounted = true;
+    setLoading(true);
+    setError(null);
+
+    // Check cache first
+    if (pageCache[currentPage]) {
+      setPayments(pageCache[currentPage]);
+      setLoading(false);
+      setIsInitialLoad(false);
+      return;
+    }
+
+    const params = new URLSearchParams();
+    params.append('page', currentPage);
+    params.append('limit', perPage);
+
+    apiService.get(`/payments?${params.toString()}`)
+      .then(res => {
+        if (!isMounted) return;
+        setPayments(res.data.payments);
+        setTotalRows(res.data.total);
+        setPageCache(prev => ({ ...prev, [currentPage]: res.data.payments }));
+        setLoading(false);
+        setIsInitialLoad(false);
+      })
+      .catch(err => {
+        if (!isMounted) return;
+        setError(
+          err.response?.data?.error ||
+          err.message ||
+          'Failed to load payments'
+        );
+        setLoading(false);
+      });
+
+    return () => { isMounted = false; };
+  }, [currentPage, perPage]);
+
+  // Create payment (optimistic update)
+  const handleAddPayment = (paymentData) => {
+    // Create a temporary payment object (with a temp id)
+    const tempId = `temp-${Date.now()}`;
+    const tempPayment = { ...paymentData, _id: tempId };
+    setPayments(prev => [tempPayment, ...prev]);
+    setTotalRows(prev => prev + 1);
+    setPageCache({}); // Invalidate cache
+    setShowPaymentDialog(false);
+    setToast({ type: 'success', message: 'Payment added successfully!' });
+    apiService.post('/create-payment', paymentData)
+      .then(res => {
+        // Replace temp payment with real one
+        setPayments(prev => prev.map(p => p._id === tempId ? res.data : p));
+        setPageCache(prev => ({ ...prev, [currentPage]: prev[currentPage]?.map(p => p._id === tempId ? res.data : p) }));
+      })
+      .catch(err => {
+        // Remove temp payment
+        setPayments(prev => prev.filter(p => p._id !== tempId));
+        setTotalRows(prev => prev - 1);
+        setToast({ type: 'error', message: err.response?.data?.error || 'Failed to add payment' });
+      });
+  };
+
+  // Update payment
+  const handleUpdatePayment = (paymentId, updatedData) => {
+    // Optimistically update local state
+    setPayments(prev => prev.map(p => (p._id === paymentId ? { ...p, ...updatedData } : p)));
+    setPageCache(prev => ({
+      ...prev,
+      [currentPage]: prev[currentPage]?.map(p => (p._id === paymentId ? { ...p, ...updatedData } : p))
+    }));
+    setToast({ type: 'success', message: 'Payment updated successfully!' });
+
+    // Send update to backend
+    apiService.put(`/payment/${paymentId}`, updatedData)
+      .then(res => {
+        // Use backend response to update local state (in case backend modifies data)
+        setPayments(prev => prev.map(p => (p._id === paymentId ? res.data : p)));
+        setPageCache(prev => ({
+          ...prev,
+          [currentPage]: prev[currentPage]?.map(p => (p._id === paymentId ? res.data : p))
+        }));
+      })
+      .catch(err => {
+        setToast({ type: 'error', message: err.response?.data?.error || 'Failed to update payment' });
+        // Optionally: revert local state if you want
+      });
+  };
+
+  // Delete payment
+  const handleDeletePayment = (paymentId) => {
+    setLoading(true);
+    setError(null);
+    console.log('Deleting payment with ID:', paymentId);
+    apiService.delete(`/payment/${paymentId}`)
+      .then(() => {
+        // Remove from local state only
+        setPayments(prev => prev.filter(p => p._id !== paymentId && p.id !== paymentId));
+        setTotalRows(prev => prev - 1);
+        // Update cache for current page
+        setPageCache(prev => ({
+          ...prev,
+          [currentPage]: prev[currentPage]?.filter(p => p._id !== paymentId && p.id !== paymentId)
+        }));
+        setToast({ type: 'success', message: 'Payment deleted successfully!' });
+      })
+      .catch(err => {
+        console.error('Delete error:', err);
+        setError(err.response?.data?.error || 'Failed to delete payment');
+        setToast({ type: 'error', message: err.response?.data?.error || 'Failed to delete payment' });
+      })
+      .finally(() => setLoading(false));
+  };
 
   // Calculate insights
   const insights = useMemo(() => {
@@ -145,10 +282,9 @@ const PaymentsTable = () => {
 
   const handleDeleteClick = (id = null) => {
     if (id) {
-      setDeleteType('single');
       setDeleteId(id);
     } else {
-      setDeleteType('multiple');
+      setDeleteId(null); // For multiple delete
     }
     setShowDeleteConfirm(true);
   };
@@ -230,9 +366,17 @@ const PaymentsTable = () => {
   };
 
   return (
-    <div className="w-full font-sans px-4 sm:px-6 lg:px-8 space-y-6">
+    <div className="w-full font-sans px-4 sm:px-6 lg:px-8 space-y-2">
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       {/* Main Card Container */}
-      <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/20 overflow-hidden mx-auto max-w-full transition-all duration-300">
+      <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/20 overflow-hidden mx-auto max-w-full transition-all duration-300 ">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-3xl" />
 
         <PaymentInsight
@@ -243,19 +387,12 @@ const PaymentsTable = () => {
        
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-4 sm:px-8 pt-6 pb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-4 sm:px-8  pb-4">
           <div className="flex items-center gap-4">
             <h2 className="flex items-center gap-3 text-2xl lg:text-3xl font-bold text-slate-800 tracking-tight">
               <DollarSign className="text-indigo-500" size={28} />
               Payment Records
             </h2>
-            <button
-              onClick={() => setShowInsights(!showInsights)}
-              className="flex items-center gap-2 text-sm text-slate-600 hover:text-indigo-600 transition-colors"
-            >
-              <PieChart size={16} />
-              {showInsights ? 'Hide' : 'Show'} Insights
-            </button>
           </div>
           <div className="flex items-center gap-2">
             {selectedRows.size > 0 && (
@@ -292,9 +429,7 @@ const PaymentsTable = () => {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {loading ? (
-                <tr>
-                  <td colSpan="5" className="text-center py-8 text-slate-400 animate-pulse">Loading payments...</td>
-                </tr>
+                Array.from({ length: 5 }).map((_, idx) => <ShimmerRow key={idx} />)
               ) : payments.length === 0 ? (
                 <tr>
                   <td colSpan="5">
@@ -415,7 +550,7 @@ const PaymentsTable = () => {
                               className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 w-full text-left transition-all duration-200"
                             >
                               <Edit size={16} className="mr-3" />
-                              Edit Payment
+                              Edit
                             </button>
                             <button 
                               onClick={e => { 
@@ -509,9 +644,29 @@ const PaymentsTable = () => {
        {showPaymentDialog && (
           <PaymentPopUp
             onClose={() => setShowPaymentDialog(false)}
-            onSuccess={handlePaymentSuccess}
+            onSuccess={(data) => {
+              if (paymentToEdit && paymentToEdit._id) {
+                handleUpdatePayment(paymentToEdit._id, data);
+              } else {
+                handleAddPayment(data);
+              }
+              setShowPaymentDialog(false);
+            }}
+            paymentToEdit={paymentToEdit}
           />
         )}
+        <ConfirmDialog
+          isOpen={showDeleteConfirm}
+          onClose={() => setShowDeleteConfirm(false)}
+          onConfirm={() => {
+            setShowDeleteConfirm(false);
+            if (deleteId) handleDeletePayment(deleteId);
+          }}
+          title="Delete Payment"
+          message="Are you sure you want to delete this payment? This action cannot be undone."
+          confirmText="Delete"
+          cancelText="Cancel"
+        />
     </div>
   );
 };
