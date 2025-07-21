@@ -422,6 +422,7 @@ const PaymentsTable = () => {
                   />
                 </th>
                 <th className="px-3 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-left">Payment Details</th>
+                <th className="px-3 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Payer</th>
                 <th className="px-3 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Amount</th>
                 <th className="px-3 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Type</th>
                 <th className="px-3 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Actions</th>
@@ -454,6 +455,7 @@ const PaymentsTable = () => {
                     } ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}
                     onClick={() => handleRowSelect(payment._id || payment.id)}
                   >
+                    {/* Checkbox */}
                     <td className="px-3 py-4 text-center">
                       <input
                         type="checkbox"
@@ -464,7 +466,7 @@ const PaymentsTable = () => {
                       />
                     </td>
                     
-                    {/* Payment Details - Enhanced with more info */}
+                    {/* Payment Details */}
                     <td className="px-3 py-4">
                       <div className="flex items-start gap-3">
                         <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-sm">
@@ -476,10 +478,6 @@ const PaymentsTable = () => {
                               {payment.name}
                             </h4>
                             <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                          </div>
-                          <div className="flex items-center gap-2 text-sm text-slate-500 mb-1">
-                            <User className="w-3 h-3" />
-                            <span className="truncate" title={payment.payer}>{payment.payer}</span>
                           </div>
                           <div className="flex items-center gap-2 text-xs text-slate-400">
                             <Calendar className="w-3 h-3" />
@@ -493,8 +491,11 @@ const PaymentsTable = () => {
                         </div>
                       </div>
                     </td>
-
-                    {/* Amount - Enhanced with visual impact */}
+                    {/* Payer */}
+                    <td className="px-3 py-4 text-center">
+                      <span className="text-slate-700 font-medium">{payment.payer}</span>
+                    </td>
+                    {/* Amount */}
                     <td className="px-3 py-4 text-center">
                       <div className="flex flex-col items-center">
                         <div className="text-lg font-bold text-slate-800 mb-1">
@@ -515,8 +516,7 @@ const PaymentsTable = () => {
                         </div>
                       </div>
                     </td>
-
-                    {/* Payment Type - Enhanced with icons and colors */}
+                    {/* Payment Type */}
                     <td className="px-3 py-4 text-center">
                       <div className="flex justify-center">
                         <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border ${getPaymentTypeColor(payment.payment_type)}`}>
@@ -527,7 +527,6 @@ const PaymentsTable = () => {
                         </span>
                       </div>
                     </td>
-
                     {/* Actions */}
                     <td className="px-3 py-4 text-center relative">
                       <button 
