@@ -95,10 +95,19 @@ const paymentController = {
    */
   deletePayment: async (req, res) => {
     try {
-      const payment = await PaymentService.deletePayment(req.user._id, req.params.id);
+      const subtractFromWallet = req.query.subtractFromWallet === 'true';
+      const payment = await PaymentService.getPaymentById(req.user._id, req.params.id);
       if (!payment) {
         return res.status(404).json({ error: 'Payment not found' });
       }
+      if (subtractFromWallet) {
+        const wallet = await WalletService.getWalletByUserId(req.user._id);
+        if (!wallet || wallet.balance < payment.amount) {
+          return res.status(400).json({ error: 'Insufficient wallet balance to subtract payment amount.' });
+        }
+        await WalletService.decrementBalance(req.user._id, payment.amount);
+      }
+      await PaymentService.deletePayment(req.user._id, req.params.id);
       res.json({ message: 'Payment deleted successfully' });
     } catch (error) {
       logger.error('Error deleting payment:', { error: error.message });

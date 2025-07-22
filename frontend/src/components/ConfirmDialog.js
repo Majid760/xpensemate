@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertTriangle } from 'lucide-react';
 
-const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText = 'Continue', cancelText = 'Cancel' }) => {
+const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText = 'Continue', cancelText = 'Cancel', children }) => {
   if (!isOpen) return null;
 
   return (
@@ -18,7 +18,7 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
           <h3 className="text-2xl font-bold text-slate-800 mb-3 tracking-tight">{title}</h3>
           
           <p className="text-slate-500 font-medium mb-8">{message}</p>
-          
+          {children}
           <div className="flex flex-col-reverse sm:flex-row gap-4 justify-center">
             <button
               type="button"

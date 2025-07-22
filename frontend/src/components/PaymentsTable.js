@@ -51,7 +51,8 @@ const ShimmerRow = () => (
 );
 
 const PaymentsTable = () => {
-  const [selectedRows, setSelectedRows] = useState(new Set());
+  // Remove selectedRows and related state
+  // const [selectedRows, setSelectedRows] = useState(new Set());
   const [currentPage, setCurrentPage] = useState(1);
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [toast, setToast] = useState(null);
@@ -71,6 +72,7 @@ const PaymentsTable = () => {
   const [showInsights, setShowInsights] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('weekly'); // Default to weekly
   const [error, setError] = useState(null);
+  const [subtractFromWallet, setSubtractFromWallet] = useState(false);
 
   // Fetch payments from API with pagination and cache
   useEffect(() => {
@@ -163,11 +165,11 @@ const PaymentsTable = () => {
   };
 
   // Delete payment
-  const handleDeletePayment = (paymentId) => {
+  const handleDeletePayment = (paymentId, subtractFromWallet = false) => {
     setLoading(true);
     setError(null);
     console.log('Deleting payment with ID:', paymentId);
-    apiService.delete(`/payment/${paymentId}`)
+    apiService.delete(`/payment/${paymentId}?subtractFromWallet=${subtractFromWallet}`)
       .then(() => {
         // Remove from local state only
         setPayments(prev => prev.filter(p => p._id !== paymentId && p.id !== paymentId));
@@ -245,24 +247,9 @@ const PaymentsTable = () => {
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = startIndex + perPage;
 
-  // Mock functions for demo
-  const handleRowSelect = (id) => {
-    const newSelected = new Set(selectedRows);
-    if (newSelected.has(id)) {
-      newSelected.delete(id);
-    } else {
-      newSelected.add(id);
-    }
-    setSelectedRows(newSelected);
-  };
-
-  const handleSelectAll = () => {
-    if (selectedRows.size === payments.length && payments.length > 0) {
-      setSelectedRows(new Set());
-    } else {
-      setSelectedRows(new Set(payments.map(payment => payment._id || payment.id)));
-    }
-  };
+  // Remove handleRowSelect and handleSelectAll
+  // const handleRowSelect = (id) => { ... }
+  // const handleSelectAll = (i) => { ... }
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -394,18 +381,7 @@ const PaymentsTable = () => {
               Payment Records
             </h2>
           </div>
-          <div className="flex items-center gap-2">
-            {selectedRows.size > 0 && (
-              <button
-                onClick={() => handleDeleteClick()}
-                className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold px-5 py-2 rounded-xl shadow transition-all duration-200 active:scale-95 text-sm"
-              >
-                <Trash2 size={16} />
-                Delete ({selectedRows.size})
-              </button>
-            )}
-            
-          </div>
+         
         </div>
 
         {/* Table Container */}
@@ -413,14 +389,10 @@ const PaymentsTable = () => {
           <table className="min-w-full">
             <thead>
               <tr className="border-b border-slate-200">
-                <th className="px-3 py-4 text-center w-12">
-                  <input
-                    type="checkbox"
-                    checked={payments.length > 0 && selectedRows.size === payments.length}
-                    onChange={handleSelectAll}
-                    className="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
-                  />
-                </th>
+                {/* Remove selection checkbox header */}
+                {/* <th className="px-3 py-4 text-center w-12">
+                  <input ... />
+                </th> */}
                 <th className="px-3 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-left">Payment Details</th>
                 <th className="px-3 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Payer</th>
                 <th className="px-3 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Amount</th>
@@ -449,23 +421,18 @@ const PaymentsTable = () => {
                   <tr
                     key={payment._id || payment.id}
                     className={`group cursor-pointer transition-all duration-300 hover:shadow-md ${
-                      selectedRows.has(payment._id || payment.id) 
-                        ? 'bg-indigo-50 border-l-4 border-indigo-500 shadow-sm' 
-                        : 'hover:bg-slate-50'
+                      // Remove selection highlight
+                      // selectedRows.has(payment._id || payment.id) 
+                      //   ? 'bg-indigo-50 border-l-4 border-indigo-500 shadow-sm' 
+                      //   : 'hover:bg-slate-50'
+                      'hover:bg-slate-50'
                     } ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}
-                    onClick={() => handleRowSelect(payment._id || payment.id)}
+                    // Remove onClick for row selection
                   >
-                    {/* Checkbox */}
-                    <td className="px-3 py-4 text-center">
-                      <input
-                        type="checkbox"
-                        checked={selectedRows.has(payment._id || payment.id)}
-                        onChange={() => handleRowSelect(payment._id || payment.id)}
-                        onClick={e => e.stopPropagation()}
-                        className="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
-                      />
-                    </td>
-                    
+                    {/* Remove selection checkbox cell */}
+                    {/* <td className="px-3 py-4 text-center">
+                      <input ... />
+                    </td> */}
                     {/* Payment Details */}
                     <td className="px-3 py-4">
                       <div className="flex items-start gap-3">
@@ -613,8 +580,8 @@ const PaymentsTable = () => {
         </div>
       </div>
 
-      {/* Mobile Selection Actions */}
-      {selectedRows.size > 0 && (
+      {/* Remove Mobile Selection Actions */}
+      {/* {selectedRows.size > 0 && (
         <div className="md:hidden fixed bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm border border-slate-200 rounded-2xl shadow-lg p-4 z-50">
           <div className="flex items-center justify-between">
             <span className="text-sm text-slate-600">
@@ -629,7 +596,7 @@ const PaymentsTable = () => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
 
 
         {/* Add Payment Dialog */}
@@ -659,13 +626,30 @@ const PaymentsTable = () => {
           onClose={() => setShowDeleteConfirm(false)}
           onConfirm={() => {
             setShowDeleteConfirm(false);
-            if (deleteId) handleDeletePayment(deleteId);
+            if (deleteId) {
+              handleDeletePayment(deleteId, subtractFromWallet);
+            }
+            setSubtractFromWallet(false);
           }}
           title="Delete Payment"
-          message="Are you sure you want to delete this payment? This action cannot be undone."
+          message={deleteId ? "Are you sure you want to delete this payment? This action cannot be undone." : "Are you sure you want to delete the selected payments? This action cannot be undone."}
           confirmText="Delete"
           cancelText="Cancel"
-        />
+        >
+          {deleteId && (
+            <div className="flex items-center gap-2 mt-4">
+              <input
+                type="checkbox"
+                checked={subtractFromWallet}
+                onChange={e => setSubtractFromWallet(e.target.checked)}
+                id="subtractFromWallet"
+              />
+              <label htmlFor="subtractFromWallet" className="text-sm text-slate-700">
+                Do you want to subtract the deleting payment from wallet balance?
+              </label>
+            </div>
+          )}
+        </ConfirmDialog>
     </div>
   );
 };
