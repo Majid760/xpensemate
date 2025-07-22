@@ -9,6 +9,7 @@ import budgetGoalsRoutes from './budgetGoalRoutes.js';
 import settingRoutes from './settingsRoutes.js';
 import expenseRoutes from './expenseRoutes.js';
 import paymentRoutes from './paymentRoutes.js';
+import walletRoutes from './walletRoutes.js';
 
 // Public routes (no authentication required)
 router.post('/auth/register', authController.register);
@@ -35,7 +36,7 @@ router.use('/',budgetGoalsRoutes);
 router.use('/',expenseRoutes);
 
 router.use('/',paymentRoutes);
-
+router.use('/',walletRoutes);
 // Mount dashboard/user dashboard routes
 router.use('/', dashboard);
 

@@ -26,7 +26,7 @@ const walletController = {
   },
 
   // Update the wallet for a user
-  async updateWallet(req, res) {
+async updateWallet(req, res) {
     try {
       const wallet = await WalletService.updateWallet(req.user._id, req.body);
       if (!wallet) return res.status(404).json({ error: 'Wallet not found' });

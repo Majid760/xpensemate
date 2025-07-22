@@ -158,7 +158,7 @@ const PaymentsTable = () => {
   };
 
   // Update payment
-  const handleUpdatePayment = (paymentId, updatedData) => {
+  const handleUpdatePayment = (paymentId, updatedData, options = {}) => {
     // Optimistically update local state
     setPayments(prev => prev.map(p => (p._id === paymentId ? { ...p, ...updatedData } : p)));
     setPageCache(prev => ({
@@ -166,6 +166,11 @@ const PaymentsTable = () => {
       [currentPage]: prev[currentPage]?.map(p => (p._id === paymentId ? { ...p, ...updatedData } : p))
     }));
     setToast({ type: 'success', message: 'Payment updated successfully!' });
+
+    // Calculate difference
+    const oldAmount = parseFloat(options.originalAmount);
+    const newAmount = parseFloat(updatedData.amount);
+    const diff = newAmount - oldAmount;
 
     // Send update to backend
     apiService.put(`/payment/${paymentId}`, updatedData)
@@ -176,6 +181,36 @@ const PaymentsTable = () => {
           ...prev,
           [currentPage]: prev[currentPage]?.map(p => (p._id === paymentId ? res.data : p))
         }));
+        // Wallet logic (backend update)
+        if (diff > 0) {
+          // Increase wallet on backend
+          apiService.post('/wallet/incrementBalance', { amount: diff })
+            .then(() => setWalletBalance(prev => prev + diff));
+        } else if (diff < 0 && options.subtractDifference) {
+          // Prevent negative balance locally
+          if (walletBalance + diff < 0) {
+            setToast({ type: 'error', message: 'Insufficient wallet balance for this operation.' });
+            // Optionally revert the optimistic update
+            setPayments(prev => prev.map(p => (p._id === paymentId ? { ...p, amount: options.originalAmount } : p)));
+            setPageCache(prev => ({
+              ...prev,
+              [currentPage]: prev[currentPage]?.map(p => (p._id === paymentId ? { ...p, amount: options.originalAmount } : p))
+            }));
+            return;
+          }
+          // Decrease wallet on backend
+          apiService.post('/wallet/decrementBalance', { amount: -1 * diff })
+            .then(() => setWalletBalance(prev => prev + diff))
+            .catch(err => {
+              setToast({ type: 'error', message: err.response?.data?.error || 'Failed to update wallet balance.' });
+              // Optionally revert the optimistic update
+              setPayments(prev => prev.map(p => (p._id === paymentId ? { ...p, amount: options.originalAmount } : p)));
+              setPageCache(prev => ({
+                ...prev,
+                [currentPage]: prev[currentPage]?.map(p => (p._id === paymentId ? { ...p, amount: options.originalAmount } : p))
+              }));
+            });
+        }
       })
       .catch(err => {
         setToast({ type: 'error', message: err.response?.data?.error || 'Failed to update payment' });
@@ -650,9 +685,9 @@ const PaymentsTable = () => {
               setShowPaymentDialog(false);
               setPaymentToEdit(null); // Reset edit state on close
             }}
-            onSuccess={(data) => {
+            onSuccess={(data, options) => {
               if (paymentToEdit && paymentToEdit._id) {
-                handleUpdatePayment(paymentToEdit._id, data);
+                handleUpdatePayment(paymentToEdit._id, data, options);
               } else {
                 handleAddPayment(data);
               }
@@ -660,6 +695,7 @@ const PaymentsTable = () => {
               setPaymentToEdit(null); // Reset edit state after save
             }}
             paymentToEdit={paymentToEdit}
+            originalAmount={paymentToEdit ? paymentToEdit.amount : undefined}
           />
         )}
         <ConfirmDialog
