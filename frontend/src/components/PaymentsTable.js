@@ -10,6 +10,7 @@ import {
   Wallet, AlertCircle, CheckCircle, Award, Zap
 } from 'lucide-react';
 import apiService from '../services/apiService';
+import { useWallet } from '../contexts/WalletContext';
 import ConfirmDialog from './ConfirmDialog';
 
 
@@ -73,6 +74,7 @@ const PaymentsTable = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('weekly'); // Default to weekly
   const [error, setError] = useState(null);
   const [subtractFromWallet, setSubtractFromWallet] = useState(false);
+  const { walletBalance, setWalletBalance } = useWallet();
 
   // Fetch payments from API with pagination and cache
   useEffect(() => {
@@ -129,6 +131,10 @@ const PaymentsTable = () => {
         // Replace temp payment with real one
         setPayments(prev => prev.map(p => p._id === tempId ? res.data : p));
         setPageCache(prev => ({ ...prev, [currentPage]: prev[currentPage]?.map(p => p._id === tempId ? res.data : p) }));
+        // Update wallet balance locally
+        if (typeof walletBalance === 'number' && typeof res.data.amount === 'number') {
+          setWalletBalance(walletBalance + res.data.amount);
+        }
       })
       .catch(err => {
         // Remove temp payment
@@ -168,23 +174,38 @@ const PaymentsTable = () => {
   const handleDeletePayment = (paymentId, subtractFromWallet = false) => {
     setLoading(true);
     setError(null);
-    console.log('Deleting payment with ID:', paymentId);
+    // Optimistically remove the payment from local state
+    let deletedPayment = null;
+    setPayments(prev => {
+      const idx = prev.findIndex(p => p._id === paymentId || p.id === paymentId);
+      if (idx !== -1) {
+        deletedPayment = prev[idx];
+        return prev.filter((p, i) => i !== idx);
+      }
+      return prev;
+    });
+    setTotalRows(prev => prev - 1);
+    setPageCache(prev => ({
+      ...prev,
+      [currentPage]: prev[currentPage]?.filter(p => p._id !== paymentId && p.id !== paymentId)
+    }));
+    setToast({ type: 'success', message: 'Payment deleted successfully!' });
+    if (subtractFromWallet && deletedPayment && typeof deletedPayment.amount === 'number') {
+      setWalletBalance(walletBalance - deletedPayment.amount);
+    }
+    // Attempt to delete from server
     apiService.delete(`/payment/${paymentId}?subtractFromWallet=${subtractFromWallet}`)
       .then(() => {
-        // Remove from local state only
-        setPayments(prev => prev.filter(p => p._id !== paymentId && p.id !== paymentId));
-        setTotalRows(prev => prev - 1);
-        // Update cache for current page
-        setPageCache(prev => ({
-          ...prev,
-          [currentPage]: prev[currentPage]?.filter(p => p._id !== paymentId && p.id !== paymentId)
-        }));
-        setToast({ type: 'success', message: 'Payment deleted successfully!' });
+        // No further action needed, already removed locally
       })
       .catch(err => {
-        console.error('Delete error:', err);
-        setError(err.response?.data?.error || 'Failed to delete payment');
-        setToast({ type: 'error', message: err.response?.data?.error || 'Failed to delete payment' });
+        // Re-insert the deleted payment if server deletion failed
+        setPayments(prev => [deletedPayment, ...prev]);
+        setTotalRows(prev => prev + 1);
+        setToast({ type: 'error', message: err.response?.data?.error || 'Failed to delete payment, restored.' });
+        if (subtractFromWallet && deletedPayment && typeof deletedPayment.amount === 'number') {
+          setWalletBalance(walletBalance + deletedPayment.amount);
+        }
       })
       .finally(() => setLoading(false));
   };
@@ -609,7 +630,10 @@ const PaymentsTable = () => {
       )} */}
        {showPaymentDialog && (
           <PaymentPopUp
-            onClose={() => setShowPaymentDialog(false)}
+            onClose={() => {
+              setShowPaymentDialog(false);
+              setPaymentToEdit(null); // Reset edit state on close
+            }}
             onSuccess={(data) => {
               if (paymentToEdit && paymentToEdit._id) {
                 handleUpdatePayment(paymentToEdit._id, data);
@@ -617,6 +641,7 @@ const PaymentsTable = () => {
                 handleAddPayment(data);
               }
               setShowPaymentDialog(false);
+              setPaymentToEdit(null); // Reset edit state after save
             }}
             paymentToEdit={paymentToEdit}
           />
@@ -637,7 +662,7 @@ const PaymentsTable = () => {
           cancelText="Cancel"
         >
           {deleteId && (
-            <div className="flex items-center gap-2 mt-4">
+            <div className="flex items-center gap-2 mt-4 mb-6"> {/* Added mb-4 for margin bottom */}
               <input
                 type="checkbox"
                 checked={subtractFromWallet}

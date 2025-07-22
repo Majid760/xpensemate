@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useWallet } from '../contexts/WalletContext';
 import { Wallet, TrendingUp, BarChart3, User, DollarSign, Plus, Eye, ChevronUp, ChevronDown } from 'lucide-react';
 import StatCard from "./StatCard";
 import { ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, Legend, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
@@ -39,6 +40,7 @@ function PaymentInsight({ onAddPayment, selectedPeriod, setSelectedPeriod }) {
   const [insights, setInsights] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { walletBalance, fetchWalletBalance, loading: walletLoading } = useWallet();
 
   // Fetch payment stats when selectedPeriod changes
   useEffect(() => {
@@ -65,8 +67,9 @@ function PaymentInsight({ onAddPayment, selectedPeriod, setSelectedPeriod }) {
       }
     }
     if (selectedPeriod) fetchStats();
+    if (selectedPeriod) fetchWalletBalance(selectedPeriod);
     return () => { isMounted = false; };
-  }, [selectedPeriod]);
+  }, [selectedPeriod, fetchWalletBalance]);
 
   // Map API data for charts
   const monthlyData = insights?.monthlyTrend?.map((item) => ({
@@ -191,10 +194,10 @@ function PaymentInsight({ onAddPayment, selectedPeriod, setSelectedPeriod }) {
         <StatCard
           icon={Wallet}
           label="Total Balance"
-          value={insights && typeof insights.walletBalance === 'number' ? formatCurrency(insights.walletBalance) : 'N/A'}
+          value={typeof walletBalance === 'number' ? formatCurrency(walletBalance) : 'N/A'}
           subtitle="Wallet Balance"
           color="#6366f1"
-          loading={loading}
+          loading={walletLoading}
         />
         <StatCard
           icon={TrendingUp}
