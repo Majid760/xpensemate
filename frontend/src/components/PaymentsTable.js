@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import StatCard from "./StatCard";
 import PaymentInsight from './PaymentInsight';
 import PaymentPopUp from './PaymentPopUp';
@@ -63,6 +63,7 @@ const PaymentsTable = () => {
   const [perPage, setPerPage] = useState(10);
   const [pageCache, setPageCache] = useState({});
   const [openMenuId, setOpenMenuId] = useState(null);
+  const dropdownRef = useRef(null);
   const [paymentToEdit, setPaymentToEdit] = useState(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -75,6 +76,18 @@ const PaymentsTable = () => {
   const [error, setError] = useState(null);
   const [subtractFromWallet, setSubtractFromWallet] = useState(false);
   const { walletBalance, setWalletBalance } = useWallet();
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    if (!openMenuId) return;
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenMenuId(null);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openMenuId]);
 
   // Fetch payments from API with pagination and cache
   useEffect(() => {
@@ -190,22 +203,25 @@ const PaymentsTable = () => {
       [currentPage]: prev[currentPage]?.filter(p => p._id !== paymentId && p.id !== paymentId)
     }));
     setToast({ type: 'success', message: 'Payment deleted successfully!' });
-    if (subtractFromWallet && deletedPayment && typeof deletedPayment.amount === 'number') {
-      setWalletBalance(walletBalance - deletedPayment.amount);
-    }
     // Attempt to delete from server
     apiService.delete(`/payment/${paymentId}?subtractFromWallet=${subtractFromWallet}`)
       .then(() => {
-        // No further action needed, already removed locally
+        // Only update wallet balance after successful server deletion
+        if (subtractFromWallet && deletedPayment && typeof deletedPayment.amount === 'number') {
+          setWalletBalance(prev => prev - deletedPayment.amount);
+        }
       })
       .catch(err => {
         // Re-insert the deleted payment if server deletion failed
-        setPayments(prev => [deletedPayment, ...prev]);
+        setPayments(prev => {
+          if (!prev.some(p => (p._id === deletedPayment._id || p.id === deletedPayment.id))) {
+            return [deletedPayment, ...prev];
+          }
+          return prev;
+        });
         setTotalRows(prev => prev + 1);
         setToast({ type: 'error', message: err.response?.data?.error || 'Failed to delete payment, restored.' });
-        if (subtractFromWallet && deletedPayment && typeof deletedPayment.amount === 'number') {
-          setWalletBalance(walletBalance + deletedPayment.amount);
-        }
+        // Do not update wallet balance on error
       })
       .finally(() => setLoading(false));
   };
@@ -527,7 +543,7 @@ const PaymentsTable = () => {
                         <MoreVertical size={18} />
                       </button>
                       {openMenuId === payment._id && (
-                        <div className="absolute right-full -mr-12 top-0 w-36 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-10 border border-slate-200">
+                        <div ref={dropdownRef} className="absolute right-full -mr-12 top-0 w-36 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-10 border border-slate-200">
                           <div className="py-2">
                             <button 
                               onClick={e => { 
