@@ -54,8 +54,6 @@ const Login = () => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
         
         // Force a page reload to ensure AuthContext picks up the new token
-
-        console.log('this is fuckking token',localStorage.getItem('token'));
         navigate('/dashboard');
       } else {
         setError('Google sign-in failed');

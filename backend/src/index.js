@@ -1,11 +1,12 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const connectDB = require('./configs/db');
-const logger = require('./utils/logger');
-const appRoutes = require('./routes/appRoutes');
-const passport = require('passport');
+import dotenv from 'dotenv';
+dotenv.config();
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import  connectDB from './configs/db.js';
+import logger from './utils/logger.js';
+import appRoutes from './routes/appRoutes.js';
+import passport from 'passport';
 const app = express();
 
 // Connect to MongoDB

@@ -3,36 +3,57 @@ import apiService from '../services/apiService';
 
 const BudgetGoalsContext = createContext();
 
-export function BudgetGoalsProvider({ children }) {
-  const [activeGoals, setActiveGoals] = useState([]);
-  const [loading, setLoading] = useState(false);
+export function useBudgetGoals() {
+  return useContext(BudgetGoalsContext);
+}
 
-  /**
-   * Fetch active budget goals from /dashboard/goals
-   * @param {Object} params - Optional query params (e.g., { status, period })
-   */
-  const fetchActiveGoals = useCallback(async (params = { status: 'active', period: 'monthly' }) => {
-    setLoading(true);
+export function BudgetGoalsProvider({ children }) {
+  //ative goals within period 
+  const [goals, setGoals] = useState([]);
+
+  // all active goals without period
+  const [activeGoals, setActiveGoals] = useState([]);
+
+  // Set all goals (after fetching from backend)
+  const setAllGoals = (newGoals) => setGoals(newGoals);
+
+  // Update a single goal (after local update)
+  const updateGoal = (updatedGoal) => {
+    setGoals(goals =>
+      goals.map(goal => goal._id === updatedGoal._id ? updatedGoal : goal)
+    );
+  };
+
+  // Memoized fetchGoalsByPeriod to prevent infinite loop
+  const fetchGoalsByPeriod = useCallback(async (period) => {
     try {
-      const res = await apiService.get('/dashboard/goals', { params });
-      setActiveGoals(res.data.goals || []);
-    } finally {
-      setLoading(false);
+      const res = await apiService.get('/budget-goals', { params: { period } });
+      setGoals(res.data.budgetGoals || []);
+    } catch (error) {
+      setGoals([]);
+      // Optionally handle error here
     }
   }, []);
 
-  // Expose a refresh function for convenience
-  const refreshActiveGoals = (params = { status: 'active', period: 'monthly' }) => {
-    fetchActiveGoals(params);
-  };
+  // Fetch all active goals
+  const fetchActiveGoals = useCallback(async () => {
+    try {
+      const res = await apiService.get('/budget-goals', { params: { status: 'active' } });
+      setActiveGoals(res.data.budgetGoals || []);
+    } catch (error) {
+      setActiveGoals([]);
+      // Optionally handle error here
+    }
+  }, []);
+
+  // Refresh active goals (alias for fetchActiveGoals)
+  const refreshActiveGoals = useCallback(() => {
+    fetchActiveGoals();
+  }, [fetchActiveGoals]);
 
   return (
-    <BudgetGoalsContext.Provider value={{ activeGoals, loading, fetchActiveGoals, refreshActiveGoals }}>
+    <BudgetGoalsContext.Provider value={{ goals, setAllGoals, updateGoal, fetchGoalsByPeriod, activeGoals, fetchActiveGoals, refreshActiveGoals }}>
       {children}
     </BudgetGoalsContext.Provider>
   );
-}
-
-export function useBudgetGoals() {
-  return useContext(BudgetGoalsContext);
 } 

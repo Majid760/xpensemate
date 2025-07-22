@@ -1,13 +1,13 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const { RateLimiterMemory } = require('rate-limiter-flexible');
-const { sendVerificationEmail, sendPasswordResetEmail } = require('../configs/email');
-const logger = require('../utils/logger')
-const emailService = require('../services/emailService');
-const passport = require('passport');
-const { OAuth2Client } = require('google-auth-library');
+import User from '../models/User.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import { RateLimiterMemory } from 'rate-limiter-flexible';
+import { sendVerificationEmail, sendPasswordResetEmail } from '../configs/email.js';
+import logger from '../utils/logger.js';
+import emailService from '../services/emailService.js';
+import passport from 'passport';
+import { OAuth2Client } from 'google-auth-library';
 
 
 // Rate limiter for verification emails
@@ -627,4 +627,4 @@ class AuthController {
   }
 }
 
-module.exports = new AuthController(); 
+export default new AuthController(); 

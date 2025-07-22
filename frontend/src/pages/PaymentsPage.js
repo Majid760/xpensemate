@@ -6,12 +6,12 @@ import PaymentsTable from '../components/PaymentsTable';
 
 export default function PaymentsPage({ expanded, setExpanded }) {
   return (
-    <div >
+    <div style={{ color: '#f8f9fa' }}>
       <Sidebar expanded={expanded} setExpanded={setExpanded} />
       <main
         className={`flex-1 transition-all duration-300 ease-in-out ${expanded ? 'ml-72' : 'ml-20'}`}
       >
-        <TopBar/>
+        <TopBar />
         <div className="w-full">
           <PaymentsTable />
         </div>

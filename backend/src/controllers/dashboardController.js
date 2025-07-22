@@ -1,9 +1,9 @@
-const Expense = require('../models/Expense');
-const Category = require('../models/Category');
-const Payment = require('../models/Payment');
-const BudgetGoal = require('../models/BudgetGoal');
-const { validateObjectId } = require('../utils/validators');
-const logger = require('../utils/logger');
+import Expense from '../models/Expense.js';
+import Category from '../models/Category.js';
+import Payment from '../models/Payment.js';
+import BudgetGoal from '../models/BudgetGoal.js';
+import { validateObjectId } from '../utils/validators.js';
+import logger from '../utils/logger.js';
 
 class DashboardController {
 
@@ -594,4 +594,4 @@ class DashboardController {
   }
 };
 
-module.exports = new DashboardController();
+export default new DashboardController();

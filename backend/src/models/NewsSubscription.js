@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const subscriptionSchema = new mongoose.Schema({
   email: {
@@ -10,4 +10,4 @@ const subscriptionSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Subscription', subscriptionSchema); 
+export default mongoose.model('Subscription', subscriptionSchema); 

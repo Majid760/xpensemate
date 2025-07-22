@@ -4,8 +4,6 @@ import TopBar from '../components/TopBar';
 import styles from './BudgetGoalsPage.module.css';
 import BudgetGoalsTable from '../components/BudgetGoalsTable';
 
-const SIDEBAR_EXPANDED_WIDTH = 220;
-const SIDEBAR_COLLAPSED_WIDTH = 64;
 
 export default function BudgetGoalsPage({ expanded, setExpanded }) {
   return (

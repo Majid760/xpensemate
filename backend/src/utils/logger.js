@@ -1,5 +1,10 @@
-const winston = require('winston');
-const path = require('path');
+import winston from 'winston';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// __dirname workaround for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Define log format
 const logFormat = winston.format.combine(
@@ -43,4 +48,4 @@ logger.stream = {
   },
 };
 
-module.exports = logger; 
+export default logger; 

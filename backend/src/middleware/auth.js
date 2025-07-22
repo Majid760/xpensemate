@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const logger = require('../utils/logger');
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+import logger from '../utils/logger.js';
 
 /**
  * Middleware to check if user is authenticated
@@ -61,4 +61,4 @@ const requireAuth = async (req, res, next) => {
   }
 };
 
-module.exports = { requireAuth }; 
+export { requireAuth }; 

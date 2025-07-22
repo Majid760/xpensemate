@@ -1,4 +1,4 @@
-const { ValidationError } = require('./errors');
+import { ValidationError } from './errors.js';
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -74,7 +74,7 @@ const validateDateRange = (startDate, endDate) => {
   }
 };
 
-module.exports = {
+export {
   validateEmail,
   validateInput,
   validateObjectId,

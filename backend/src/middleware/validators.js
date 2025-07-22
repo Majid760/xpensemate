@@ -1,4 +1,4 @@
-const { body, validationResult } = require('express-validator');
+import { body, validationResult } from 'express-validator';
 
 const validateExpense = [
   body('name')
@@ -217,7 +217,7 @@ const validateBudgetGoal = [
   }
 ];
 
-module.exports = {
+export {
   validateExpense,
   validateSupportTicket,
   validatePayment,

@@ -1,8 +1,14 @@
-const BudgetGoalService = require('../services/BudgetGoalService');
-const { handleAsync } = require('../utils/asyncHandler');
-const { validatePaginationParams } = require('../utils/validators');
+import { handleAsync } from '../utils/asyncHandler.js';
+import { validatePaginationParams } from '../utils/validators.js';
+import BudgetGoalService from '../services/budgetGoalService.js';
 
 const budgetGoalController = {
+  /**
+   * Handles HTTP request to create a new budget goal.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with the created goal or error.
+   */
   createBudgetGoal: async (req, res) => {
     try {
       const { name, amount, date, priority, category, detail, status } = req.body;
@@ -22,6 +28,12 @@ const budgetGoalController = {
     }
   },
 
+  /**
+   * Handles HTTP request to fetch paginated budget goals (with filters).
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with paginated goals or error.
+   */
   getBudgetGoals: async (req, res) => {
     try {
       const options = {
@@ -43,6 +55,12 @@ const budgetGoalController = {
     }
   },
 
+  /**
+   * Handles HTTP request to fetch a single budget goal by ID.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with the goal or 404/error.
+   */
   getBudgetGoalById: async (req, res) => {
     try {
       const budgetGoal = await BudgetGoalService.getBudgetGoalById(req.user._id, req.params.id);
@@ -56,6 +74,12 @@ const budgetGoalController = {
     }
   },
 
+  /**
+   * Handles HTTP request to update a budget goal.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with the updated goal or error.
+   */
   updateBudgetGoal: async (req, res) => {
     try {
       const { name, amount, date, category, priority, detail, status } = req.body;
@@ -78,6 +102,12 @@ const budgetGoalController = {
     }
   },
 
+  /**
+   * Handles HTTP request to delete (soft-delete) a budget goal.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with success message or error.
+   */
   deleteBudgetGoal: async (req, res) => {
     try {
       const result = await BudgetGoalService.deleteBudgetGoal(req.user._id, req.params.id);
@@ -91,6 +121,12 @@ const budgetGoalController = {
     }
   },
 
+  /**
+   * Handles HTTP request to get a monthly summary of budget goals by category.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with summary array or error.
+   */
   getMonthlySummary: async (req, res) => {
     try {
       const year = parseInt(req.query.year) || new Date().getFullYear();
@@ -103,6 +139,12 @@ const budgetGoalController = {
     }
   },
 
+  /**
+   * Handles HTTP request to get progress/status of a budget goal.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with progress object or error.
+   */
   getBudgetGoalProgress: async (req, res) => {
     try {
       const progress = await BudgetGoalService.getBudgetGoalProgress(req.user._id, req.params.id);
@@ -113,6 +155,12 @@ const budgetGoalController = {
     }
   },
 
+  /**
+   * Handles HTTP request to fetch budget goals in a date range.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with array of goals or error.
+   */
   getBudgetGoalsByDateRange: async (req, res) => {
     try {
       const { startDate, endDate } = req.query;
@@ -124,6 +172,12 @@ const budgetGoalController = {
     }
   },
 
+  /**
+   * Handles HTTP request to fetch all expenses for a budget goal.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with expenses array or error.
+   */
   getExpensesForBudgetGoal: async (req, res) => {
     try {
       const result = await BudgetGoalService.getExpensesForBudgetGoal(req.user._id, req.params.id);
@@ -132,7 +186,32 @@ const budgetGoalController = {
       console.error('Error in getting expenses for budget goal:', error);
       res.status(500).json({ error: 'Failed to fetch expenses for budget goal.' });
     }
+  },
+
+  /**
+   * Handles HTTP request to get analytics/stats for budget goals by period.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with stats object or error.
+   */
+  getGoalStatsByPeriod: async (req, res) => {
+    try {
+      const { period, startDate, endDate, closestCount } = req.query;
+      if (!period) {
+        return res.status(400).json({ error: 'Missing required period parameter.' });
+      }
+      const stats = await BudgetGoalService.getGoalStatsByPeriod(req.user._id, {
+        period,
+        startDate,
+        endDate,
+        closestCount: closestCount ? parseInt(closestCount) : undefined
+      });
+      res.json(stats);
+    } catch (error) {
+      console.error('Error in getting goal stats by period:', error);
+      res.status(500).json({ error: 'Failed to fetch goal stats by period.' });
+    }
   }
 };
 
-module.exports = budgetGoalController;
+export default budgetGoalController;

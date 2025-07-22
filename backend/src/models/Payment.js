@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const paymentSchema = new mongoose.Schema({
     user_id: { 
@@ -128,4 +128,4 @@ paymentSchema.methods.softDelete = async function() {
 
 const Payment = mongoose.model('Payment', paymentSchema);
 
-module.exports = Payment; 
+export default Payment; 

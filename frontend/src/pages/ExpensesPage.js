@@ -13,7 +13,9 @@ export default function ExpensesPage({ expanded, setExpanded }) {
         // style={{ marginLeft: expanded ? SIDEBAR_EXPANDED_WIDTH : SIDEBAR_COLLAPSED_WIDTH }}
       >
         <TopBar/>
-        <div className="w-full">
+        {/* <ExpenseInsight/> */}
+        
+        <div className="w-full ">
           <ExpensesTable />
         </div>
       </main>

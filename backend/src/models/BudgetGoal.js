@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const budgetGoalSchema = new mongoose.Schema({
   user_id: {
@@ -23,6 +23,10 @@ const budgetGoalSchema = new mongoose.Schema({
       },
       message: 'Amount must be greater than 0'
     }
+  },
+  remainingBalance: {
+    type: Number,
+    default: undefined // will be set to amount on creation
   },
   date: {
     type: Date,
@@ -84,6 +88,14 @@ budgetGoalSchema.index({ user_id: 1, status: 1 });
 
 // Pre-save middleware removed since we no longer use category_id
 
+// Pre-save middleware to set remainingBalance to amount on creation
+budgetGoalSchema.pre('save', function(next) {
+  if (this.isNew && (this.remainingBalance === undefined || this.remainingBalance === null)) {
+    this.remainingBalance = this.amount;
+  }
+  next();
+});
+
 // Static method to find active goals
 budgetGoalSchema.statics.findActive = function(userId) {
   return this.find({
@@ -110,4 +122,4 @@ budgetGoalSchema.methods.softDelete = async function() {
 
 const BudgetGoal = mongoose.model('BudgetGoal', budgetGoalSchema);
 
-module.exports = BudgetGoal; 
+export default BudgetGoal; 

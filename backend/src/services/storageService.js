@@ -1,6 +1,7 @@
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const multer = require('multer');
+import cloudinaryModule from 'cloudinary';
+const cloudinary = cloudinaryModule.v2;
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import multer from 'multer';
 
 // Configure Cloudinary
 cloudinary.config({
@@ -70,4 +71,4 @@ class StorageService {
   }
 }
 
-module.exports = new StorageService(); 
+export default new StorageService(); 

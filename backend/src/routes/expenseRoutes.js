@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const expenseController = require('../controllers/expenseController');
-const { requireAuth } = require('../middleware/auth');
-const { validateExpense } = require('../middleware/validators');
+import expenseController from '../controllers/expenseController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { validateExpense } from '../middleware/validators.js';
 
 // Create a new expense
 router.post('/create-expense', requireAuth,validateExpense, expenseController.createExpense);
@@ -17,4 +17,7 @@ router.put('/expense/:id', requireAuth,validateExpense, expenseController.update
 // Delete an expense
 router.delete('/expense/:id', requireAuth,expenseController.deleteExpense);
 
-module.exports = router; 
+// expense insight endpoints
+router.get('/expenses/stats', requireAuth, expenseController.getStats);
+
+export default router; 

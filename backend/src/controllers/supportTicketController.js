@@ -1,6 +1,6 @@
-const SupportTicket = require('../models/SupportTicket');
-const { validateObjectId } = require('../utils/validators');
-const { handleError } = require('../utils/errorHandler');
+import SupportTicket from '../models/SupportTicket.js';
+import { validateObjectId } from '../utils/validators.js';
+import { handleError } from '../utils/errorHandler.js';
 
 const supportTicketController = {
   // Create a new support ticket
@@ -193,4 +193,4 @@ const supportTicketController = {
   }
 };
 
-module.exports = supportTicketController; 
+export default supportTicketController; 

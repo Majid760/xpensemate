@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const categorySchema = new mongoose.Schema({
   type: {
@@ -84,4 +84,4 @@ categorySchema.methods.deactivate = async function() {
 
 const Category = mongoose.model('Category', categorySchema);
 
-module.exports = Category; 
+export default Category; 

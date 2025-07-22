@@ -321,7 +321,7 @@ const ExpenseDialog = ({ onClose, onSuccess, expenseToEdit, activeGoals: propAct
             {/* Category Field */}
             <div className="space-y-2">
               <label className="block text-base sm:text-lg font-semibold text-gray-700">
-               Category <span className="text-red-500">*</span>
+                Category <span className="text-red-500">*</span>
               </label>
               <div className="relative" ref={categoryRef}>
                 <button
@@ -345,7 +345,7 @@ const ExpenseDialog = ({ onClose, onSuccess, expenseToEdit, activeGoals: propAct
                     >
                       + Add Custom Category
                     </button>
-                    {categories.map(category => (
+                  {categories.map(category => (
                       <button
                         key={category.id}
                         type="button"

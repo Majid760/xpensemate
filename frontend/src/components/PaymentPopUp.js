@@ -3,7 +3,7 @@ import { X, Calendar, ChevronDown } from 'lucide-react';
 import Toast from './Toast';
 import { useTranslation } from 'react-i18next';
 
-const PaymentDialog = ({ onClose, onSuccess, paymentToEdit }) => {
+const PaymentDialog = ({ onClose, onSuccess, paymentToEdit, originalAmount }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -22,6 +22,7 @@ const PaymentDialog = ({ onClose, onSuccess, paymentToEdit }) => {
   const [showCustomTypeInput, setShowCustomTypeInput] = useState(false);
   const [isPaymentTypeOpen, setPaymentTypeOpen] = useState(false);
   const paymentTypeRef = useRef(null);
+  const [subtractDifference, setSubtractDifference] = useState(false);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -51,6 +52,23 @@ const PaymentDialog = ({ onClose, onSuccess, paymentToEdit }) => {
       if (paymentToEdit.payment_type === 'custom') {
         setShowCustomTypeInput(true);
       }
+      setSubtractDifference(false);
+    }
+  }, [paymentToEdit]);
+
+  useEffect(() => {
+    if (!paymentToEdit) {
+      setFormData({
+        name: '',
+        amount: '',
+        date: new Date().toISOString().split('T')[0],
+        payer: '',
+        payment_type: 'one_time',
+        custom_payment_type: '',
+        detail: ''
+      });
+      setShowCustomTypeInput(false);
+      setErrors({});
     }
   }, [paymentToEdit]);
 
@@ -165,8 +183,11 @@ const PaymentDialog = ({ onClose, onSuccess, paymentToEdit }) => {
         paymentData._id = paymentToEdit._id;
       }
 
-      // Pass the data to parent component
-      onSuccess(paymentData);
+      // Pass the data, original amount, and subtractDifference to parent
+      onSuccess(paymentData, {
+        originalAmount: originalAmount ?? (paymentToEdit ? paymentToEdit.amount : undefined),
+        subtractDifference
+      });
       onClose();
     } catch (error) {
       console.error('Error preparing payment data:', error);
@@ -235,6 +256,21 @@ const PaymentDialog = ({ onClose, onSuccess, paymentToEdit }) => {
                 disabled={loading}
               />
               {errors.amount && <p className="text-red-500 text-sm">{errors.amount}</p>}
+              {/* Show checkbox if editing and new amount < original */}
+              {paymentToEdit &&
+                parseFloat(formData.amount) < parseFloat(originalAmount ?? paymentToEdit.amount) && (
+                  <div className="flex items-center gap-2 mt-2">
+                    <input
+                      type="checkbox"
+                      id="subtractDifference"
+                      checked={subtractDifference}
+                      onChange={e => setSubtractDifference(e.target.checked)}
+                    />
+                    <label htmlFor="subtractDifference" className="text-sm text-slate-700">
+                      Subtract the difference from wallet balance?
+                    </label>
+                  </div>
+                )}
             </div>
 
             {/* Date Field */}

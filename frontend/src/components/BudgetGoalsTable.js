@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { MoreVertical, Plus, Trash2, ChevronLeft, ChevronRight, Edit, ChevronDown, Calendar, DollarSign, TrendingUp, AlertCircle } from 'lucide-react';
+import { MoreVertical, Plus, Trash2, ChevronLeft, ChevronRight, Edit, ChevronDown, Calendar, DollarSign, TrendingUp, AlertCircle, Target } from 'lucide-react';
 
 import BudgetGoalDialog from './BudgetGoalPopUp';
 import Toast from './Toast';
@@ -7,6 +7,8 @@ import ConfirmDialog from './ConfirmDialog';
 import apiService from '../services/apiService';
 import Portal from './Portal';
 import BudgetGoalsExpensesModal from './BudgetGoalsExpenses';
+import BudgetInsights from './BudgetInsights';
+import { useBudgetGoals } from '../contexts/BudgetGoalsContext';
 
 const BudgetGoalsTable = () => {
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -28,6 +30,8 @@ const BudgetGoalsTable = () => {
   const [expensesModalOpen, setExpensesModalOpen] = useState(false);
   const [selectedGoalForExpenses, setSelectedGoalForExpenses] = useState(null);
 
+  const { goals: contextGoals, setAllGoals, updateGoal } = useBudgetGoals();
+
   // Calculate pagination
   const totalPages = Math.ceil(totalRows / perPage);
   const startIndex = (currentPage - 1) * perPage;
@@ -36,7 +40,7 @@ const BudgetGoalsTable = () => {
   // Memoized fetch function to prevent unnecessary re-renders
   const fetchGoals = useCallback(async (page, limit) => {
     if (pageCache[page]) {
-      setGoals(pageCache[page].goals || []);
+      setAllGoals(pageCache[page].goals || []);
       setTotalRows(pageCache[page].total || 0);
       setCurrentPage(pageCache[page].page || 1);
       setPerPage(limit);
@@ -75,7 +79,7 @@ const BudgetGoalsTable = () => {
       }));
 
       // Update state
-      setGoals(fetchedGoals);
+      setAllGoals(fetchedGoals);
       setTotalRows(fetchedTotal);
       setCurrentPage(fetchedPage);
       setPerPage(limit);
@@ -98,14 +102,14 @@ const BudgetGoalsTable = () => {
       });
 
       // Reset state on error
-      setGoals([]);
+      setAllGoals([]);
       setTotalRows(0);
       setCurrentPage(1);
     } finally {
       setLoading(false);
       setIsInitialLoad(false);
     }
-  }, [pageCache]);
+  }, [pageCache, setAllGoals]);
 
   // Initial load
   useEffect(() => {
@@ -146,12 +150,12 @@ const BudgetGoalsTable = () => {
   };
 
   const handleSelectAll = () => {
-    if (!goals || goals.length === 0) return;
+    if (!contextGoals || contextGoals.length === 0) return;
     
-    if (selectedRows.size === goals.length) {
+    if (selectedRows.size === contextGoals.length) {
       setSelectedRows(new Set());
     } else {
-      setSelectedRows(new Set(goals.map(goal => goal._id || goal.id)));
+      setSelectedRows(new Set(contextGoals.map(goal => goal._id || goal.id)));
     }
   };
 
@@ -159,11 +163,11 @@ const BudgetGoalsTable = () => {
   const handleDelete = async () => {
     if (selectedRows.size > 0) {
       // Store original state for potential rollback
-      const originalGoals = [...goals];
+      const originalGoals = [...contextGoals];
       const originalTotal = totalRows;
 
       // Optimistically remove selected items from local state
-      setGoals(prev => prev.filter(goal => !selectedRows.has(goal._id || goal.id)));
+      setAllGoals(prev => prev.filter(goal => !selectedRows.has(goal._id || goal.id)));
       setTotalRows(prev => Math.max(0, prev - selectedRows.size));
       setSelectedRows(new Set());
 
@@ -178,7 +182,7 @@ const BudgetGoalsTable = () => {
         });
       } catch (error) {
         // Revert local state on error
-        setGoals(originalGoals);
+        setAllGoals(originalGoals);
         setTotalRows(originalTotal);
         console.error("Error deleting selected goals:", error.response?.data || error.message);
         setToast({
@@ -193,10 +197,10 @@ const BudgetGoalsTable = () => {
   const handleRowDelete = async (id) => {
     setOpenMenuId(null); // Close menu
     // Store original state for potential rollback
-    const originalGoals = [...goals];
+    const originalGoals = [...contextGoals];
     const originalTotal = totalRows;
     // Optimistically remove the item from local state
-    setGoals(prev => prev.filter(goal => (goal._id || goal.id) !== id));
+    setAllGoals(prev => prev.filter(goal => (goal._id || goal.id) !== id));
     setTotalRows(prev => Math.max(0, prev - 1));
     try {
       // Attempt to delete on backend
@@ -208,7 +212,7 @@ const BudgetGoalsTable = () => {
       });
     } catch (error) {
       // Revert local state on error
-      setGoals(originalGoals);
+      setAllGoals(originalGoals);
       setTotalRows(originalTotal);
       console.error("Error deleting goal:", error.response?.data || error.message);
       setToast({
@@ -221,7 +225,7 @@ const BudgetGoalsTable = () => {
   // handle the edit of single record
   const handleEdit = (id) => {
     setOpenMenuId(null);
-    const goal = goals.find(g => (g._id || g.id) === id);
+    const goal = contextGoals.find(g => (g._id || g.id) === id);
     if (goal) {
       setGoalToEdit(goal);
       setShowGoalDialog(true);
@@ -251,31 +255,31 @@ const BudgetGoalsTable = () => {
 
       if (isEditMode && goalData._id) {
         // Store the original goal for potential rollback
-        const originalGoal = goals.find(g => g._id === goalData._id);
+        const originalGoal = contextGoals.find(g => g._id === goalData._id);
         
         // Optimistically update local state
         const updatedGoal = {
+          ...originalGoal,
           ...goalData,
           category: goalData.category
         };
         
-        setGoals(prev => prev.map(g => 
+        setAllGoals(prev => prev.map(g => 
           g._id === goalData._id ? updatedGoal : g
         ));
 
         try {
           // Update backend without affecting local state
           await apiService.put(`/budget-goal/${goalData._id}`, backendData, { withCredentials: true });
+          updateGoal(updatedGoal);
           setToast({
             type: 'success',
             message: 'Goal updated successfully!'
           });
           
-          // Dispatch event to refresh budget goals
-          window.dispatchEvent(new CustomEvent('budgetGoalUpdated'));
         } catch (error) {
           // Revert local state on error
-          setGoals(prev => prev.map(g => 
+          setAllGoals(prev => prev.map(g => 
             g._id === goalData._id ? originalGoal : g
           ));
           throw error;
@@ -291,7 +295,7 @@ const BudgetGoalsTable = () => {
         };
         
         // Optimistically add to local state
-        setGoals(prev => [tempGoal, ...prev.filter(g => g.id !== tempGoal.id)]);
+        setAllGoals(prev => [tempGoal, ...prev.filter(g => g.id !== tempGoal.id)]);
         setTotalRows(prev => prev + 1);
         setCurrentPage(1);
 
@@ -299,7 +303,7 @@ const BudgetGoalsTable = () => {
           const response = await apiService.post('/create-budget-goal', backendData, { withCredentials: true });
           
           // Update temporary entry with real data
-          setGoals(prev => prev.map(g => 
+          setAllGoals(prev => prev.map(g => 
             g._id === tempGoal._id 
               ? { ...response.data, id: response.data._id, category: response.data.category_id ? response.data.category_id.name : response.data.category } 
               : g
@@ -309,11 +313,9 @@ const BudgetGoalsTable = () => {
             message: 'Goal added successfully!'
           });
           
-          // Dispatch event to refresh budget goals
-          window.dispatchEvent(new CustomEvent('budgetGoalUpdated'));
         } catch (error) {
           // Remove temporary entry on error
-          setGoals(prev => prev.filter(g => g._id !== tempGoal._id));
+          setAllGoals(prev => prev.filter(g => g._id !== tempGoal._id));
           setTotalRows(prev => Math.max(0, prev - 1));
           throw error;
         }
@@ -388,11 +390,11 @@ const BudgetGoalsTable = () => {
     // Prevent row selection when clicking the dropdown
     e.stopPropagation();
     
-    const originalGoals = [...goals];
+    const originalGoals = [...contextGoals];
     
     try {
       // Find the goal to update
-      const goalToUpdate = goals.find(goal => goal._id === goalId);
+      const goalToUpdate = contextGoals.find(goal => goal._id === goalId);
       if (!goalToUpdate) {
         throw new Error('Goal not found');
       }
@@ -411,10 +413,11 @@ const BudgetGoalsTable = () => {
       };
 
       // Optimistically update local state
-      setGoals(prev => prev.map(goal => 
+      setAllGoals(prev => prev.map(goal => 
         goal._id === goalId ? { ...goal, status: newStatus } : goal
       ));
-
+      // Update context
+      updateGoal({ ...goalToUpdate, status: newStatus });
       // Update backend with all required fields
       await apiService.put(`/budget-goal/${goalId}`, updateData, { withCredentials: true });
 
@@ -424,7 +427,7 @@ const BudgetGoalsTable = () => {
       });
     } catch (error) {
       // Revert on error
-      setGoals(originalGoals);
+      setAllGoals(originalGoals);
       console.error("Error updating status:", error.response?.data || error.message);
       setToast({
         type: 'error',
@@ -439,45 +442,38 @@ const BudgetGoalsTable = () => {
       <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/20 overflow-hidden mx-auto max-w-full transition-all duration-300">
         {/* Gradient top border */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-3xl" />
+        <BudgetInsights onAddBudget={() => setShowGoalDialog(true)} />
+
         {/* Header with title and controls */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-4 sm:px-8 pt-6 pb-4">
-          <h2 className="flex items-center gap-3 text-2xl lg:text-3xl font-bold text-slate-800 tracking-tight">
-            <Plus className="text-indigo-500" size={28} />
-            Budget Goals
-          </h2>
-          <button
-            onClick={() => setShowGoalDialog(true)}
-            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-xl shadow transition-all duration-200 active:scale-95 text-sm"
-          >
-            <Plus size={16} />
-            Add Goal
-          </button>
+          <div className="flex items-center gap-3">
+            <Target className="text-indigo-500" size={28} />
+            <h2 className="text-2xl lg:text-3xl font-bold text-slate-800 tracking-tight">
+              Budget Goals
+            </h2>
+          </div>
+          {/* Show delete button if any goals are selected */}
+          {selectedRows.size > 0 && (
+            <button
+              onClick={() => handleDeleteClick()}
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold text-sm shadow transition-all duration-200"
+            >
+              <Trash2 size={16} />
+              Delete ({selectedRows.size})
+            </button>
+          )}
         </div>
 
         {/* Cards Container */}
         <div className="px-2 sm:px-6 pb-6">
-          {/* Header with select all checkbox */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                checked={goals && goals.length > 0 && selectedRows.size === goals.length}
-                onChange={handleSelectAll}
-                className="w-5 h-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
-              />
-              <span className="text-sm font-medium text-slate-600">
-                Select All ({selectedRows.size} of {goals.length})
-              </span>
-            </div>
-          </div>
-
+          {/* Remove select all checkbox and label */}
           {/* Goals Grid */}
           {loading ? (
             <div className="text-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
               <p className="text-slate-500">Loading goals...</p>
             </div>
-          ) : !goals || goals.length === 0 ? (
+          ) : !contextGoals || contextGoals.length === 0 ? (
             <div className="text-center py-12">
               <div className="text-slate-300 mb-4">
                 <Plus size={48} className="mx-auto" />
@@ -493,7 +489,7 @@ const BudgetGoalsTable = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {goals.map((goal) => (
+              {contextGoals.map((goal) => (
                 <div
                   key={goal._id || goal.id}
                   onClick={() => {
@@ -627,8 +623,27 @@ const BudgetGoalCard = ({ goal, isSelected, onSelect, onEdit, onDelete, onStatus
   const [openStatusId, setOpenStatusId] = useState(null);
   const [openMenuId, setOpenMenuId] = useState(null);
   const statusBtnRef = useRef(null);
+  const statusDropdownRef = useRef(null);
+  const menuRef = useRef(null);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 });
-  
+  const [dropdownCoords, setDropdownCoords] = useState({ left: 0, top: 0, width: 0 });
+
+  // When opening the status dropdown, calculate its position
+  const handleStatusDropdown = (e) => {
+    e.stopPropagation();
+    if (openStatusId === goal._id) {
+      setOpenStatusId(null);
+    } else {
+      const rect = statusBtnRef.current.getBoundingClientRect();
+      setDropdownCoords({
+        left: rect.left,
+        top: rect.bottom + window.scrollY,
+        width: rect.width
+      });
+      setOpenStatusId(goal._id);
+    }
+  };
+
   const spending = Number(goal.currentSpending) || 0;
   const progress = goal.amount > 0 ? Math.min((spending / goal.amount) * 100, 100) : 0;
   const isExceeded = spending > goal.amount;
@@ -644,17 +659,7 @@ const BudgetGoalCard = ({ goal, isSelected, onSelect, onEdit, onDelete, onStatus
 
   const getStatusColor = (status) => {
     const statusObj = goalStatuses.find(s => s.value === status);
-    return statusObj ? statusObj.color : '#6b7280';
-  };
-
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    try {
-      const date = new Date(dateString);
-      return isNaN(date) ? 'Invalid Date' : date.toLocaleDateString('en-US', options);
-    } catch (error) {
-      return 'Invalid Date';
-    }
+    return statusObj ? statusObj.color : '#3b82f6';
   };
 
   const formatCurrency = (amount) => {
@@ -668,204 +673,196 @@ const BudgetGoalCard = ({ goal, isSelected, onSelect, onEdit, onDelete, onStatus
     }).format(numericAmount);
   };
 
-  const getDaysRemaining = (targetDate) => {
-    const today = new Date();
-    const target = new Date(targetDate);
-    const diffTime = target - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
-  };
+  // For dot color, use status color or indigo as fallback
+  const dotColor = getStatusColor(goal.status);
 
-  const daysRemaining = getDaysRemaining(goal.date);
-
-  // When opening the dropdown, calculate its position
-  const handleStatusBtnClick = (e) => {
-    e.stopPropagation();
-    if (openStatusId === goal._id) {
-      setOpenStatusId(null);
-    } else {
-      const rect = statusBtnRef.current.getBoundingClientRect();
-      setDropdownPos({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-        width: rect.width
-      });
-      setOpenStatusId(goal._id);
+  // Close dropdowns on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        openStatusId === goal._id &&
+        statusDropdownRef.current &&
+        !statusDropdownRef.current.contains(event.target) &&
+        statusBtnRef.current &&
+        !statusBtnRef.current.contains(event.target)
+      ) {
+        setOpenStatusId(null);
+      }
+      if (
+        openMenuId === goal._id &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target)
+      ) {
+        setOpenMenuId(null);
+      }
     }
-  };
+    if (openStatusId === goal._id || openMenuId === goal._id) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openStatusId, openMenuId, goal._id]);
 
   return (
-    <div className={`group relative bg-white border-2 rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden ${
-      isSelected ? 'border-indigo-300 bg-indigo-50/50 shadow-lg' : 'border-slate-200/60 hover:border-indigo-200'
-    }`}>
-      {/* Status indicator stripe */}
-      <div 
-        className="absolute top-0 left-0 right-0 h-1 rounded-t-3xl" 
-        style={{ backgroundColor: getStatusColor(goal.status) }}
-      />
-      
-      {/* Header section */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-start gap-4 flex-1">
-          <input
-            type="checkbox"
-            checked={isSelected}
-            onChange={() => onSelect(goal._id)}
-            className="w-5 h-5 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 focus:ring-2 mt-1"
-          />
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-lg font-bold text-slate-800 truncate">{goal.name}</h3>
-              <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
-                {goal.category}
-              </span>
-            </div>
-            <div className="flex items-center gap-4 text-sm text-slate-600 mb-3">
-              <div className="flex items-center gap-1">
-                <Calendar size={14} />
-                <span>{formatDate(goal.date)}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <DollarSign size={14} />
-                <span className="font-semibold">{formatCurrency(goal.amount)}</span>
-              </div>
-              {daysRemaining > 0 && (
-                <div className="flex items-center gap-1 text-blue-600">
-                  <TrendingUp size={14} />
-                  <span className="font-medium">{daysRemaining} days left</span>
-                </div>
-              )}
-              {daysRemaining < 0 && (
-                <div className="flex items-center gap-1 text-red-600">
-                  <AlertCircle size={14} />
-                  <span className="font-medium">{Math.abs(daysRemaining)} days overdue</span>
-                </div>
-              )}
+    <div
+      className={`relative bg-white border border-slate-200 rounded-xl p-5 transition-all duration-200 group cursor-pointer overflow-hidden animate-[fadeIn_0.4s] ${
+        isSelected ? 'ring-2 ring-indigo-400 border-indigo-400' : ''
+      } hover:shadow-xl hover:border-slate-300`}
+    >
+      {/* Checkbox */}
+      <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10">
+        <input
+          type="checkbox"
+          checked={isSelected}
+          onChange={() => onSelect(goal._id)}
+          onClick={e => e.stopPropagation()}
+          className="w-5 h-5 text-indigo-600 border-2 border-slate-300 rounded focus:ring-indigo-500 focus:ring-2 transition-all bg-white"
+        />
+      </div>
+      {/* Actions Menu */}
+      <div className="absolute top-4 right-4 z-[9999] action-menu-container" ref={menuRef}>
+        <button 
+          onClick={e => { 
+            e.stopPropagation(); 
+            setOpenMenuId(openMenuId === goal._id ? null : goal._id); 
+          }} 
+          className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition-all duration-200 border border-slate-200 bg-white shadow-sm" 
+          aria-label="Actions"
+        >
+          <MoreVertical size={18} />
+        </button>
+        {openMenuId === goal._id && (
+          <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 z-[9999] animate-fadeIn border border-slate-200">
+            <div className="py-2">
+              <button 
+                onClick={e => { 
+                  e.stopPropagation(); 
+                  onEdit(goal._id); 
+                  setOpenMenuId(null);
+                }} 
+                className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 w-full text-left transition-all duration-200 rounded-lg mx-1"
+              >
+                <Edit size={16} className="mr-3 text-indigo-500" />
+                <span className="font-medium">Edit</span>
+              </button>
+              <button 
+                onClick={e => { 
+                  e.stopPropagation(); 
+                  onDelete(goal._id); 
+                  setOpenMenuId(null);
+                }} 
+                className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left transition-all duration-200 rounded-lg mx-1"
+              >
+                <Trash2 size={16} className="mr-3 text-red-500" />
+                <span className="font-medium">Delete</span>
+              </button>
             </div>
           </div>
+        )}
+      </div>
+      {/* Card Content */}
+      <div className="flex flex-col gap-2 pl-10 pr-12">
+        {/* Top row: Name & Amount */}
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-base font-bold text-slate-900 truncate pr-2" title={goal.name}>
+            {goal.name}
+          </span>
+          <span className="text-lg font-extrabold font-mono text-indigo-600">{formatCurrency(goal.amount)}</span>
         </div>
-        
-        {/* Actions menu */}
-        <div className="relative">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpenMenuId(openMenuId === goal._id ? null : goal._id);
-            }}
-            className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all duration-200"
-          >
-            <MoreVertical size={18} />
-          </button>
-          {openMenuId === goal._id && (
-            <div className="absolute right-0 top-12 w-36 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-10">
-              <div className="py-1">
-                <button
-                  onClick={() => {
-                    onEdit(goal._id);
-                    setOpenMenuId(null);
-                  }}
-                  className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 w-full text-left transition-all duration-200"
-                >
-                  <Edit size={16} className="mr-2" />
-                  Edit
-                </button>
-                <button
-                  onClick={() => {
-                    onDelete(goal._id);
-                    setOpenMenuId(null);
-                  }}
-                  className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left transition-all duration-200"
-                >
-                  <Trash2 size={16} className="mr-2" />
-                  Delete
-                </button>
-              </div>
-            </div>
+        {/* Second row: Category & (optional) detail */}
+        <div className="flex items-center justify-between mb-1">
+          <span className="inline-flex items-center gap-2">
+            <span className={`w-2 h-2 rounded-full`} style={{ background: dotColor }}></span>
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
+              {goal.category}
+            </span>
+          </span>
+          {goal.detail && (
+            <span className="text-xs text-slate-400 italic truncate max-w-[120px] text-right" title={goal.detail}>{goal.detail}</span>
           )}
         </div>
-      </div>
-
-      {/* Budget progress section */}
-      <div className="mb-4">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-slate-600">Budget Progress</span>
-          <span className={`text-sm font-bold ${isExceeded ? 'text-red-600' : 'text-indigo-600'}`}>
-            {progress.toFixed(1)}%
+        {/* Progress bar row */}
+        <div className="flex items-center gap-2 mt-1">
+          <div className="w-24 h-2 bg-slate-200 rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all duration-700"
+              style={{
+                width: `${Math.min(progress, 100)}%`,
+                background: isExceeded
+                  ? 'linear-gradient(to right, #f87171, #ef4444)'
+                  : 'linear-gradient(to right, #3b82f6, #6366f1)'
+              }}
+            />
+          </div>
+          <span className="text-xs text-slate-500">{progress.toFixed(0)}% complete</span>
+        </div>
+        {/* Enhanced details row */}
+        <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-slate-600">
+          {/* Spent */}
+          <span className="font-semibold text-indigo-700">{formatCurrency(spending)} spent</span>
+          {/* Remaining */}
+          <span className={`font-semibold ${remaining < 0 ? 'text-red-600' : 'text-green-700'}`}>{remaining < 0 ? `${formatCurrency(Math.abs(remaining))} over` : `${formatCurrency(remaining)} left`}</span>
+          {/* Due date */}
+          <span className="flex items-center gap-1 text-slate-500">
+            <Calendar size={14} />
+            {goal.date ? new Date(goal.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'No due date'}
           </span>
-        </div>
-        <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
-          <div
-            className={`h-full transition-all duration-700 ${
-              isExceeded 
-                ? 'bg-gradient-to-r from-red-400 to-red-600' 
-                : 'bg-gradient-to-r from-indigo-400 to-indigo-600'
-            }`}
-            style={{ width: `${Math.min(progress, 100)}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Spending details */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-sm">
-          <span className="text-slate-600">Spent: </span>
-          <span className="font-bold text-slate-800">{formatCurrency(spending)}</span>
-        </div>
-        <div className="text-sm">
-          <span className="text-slate-600">Remaining: </span>
-          <span className={`font-bold ${remaining >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-            {formatCurrency(Math.abs(remaining))}
-            {remaining < 0 && ' over'}
+          {/* Days left */}
+          <span className={`font-semibold ${goal.date && new Date(goal.date) < new Date() ? 'text-red-600' : 'text-slate-500'}`}>{(() => {
+            if (!goal.date) return '';
+            const today = new Date();
+            const due = new Date(goal.date);
+            const diff = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
+            if (diff > 1) return `${diff} days left`;
+            if (diff === 1) return '1 day left';
+            if (diff === 0) return 'Due today';
+            return `Overdue by ${Math.abs(diff)} day${Math.abs(diff) > 1 ? 's' : ''}`;
+          })()}</span>
+          {/* Status pill with dropdown */}
+          <span className="relative z-50">
+            <button
+              ref={statusBtnRef}
+              onClick={handleStatusDropdown}
+              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold border transition-all duration-200 ml-2 ${
+                'border-slate-200'
+              }`}
+              style={{ background: '#fff', color: getStatusColor(goal.status), borderColor: getStatusColor(goal.status) + '33' }}
+            >
+              <span className="w-2 h-2 rounded-full" style={{ background: getStatusColor(goal.status) }}></span>
+              {goalStatuses.find(s => s.value === goal.status)?.label || goal.status}
+              <ChevronDown size={14} className="ml-1" />
+            </button>
+            {openStatusId === goal._id && (
+              <Portal>
+                <div
+                  ref={statusDropdownRef}
+                  className="absolute w-32 bg-white rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 z-[9999] animate-fadeIn border border-slate-200"
+                  style={{
+                    left: dropdownCoords.left,
+                    top: dropdownCoords.top,
+                    position: 'absolute',
+                  }}
+                >
+                  {goalStatuses.map(status => (
+                    <button
+                      key={status.value}
+                      onClick={e => {
+                        e.stopPropagation();
+                        setOpenStatusId(null);
+                        if (goal.status !== status.value) onStatusChange(goal._id, status.value, e);
+                      }}
+                      className={`flex items-center gap-2 px-4 py-2 text-xs w-full text-left rounded-lg transition-all duration-200 ${goal.status === status.value ? 'bg-indigo-50 font-bold' : 'hover:bg-slate-50'}`}
+                      style={{ color: status.color }}
+                    >
+                      <span className="w-2 h-2 rounded-full" style={{ background: status.color }}></span>
+                      {status.label}
+                    </button>
+                  ))}
+                </div>
+              </Portal>
+            )}
           </span>
-        </div>
-      </div>
-
-      {/* Status dropdown */}
-      <div className="flex justify-center">
-        <div className="relative">
-          <button
-            type="button"
-            ref={statusBtnRef}
-            className="flex items-center justify-between gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500/20 min-w-32"
-            style={{ color: getStatusColor(goal.status) }}
-            onClick={handleStatusBtnClick}
-          >
-            <span className="capitalize">{goalStatuses.find(s => s.value === goal.status)?.label || goal.status}</span>
-            <ChevronDown size={16} className={`transition-transform duration-200 ${openStatusId === goal._id ? 'rotate-180' : ''}`} />
-          </button>
-          {openStatusId === goal._id && (
-            <Portal>
-              <div
-                className="absolute z-50 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-60 overflow-y-auto"
-                style={{
-                  top: dropdownPos.top,
-                  left: dropdownPos.left,
-                  width: dropdownPos.width,
-                  position: 'absolute',
-                }}
-              >
-                {goalStatuses.map(status => (
-                  <button
-                    key={status.value}
-                    className={`w-full text-left px-4 py-3 text-sm font-semibold capitalize transition-colors duration-150 ${
-                      goal.status === status.value 
-                        ? 'bg-indigo-50 text-indigo-700' 
-                        : 'text-slate-700 hover:bg-slate-50'
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenStatusId(null);
-                      if (goal.status !== status.value) {
-                        onStatusChange(goal._id, status.value);
-                      }
-                    }}
-                  >
-                    {status.label}
-                  </button>
-                ))}
-              </div>
-            </Portal>
-          )}
         </div>
       </div>
     </div>

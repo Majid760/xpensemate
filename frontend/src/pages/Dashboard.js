@@ -105,7 +105,7 @@ const Dashboard = ({ expanded, setExpanded }) => {
         {/* Top Bar */}
         <TopBar />
         {/* Main Content Container - Consistent padding with QuickAccess */}
-        <div className="max-w-8xl  px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <div className="max-w-8xl  px-4 sm:px-6 lg:px-8 py-0 space-y-6">
            {/* Quick Access Section */}
         <QuickAccess
           onAddPayment={handleAddPayment}
