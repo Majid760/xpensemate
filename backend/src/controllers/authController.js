@@ -15,6 +15,12 @@ const verificationEmailLimiter = new RateLimiterMemory({
   points: 3, // Number of attempts
   duration: 60 * 60, // Per hour
 });
+
+// Rate limiter for resend verification emails
+const resendVerificationLimiter = new RateLimiterMemory({
+  points: 3, // Maximum 3 attempts
+  duration: 60 * 60, // Within 1 hour
+});
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
@@ -27,6 +33,8 @@ class AuthController {
     this.getUser = this.getUser.bind(this);
     this.changePassword = this.changePassword.bind(this);
     this.sendWelcomeEmail = this.sendWelcomeEmail.bind(this);
+    this.sendEmailVerification = this.sendEmailVerification.bind(this);
+    this.resendVerificationEmail = this.resendVerificationEmail.bind(this);
     this.googleOAuth = this.googleOAuth.bind(this);
     this.refreshToken = this.refreshToken.bind(this);
   }
@@ -71,19 +79,33 @@ class AuthController {
         lastName,
         email,
         password,
-        userSecret: require('crypto').randomBytes(32).toString('hex')
+        userSecret: crypto.randomBytes(32).toString('hex')
       });
 
       await user.save();
 
       // Send verification email + welcome email 
-      await this.sendVerificationEmail(user);
-      await this.sendWelcomeEmail(user);
-
+      try {
+        const verificationResult = await this.sendEmailVerification(user);
+        if (verificationResult.success) {
+          await this.sendWelcomeEmail(user);
+        } else {
+          logger.warn('Verification email failed, but registration successful', {
+            error: verificationResult.message,
+            userId: user._id
+          });
+        }
+      } catch (emailError) {
+        logger.warn('Email sending failed, but registration successful', {
+          error: emailError.message,
+          userId: user._id
+        });
+        // Continue with registration even if email fails
+      }
       res.status(201).json({
         type: 'success',
         title: 'Registration Successful',
-        message: 'Please check your email to verify your account'
+        message: 'Please check your email to verify your account',
       });
     } catch (error) {
       logger.error('Registration error', { error: error.message, stack: error.stack });
@@ -146,7 +168,6 @@ class AuthController {
             });
           }
         }
-
         // Verify password
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
@@ -192,9 +213,11 @@ class AuthController {
         type: 'success',
         title: 'Login Successful',
         message: 'Welcome back!',
-        user: user.getPublicProfile(), 
-        token,
-        refreshToken,
+        data: { 
+          user: user.getPublicProfile(), 
+          token,
+          refreshToken,
+        }
       });
     } catch (error) {
       logger.error('Login error', { error: error.message, stack: error.stack });
@@ -228,6 +251,14 @@ class AuthController {
       );
 
       res.json({ accessToken });
+      res.status(200).json({
+        type: 'success',
+        title: 'Refresh Token Successful',
+        message: 'Welcome back!',
+        data: { 
+          accessToken,
+        }
+      });
     } catch (error) {
       return res.status(403).json({ message: 'Invalid refresh token' });
     }
@@ -272,6 +303,7 @@ class AuthController {
         type: 'success',
         title: 'Verification Successful',
         message: 'Email verified successfully'
+
       });
     } catch (error) {
       logger.error('Email verification error', { error: error.message, stack: error.stack });
@@ -279,6 +311,113 @@ class AuthController {
         type: 'error',
         title: 'Verification Failed',
         message: 'Invalid or expired verification token'
+      });
+    }
+  }
+
+  /**
+   * Resend verification email
+   * @param {Object} req - Express request object
+   * @param {Object} res - Express response object
+   */
+  async resendVerificationEmail(req, res) {
+    try {
+      const { email } = req.body;
+      logger.info('Resend verification email attempt', { email });
+
+      if (!email) {
+        return res.status(400).json({
+          type: 'error',
+          title: 'Request Failed',
+          message: 'Email is required'
+        });
+      }
+
+      // Find user by email
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({
+          type: 'error',
+          title: 'User Not Found',
+          message: 'No account found with this email address'
+        });
+      }
+
+      // Check if user is already verified
+      if (user.isVerified) {
+        return res.status(200).json({
+          type: 'success',
+          title: 'Already Verified',
+          message: 'Your email is already verified'
+        });
+      }
+
+      // Apply rate limiting
+      try {
+        await resendVerificationLimiter.consume(email);
+      } catch (rateLimitError) {
+        if (rateLimitError.name === 'RateLimiterError') {
+          logger.warn('Rate limit exceeded for resend verification email', {
+            email: email,
+            remainingPoints: rateLimitError.remainingPoints,
+            msBeforeNext: rateLimitError.msBeforeNext
+          });
+
+          const minutesRemaining = Math.ceil(rateLimitError.msBeforeNext / (1000 * 60));
+          
+          return res.status(429).json({
+            type: 'error',
+            title: 'Too Many Requests',
+            message: `You've exceeded the limit of 3 verification email requests per hour. Please try again in ${minutesRemaining} minutes.`,
+            retryAfter: Math.ceil(rateLimitError.msBeforeNext / 1000)
+          });
+        }
+        throw rateLimitError;
+      }
+
+      // Send verification email
+      const result = await this.sendEmailVerification(user);
+
+      if (result.success) {
+        logger.info('Resend verification email sent successfully', {
+          email: email,
+          userId: user._id
+        });
+
+        res.status(200).json({
+          type: 'success',
+          title: 'Verification Email Sent',
+          message: 'Please check your email for verification instructions',
+         
+        });
+      } else {
+        logger.error('Failed to send resend verification email', {
+          email: email,
+          userId: user._id,
+          error: result.error
+        });
+
+        res.status(500).json({
+          type: 'error',
+          title: 'Email Sending Failed',
+          message: 'Failed to send verification email. Please try again later.',
+       
+        });
+      }
+
+    } catch (error) {
+      logger.error('Resend verification email error', {
+        error: error.message,
+        stack: error.stack,
+        email: req.body.email
+      });
+
+      res.status(500).json({
+        type: 'error',
+        title: 'Request Failed',
+        message: 'An error occurred while processing your request',
+        data: {
+        }
       });
     }
   }
@@ -396,7 +535,9 @@ class AuthController {
         type: 'success',
         title: 'Profile Retrieved',
         message: 'Profile retrieved successfully',
-        user: user.getPublicProfile()
+        data: {
+          user: user.getPublicProfile(),
+        }
       });
     } catch (error) {
       logger.error('Get profile error', { error: error.message, stack: error.stack });
@@ -442,7 +583,9 @@ class AuthController {
       res.status(200).json({
         type: 'success',
         title: 'Password Changed',
-        message: 'Password changed successfully'
+        message: 'Password changed successfully',
+        data: {
+        }
       });
     } catch (error) {
       logger.error('Change password error', { error: error.message, stack: error.stack });
@@ -454,28 +597,96 @@ class AuthController {
     }
   }
 
-  // Helper method to send verification email
-  async sendVerificationEmail(user) {
+  /**
+   * Send email verification
+   * @param {Object} user - User object
+   * @param {string} user._id - User ID
+   * @param {string} user.email - User email
+   * @param {string} user.firstName - User first name
+   * @param {string} user.lastName - User last name
+   * @returns {Promise<Object>} Email sending result
+   */
+  async sendEmailVerification(user) {
     try {
+      // Validate user object
+      if (!user || !user._id || !user.email) {
+        throw new Error('Invalid user object provided');
+      }
+
+      // Check if user is already verified
+      if (user.isVerified) {
+        logger.info('User already verified, skipping verification email', { 
+          userId: user._id,
+          email: user.email 
+        });
+        return {
+          success: true,
+          message: 'User already verified',
+          alreadyVerified: true
+        };
+      }
+
+      // Generate verification token
       const token = jwt.sign(
-        { userId: user._id },
+        { 
+          userId: user._id,
+          email: user.email,
+          type: 'email_verification'
+        },
         process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );
 
+      // Create verification URL
       const verificationUrl = `${process.env.FRONTEND_URL}/verify-email/${token}`;
       
-      await emailService.sendVerificationEmail(user.email,token);
+      logger.info('Sending verification email', { 
+        userId: user._id,
+        email: user.email,
+        verificationUrl: verificationUrl
+      });
 
-      logger.info('Verification email sent', { userId: user._id });
+      // Send verification email
+      await emailService.sendVerificationEmail(user.email, token);
+
+      logger.info('Verification email sent successfully', { 
+        userId: user._id,
+        email: user.email 
+      });
+
+      return {
+        success: true,
+        message: 'Verification email sent successfully',
+        token: token,
+        verificationUrl: verificationUrl,
+        data: {
+        }
+      };
+
     } catch (error) {
       logger.error('Send verification email error', { 
         error: error.message, 
         stack: error.stack,
-        userId: user._id 
+        userId: user._id,
+        email: user.email
       });
-      throw error;
+      
+      // Return error object instead of throwing
+      return {
+        success: false,
+        message: 'Failed to send verification email',
+        error: error.message
+      };
     }
+  }
+
+  // Helper method to send verification email (keeping for backward compatibility)
+  async sendVerificationEmail(user) {
+    const result = await this.sendEmailVerification(user);
+    if (!result.success) {
+      throw new Error(result.message);
+    }
+    return result;
   }
 
   // Helper method to send welcome email
@@ -599,17 +810,19 @@ class AuthController {
         type: 'success',
         title: 'Google authentication successful',
         message: 'Welcome back!',
-        token,
-        refreshToken,
-        user: {
-          id: user._id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          fullName: `${user.firstName} ${user.lastName}`,
-          profilePhoto: user.profilePhotoUrl,
-          isVerified: user.isVerified
-        }
+        data: {
+          token,
+          refreshToken,
+          user: {
+            id: user._id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            fullName: `${user.firstName} ${user.lastName}`,
+            profilePhoto: user.profilePhotoUrl,
+            isVerified: user.isVerified
+          }
+        },
       });
 
     } catch (error) {

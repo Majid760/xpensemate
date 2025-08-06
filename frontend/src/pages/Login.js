@@ -44,14 +44,14 @@ const Login = () => {
         }
       );
       // Check if the response is successful
-      if (response.data.type === 'success' && response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('refreshToken', response.data.refreshToken);
-        Cookies.set('token', response.data.token, {
+      if (response.data.type === 'success' && response.data.data.token) {
+        localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('refreshToken', response.data.data.refreshToken);
+        Cookies.set('token', response.data.data.token, {
           expires: 1,   
           sameSite: 'Strict', 
         });
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.token}`;
         
         // Force a page reload to ensure AuthContext picks up the new token
         navigate('/dashboard');
@@ -77,10 +77,10 @@ const Login = () => {
         rememberMe: remember
       });
 
-      console.log('Login response:', res.data);
+      console.log('Login response:', res.data.data);
 
       // Store the token in localStorage
-      const { token, refreshToken } = res.data;
+      const { token, refreshToken } = res.data.data;
       localStorage.setItem('token', token);
       localStorage.setItem('refreshToken', refreshToken);
       Cookies.set('token', token, {

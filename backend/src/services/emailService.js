@@ -12,14 +12,31 @@ const rateLimiter = new RateLimiterMemory({
 class EmailService {
   constructor() {
     this.transporter = null;
-    this.initializeTransporter();
+    // Don't initialize immediately - wait until first use
   }
 
   /**
    * Initialize SMTP transporter
    */
   initializeTransporter() {
+    // Only initialize if not already initialized
+    if (this.transporter) {
+      return;
+    }
+
     try {
+      // Debug environment variables
+      logger.info('Email configuration debug', {
+        SMTP_USER: process.env.SMTP_USER ? 'Set' : 'Not set',
+        SMTP_PASS: process.env.SMTP_PASS ? 'Set' : 'Not set',
+        NODE_ENV: process.env.NODE_ENV
+      });
+
+      // Validate required environment variables
+      if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+        throw new Error('SMTP credentials not configured. Please set SMTP_USER and SMTP_PASS environment variables.');
+      }
+
       const smtpConfig = {
         host: 'smtp.gmail.com',
         port: 587,
@@ -38,6 +55,8 @@ class EmailService {
         host: smtpConfig.host,
         port: smtpConfig.port,
         secure: smtpConfig.secure,
+        user: smtpConfig.auth.user ? 'Set' : 'Not set',
+        pass: smtpConfig.auth.pass ? 'Set' : 'Not set'
       });
 
       this.transporter = nodemailer.createTransport(smtpConfig);
@@ -63,9 +82,7 @@ class EmailService {
    */
   async sendSupportEmail({ from, fromName, subject, message }) {
     try {
-      if (!this.transporter) {
-        this.initializeTransporter();
-      }
+      this.initializeTransporter();
 
       const mailOptions = {
         from: `"${fromName}" <${from}>`,
@@ -145,9 +162,7 @@ class EmailService {
    */
   async sendVerificationEmail(email, token) {
     try {
-      if (!this.transporter) {
-        this.initializeTransporter();
-      }
+      this.initializeTransporter();
 
       if (!email || !token) {
         throw new Error('Email and token are required');
@@ -219,9 +234,7 @@ class EmailService {
    */
   async sendPasswordResetEmail(email, token) {
     try {
-      if (!this.transporter) {
-        this.initializeTransporter();
-      }
+      this.initializeTransporter();
 
       const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
       const mailOptions = {
@@ -276,9 +289,7 @@ class EmailService {
    */
   async sendWelcomeEmail(email, name) {
     try {
-      if (!this.transporter) {
-        this.initializeTransporter();
-      }
+      this.initializeTransporter();
       const mailOptions = {
         from: `"ExpenseMate" <${process.env.SUPPORT_EMAIL}>`,
         to: email,
@@ -367,6 +378,35 @@ class EmailService {
       return true;
     } catch (error) {
       throw new Error('Rate limit exceeded. Please try again later.');
+    }
+  }
+
+  /**
+   * Test SMTP connection
+   * @returns {Promise<Object>} Test result
+   */
+  async testSMTPConnection() {
+    try {
+      this.initializeTransporter();
+
+      // Verify SMTP connection
+      await this.transporter.verify();
+      
+      logger.info('SMTP connection test successful');
+      return {
+        success: true,
+        message: 'SMTP connection is working correctly'
+      };
+    } catch (error) {
+      logger.error('SMTP connection test failed', {
+        error: error.message,
+        code: error.code
+      });
+      return {
+        success: false,
+        message: 'SMTP connection test failed',
+        error: error.message
+      };
     }
   }
 }

@@ -51,7 +51,7 @@ axios.interceptors.response.use(
           axios
             .post('/auth/refresh-token', { token: refreshToken })
             .then(({ data }) => {
-              const { accessToken } = data;
+              const { accessToken } = data.data;
               localStorage.setItem('token', accessToken);
               Cookies.set('token', accessToken, {
                 expires: 1,   

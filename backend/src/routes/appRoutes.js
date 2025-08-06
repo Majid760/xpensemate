@@ -17,6 +17,7 @@ router.post('/auth/login', authController.login);
 router.post('/auth/forgot-password', authController.forgotPassword);
 router.post('/auth/reset-password/:token', authController.resetPassword);
 router.get('/verify-email/:token', authController.verifyEmail);
+router.post('/auth/resend-verification', authController.resendVerificationEmail);
 router.post('/auth/refresh-token', authController.refreshToken);
 
 // Google OAuth routes
@@ -24,6 +25,7 @@ router.post('/auth/google-oauth', authController.googleOAuth);
 
 // Add after other public routes
 router.post('/subscribe-newsletter', utilityController.subscribeEmail);
+
 
 // get profile
 router.get('/user/me', requireAuth, authController.getUser);
