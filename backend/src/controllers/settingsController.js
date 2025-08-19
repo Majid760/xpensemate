@@ -45,7 +45,6 @@ class SettingsController {
         profileCompletion
       });
     } catch (error) {
-      console.logger(`err occurs while updateing the user => ${error.message}`);
       logger.error('Update user settings error', { 
         error: error.message, 
         stack: error.stack,

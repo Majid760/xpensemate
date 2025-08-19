@@ -186,14 +186,14 @@ class AuthController {
           name: user.name
         },
         process.env.JWT_SECRET,
-        { expiresIn: '1m' }
+        { expiresIn: '60m' }
       );
 
       // Generate refresh token
       const refreshToken = jwt.sign(
         { id: user._id },
         process.env.JWT_REFRESH_SECRET,
-        { expiresIn: '7d' }
+        { expiresIn: '90m' }
       );
 
       // Save refresh token to user
@@ -217,6 +217,7 @@ class AuthController {
           user: user.getPublicProfile(), 
           token,
           refreshToken,
+          expiresIn:token.expiresIn ??  '2d',
         }
       });
     } catch (error) {
@@ -235,7 +236,7 @@ class AuthController {
     if (!refreshToken) {
       return res.status(401).json({ message: 'Refresh token not provided' });
     }
-
+ 
     try {
       const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
       const user = await User.findById(decoded.id);

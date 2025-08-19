@@ -2,7 +2,6 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import apiService from '../services/apiService';
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL; // Use env variable or fallback
 
@@ -51,7 +50,10 @@ axios.interceptors.response.use(
           axios
             .post('/auth/refresh-token', { token: refreshToken })
             .then(({ data }) => {
-              const { accessToken } = data.data;
+              const accessToken = data?.data?.accessToken ?? data?.accessToken ?? data?.token;
+              if (!accessToken) {
+                throw new Error('AuthContext: Refresh response missing accessToken');
+              }
               localStorage.setItem('token', accessToken);
               Cookies.set('token', accessToken, {
                 expires: 1,   
@@ -155,12 +157,14 @@ export const AuthProvider = ({ children }) => {
           
           try {
             // Fetch user data
-            const response = await axios.get('/user/me');            
-            if (response.data && response.data.user) {
-              setUser(response.data.user);
+            const response = await axios.get('/user/me');
+            const responseData = response?.data;
+            const extractedUser = responseData?.user ?? responseData?.data?.user ?? null;
+            if (extractedUser) {
+              setUser(extractedUser);
               console.log('AuthContext: User set successfully');
             } else {
-              console.error('AuthContext: Invalid response format:', response.data);
+              console.error('AuthContext: Invalid response format:', responseData);
               // Don't clear token for invalid response format, just set user to null
               setUser(null);
             }
