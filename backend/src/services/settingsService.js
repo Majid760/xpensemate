@@ -54,6 +54,44 @@ class SettingsService {
       // Create a copy of the update data
       const filteredUpdateData = { ...updateData };
 
+      // Normalize input types to match schema
+      // Normalize gender (accept case-insensitive values; map to 'Male' | 'Female' | 'Other' | null)
+      if (Object.prototype.hasOwnProperty.call(filteredUpdateData, 'gender')) {
+        const rawGender = filteredUpdateData.gender;
+        if (typeof rawGender === 'string') {
+          const normalized = rawGender.trim().toLowerCase();
+          if (normalized === 'male') filteredUpdateData.gender = 'Male';
+          else if (normalized === 'female') filteredUpdateData.gender = 'Female';
+          else if (normalized === 'other') filteredUpdateData.gender = 'Other';
+          else if (normalized === '' || normalized === 'null' || normalized === 'undefined') filteredUpdateData.gender = null;
+          else filteredUpdateData.gender = null; // fallback to null for any unsupported value
+        } else if (rawGender === null || rawGender === undefined) {
+          filteredUpdateData.gender = null;
+        }
+      }
+
+      // Normalize contactNumber (schema expects string)
+      if (Object.prototype.hasOwnProperty.call(filteredUpdateData, 'contactNumber')) {
+        const rawPhone = filteredUpdateData.contactNumber;
+        if (typeof rawPhone === 'object' && rawPhone !== null) {
+          // Attempt to pick a sensible string from known shapes
+          const possible = rawPhone.e164 || rawPhone.number || rawPhone.phone || rawPhone.nsn || '';
+          filteredUpdateData.contactNumber = typeof possible === 'string' ? possible : String(possible || '');
+        } else if (rawPhone === null || rawPhone === undefined) {
+          filteredUpdateData.contactNumber = '';
+        } else {
+          filteredUpdateData.contactNumber = String(rawPhone);
+        }
+      }
+
+      // Normalize dob: allow empty string -> null
+      if (Object.prototype.hasOwnProperty.call(filteredUpdateData, 'dob')) {
+        const rawDob = filteredUpdateData.dob;
+        if (rawDob === '' || rawDob === null || rawDob === undefined) {
+          filteredUpdateData.dob = null;
+        }
+      }
+
       // Handle required fields
       this.requiredFields.forEach(field => {
         if (!updateData[field]) {

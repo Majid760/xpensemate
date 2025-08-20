@@ -364,7 +364,7 @@ const SettingsContent = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-      return response.data.url;
+      return response.data.data.url;
     } catch (error) {
       console.error(`Error uploading ${type} photo:`, error);
       throw new Error(`Failed to upload ${type} photo`);
@@ -410,8 +410,8 @@ const SettingsContent = () => {
       });
 
       // Update user context with new data
-      if (response.data) {
-        updateUser(response.data);
+      if (response.data.data) {
+        updateUser(response.data.data);
         setSuccess('Settings updated successfully');
         setSelectedProfilePhoto(null);
         setSelectedCoverPhoto(null);

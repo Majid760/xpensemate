@@ -14,10 +14,15 @@ class SettingsController {
     try {
       const user = await authController.getUser(req, res);
       const profileCompletion = settingsService.calculateProfileCompletion(user);
-      
+
       res.json({
-        ...user.toObject(),
-        profileCompletion
+        type: 'success',
+        title: 'User settings fetched successfully',
+        message: 'User settings fetched successfully',
+        data: {
+          ...user.toObject(),
+          profileCompletion,
+        }
       });
     } catch (error) {
       logger.error('Get user settings error', { error: error.message, stack: error.stack });
@@ -34,22 +39,28 @@ class SettingsController {
   async updateUser(req, res) {
     try {
       logger.info('Updating user settings:', { userId: req.user._id, updateData: req.body });
-      
+
       const updatedUser = await settingsService.updateUser(req.user._id, req.body);
       const profileCompletion = settingsService.calculateProfileCompletion(updatedUser);
-      
+
       logger.info('User settings updated successfully:', { userId: req.user._id });
-      
+
       res.json({
-        ...updatedUser.toObject(),
-        profileCompletion
+        type: 'success',
+        title: 'User settings updated successfully',
+        message: 'User settings updated successfully',
+        data: {
+          ...updatedUser.toObject(),
+          profileCompletion,
+        },
+       
       });
     } catch (error) {
-      logger.error('Update user settings error', { 
-        error: error.message, 
+      logger.error('Update user settings error', {
+        error: error.message,
         stack: error.stack,
         userId: req.user._id,
-        updateData: req.body 
+        updateData: req.body
       });
       res.status(500).json({ error: error.message });
     }
@@ -68,18 +79,25 @@ class SettingsController {
       }
 
       logger.info('Uploading profile photo:', { userId: req.user._id });
-      
+
       // Upload to Cloudinary using storage service
       const url = await storageService.uploadProfilePhoto(req.file);
-      
+
       logger.info('Profile photo uploaded successfully:', { userId: req.user._id, url });
-      
-      res.json({ url });
+
+      res.json({
+        type: 'success',
+        title: 'Profile photo uploaded successfully',
+        message: 'Profile photo uploaded successfully',
+        data: {
+          url
+        }
+      });
     } catch (error) {
-      logger.error('Upload profile photo error', { 
-        error: error.message, 
+      logger.error('Upload profile photo error', {
+        error: error.message,
         stack: error.stack,
-        userId: req.user._id 
+        userId: req.user._id
       });
       res.status(500).json({ error: error.message });
     }
@@ -98,18 +116,25 @@ class SettingsController {
       }
 
       logger.info('Uploading cover photo:', { userId: req.user._id });
-      
+
       // Upload to Cloudinary using storage service
       const url = await storageService.uploadCoverPhoto(req.file);
-      
+
       logger.info('Cover photo uploaded successfully:', { userId: req.user._id, url });
-      
-      res.json({ url });
+
+      res.json({
+        data: {
+          url
+        },
+        type: 'success',
+        title: 'Cover photo uploaded successfully',
+        message: 'Cover photo uploaded successfully'
+      });
     } catch (error) {
-      logger.error('Upload cover photo error', { 
-        error: error.message, 
+      logger.error('Upload cover photo error', {
+        error: error.message,
         stack: error.stack,
-        userId: req.user._id 
+        userId: req.user._id
       });
       res.status(500).json({ error: error.message });
     }

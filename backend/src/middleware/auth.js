@@ -47,8 +47,7 @@ const requireAuth = async (req, res, next) => {
       throw new Error('Invalid token');
     }
   } catch (error) {
-    logger.info('what the fuck is going on');
-    logger.error('Authentication error 1234', { 
+    logger.error('Authentication error', { 
       error: error.message,
       path: req.path
     });

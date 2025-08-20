@@ -50,7 +50,7 @@ axios.interceptors.response.use(
           axios
             .post('/auth/refresh-token', { token: refreshToken })
             .then(({ data }) => {
-              const accessToken = data?.data?.accessToken ?? data?.accessToken ?? data?.token;
+              const accessToken = data?.data?.token ?? data?.token;
               if (!accessToken) {
                 throw new Error('AuthContext: Refresh response missing accessToken');
               }
@@ -121,10 +121,10 @@ export const AuthProvider = ({ children }) => {
       try {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const response = await axios.get('/user/me');
-        console.log('Token validation successful:', response.data);
+        console.log('Token validation successful:', response.data.data);
         return true;
       } catch (error) {
-        console.error('Token validation failed:', error.response?.status, error.response?.data);
+        console.error('Token validation failed:', error.response?.status, error.response?.data.data);
         return false;
       }
     }
@@ -158,7 +158,7 @@ export const AuthProvider = ({ children }) => {
           try {
             // Fetch user data
             const response = await axios.get('/user/me');
-            const responseData = response?.data;
+            const responseData = response?.data?.data;
             const extractedUser = responseData?.user ?? responseData?.data?.user ?? null;
             if (extractedUser) {
               setUser(extractedUser);

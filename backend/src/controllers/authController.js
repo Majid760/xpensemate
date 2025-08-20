@@ -193,7 +193,7 @@ class AuthController {
       const refreshToken = jwt.sign(
         { id: user._id },
         process.env.JWT_REFRESH_SECRET,
-        { expiresIn: '90m' }
+        { expiresIn: '365d' }
       );
 
       // Save refresh token to user
@@ -217,7 +217,7 @@ class AuthController {
           user: user.getPublicProfile(), 
           token,
           refreshToken,
-          expiresIn:token.expiresIn ??  '2d',
+          expiresIn:token.expiresIn ??  '60m',
         }
       });
     } catch (error) {
@@ -245,19 +245,19 @@ class AuthController {
         return res.status(403).json({ message: 'Invalid refresh token' });
       }
 
-      const accessToken = jwt.sign(
+      const token = jwt.sign(
         { id: user._id, email: user.email, name: user.name },
         process.env.JWT_SECRET,
-        { expiresIn: '1d' }
+        { expiresIn: '60m' }
       );
 
-      res.json({ accessToken });
+      res.json({ token });
       res.status(200).json({
         type: 'success',
         title: 'Refresh Token Successful',
         message: 'Welcome back!',
         data: { 
-          accessToken,
+          token,
         }
       });
     } catch (error) {
