@@ -6,9 +6,6 @@ import authController from './authController.js';
 class SettingsController {
   /**
    * Handles HTTP request to get the current user and profile completion.
-   * @param {Object} req - Express request object.
-   * @param {Object} res - Express response object.
-   * @returns {void} Responds with user object and profile completion or error.
    */
   async getUser(req, res) {
     try {
@@ -32,9 +29,6 @@ class SettingsController {
 
   /**
    * Handles HTTP request to update user settings.
-   * @param {Object} req - Express request object.
-   * @param {Object} res - Express response object.
-   * @returns {void} Responds with updated user object and profile completion or error.
    */
   async updateUser(req, res) {
     try {
@@ -53,7 +47,6 @@ class SettingsController {
           ...updatedUser.toObject(),
           profileCompletion,
         },
-       
       });
     } catch (error) {
       logger.error('Update user settings error', {
@@ -68,22 +61,40 @@ class SettingsController {
 
   /**
    * Handles HTTP request to upload a profile photo.
-   * @param {Object} req - Express request object.
-   * @param {Object} res - Express response object.
-   * @returns {void} Responds with uploaded photo URL or error.
    */
   async uploadProfilePhoto(req, res) {
     try {
+      // Better debugging - log what we actually receive
+      console.log('Upload profile photo request:', {
+        userId: req.user._id,
+        fileExists: !!req.file,
+        fileDetails: req.file ? {
+          originalname: req.file.originalname,
+          mimetype: req.file.mimetype,
+          size: req.file.size
+        } : null
+      });
+
       if (!req.file) {
-        throw new Error('No file uploaded');
+        logger.error('No file uploaded in profile photo request', { userId: req.user._id });
+        return res.status(400).json({ 
+          error: 'No file uploaded. Please select a file to upload.' 
+        });
       }
 
-      logger.info('Uploading profile photo:', { userId: req.user._id });
+      logger.info('Starting profile photo upload:', { 
+        userId: req.user._id,
+        filename: req.file.originalname,
+        size: req.file.size 
+      });
 
       // Upload to Cloudinary using storage service
       const url = await storageService.uploadProfilePhoto(req.file);
 
-      logger.info('Profile photo uploaded successfully:', { userId: req.user._id, url });
+      logger.info('Profile photo uploaded successfully:', { 
+        userId: req.user._id, 
+        url: url 
+      });
 
       res.json({
         type: 'success',
@@ -97,48 +108,94 @@ class SettingsController {
       logger.error('Upload profile photo error', {
         error: error.message,
         stack: error.stack,
-        userId: req.user._id
+        userId: req.user?._id,
+        fileInfo: req.file ? {
+          originalname: req.file.originalname,
+          mimetype: req.file.mimetype,
+          size: req.file.size
+        } : 'No file'
       });
-      res.status(500).json({ error: error.message });
+
+      // Send more specific error message
+      const errorMessage = error.message.includes('Cloudinary') 
+        ? 'Failed to upload image to storage service. Please try again.'
+        : error.message || 'Failed to upload profile photo';
+        
+      res.status(500).json({ 
+        error: errorMessage,
+        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      });
     }
   }
 
   /**
    * Handles HTTP request to upload a cover photo.
-   * @param {Object} req - Express request object.
-   * @param {Object} res - Express response object.
-   * @returns {void} Responds with uploaded cover photo URL or error.
    */
   async uploadCoverPhoto(req, res) {
     try {
+      // Better debugging
+      console.log('Upload cover photo request:', {
+        userId: req.user._id,
+        fileExists: !!req.file,
+        fileDetails: req.file ? {
+          originalname: req.file.originalname,
+          mimetype: req.file.mimetype,
+          size: req.file.size
+        } : null
+      });
+
       if (!req.file) {
-        throw new Error('No file uploaded');
+        logger.error('No file uploaded in cover photo request', { userId: req.user._id });
+        return res.status(400).json({ 
+          error: 'No file uploaded. Please select a file to upload.' 
+        });
       }
 
-      logger.info('Uploading cover photo:', { userId: req.user._id });
+      logger.info('Starting cover photo upload:', { 
+        userId: req.user._id,
+        filename: req.file.originalname,
+        size: req.file.size 
+      });
 
       // Upload to Cloudinary using storage service
       const url = await storageService.uploadCoverPhoto(req.file);
 
-      logger.info('Cover photo uploaded successfully:', { userId: req.user._id, url });
+      logger.info('Cover photo uploaded successfully:', { 
+        userId: req.user._id, 
+        url: url 
+      });
 
       res.json({
-        data: {
-          url
-        },
         type: 'success',
         title: 'Cover photo uploaded successfully',
-        message: 'Cover photo uploaded successfully'
+        message: 'Cover photo uploaded successfully',
+        data: {
+          url
+        }
       });
     } catch (error) {
       logger.error('Upload cover photo error', {
         error: error.message,
         stack: error.stack,
-        userId: req.user._id
+        userId: req.user?._id,
+        fileInfo: req.file ? {
+          originalname: req.file.originalname,
+          mimetype: req.file.mimetype,
+          size: req.file.size
+        } : 'No file'
       });
-      res.status(500).json({ error: error.message });
+
+      // Send more specific error message
+      const errorMessage = error.message.includes('Cloudinary') 
+        ? 'Failed to upload image to storage service. Please try again.'
+        : error.message || 'Failed to upload cover photo';
+        
+      res.status(500).json({ 
+        error: errorMessage,
+        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      });
     }
   }
 }
 
-export default new SettingsController(); 
+export default new SettingsController();

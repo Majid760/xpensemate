@@ -170,13 +170,7 @@ export const AuthProvider = ({ children }) => {
             }
           } catch (apiError) {
             console.error('AuthContext: API call failed:', apiError);
-            console.error('AuthContext: Error details:', {
-              status: apiError.response?.status,
-              statusText: apiError.response?.statusText,
-              data: apiError.response?.data,
-              message: apiError.message
-            });
-            
+          
             // Only clear token for 401 errors
             if (apiError.response && apiError.response.status === 401) {
               console.log('AuthContext: 401 error, clearing token and redirecting');
