@@ -66,7 +66,8 @@ const AnalysisView = () => {
   const fetchActivity = async () => {
     try {
       setLoading(true);
-      const { data } = await apiService.get('/dashboard/activity', { withCredentials: true });
+      var { data } = await apiService.get('/dashboard/activity', { withCredentials: true });
+      data = data.data;
       setActivity(data);
     } catch (err) {
       setError(t('analysis.error'));

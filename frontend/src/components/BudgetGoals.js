@@ -96,14 +96,14 @@ export default function BudgetGoals() {
      
 
 
-      setGoals(prev => isLoadingFirstPage ? goalsRes.data.goals : [...prev, ...goalsRes.data.goals]);
-      setPagination(goalsRes.data.pagination);
+      setGoals(prev => isLoadingFirstPage ? goalsRes.data.data.goals : [...prev, ...goalsRes.data.data.goals]);
+      setPagination(goalsRes.data.data.pagination);
 
       // if (statsRes) {
       //   setStats(statsRes.data);
       // }
-      if(goalsRes.data.stats){
-        setStats(goalsRes.data.stats);
+      if(goalsRes.data.data.stats){
+        setStats(goalsRes.data.data.stats);
       }
       
 

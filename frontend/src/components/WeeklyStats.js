@@ -35,7 +35,7 @@ function DonutStat({ value, max, label, color = COLORS.primary, icon: Icon, subt
   const percentage = max > 0 ? Math.min((Math.abs(value) / max) * 100, 100) : 0;
   const isNegative = value < 0;
   const isZero = value === 0;
-  
+
   let data, donutColors;
 
   if (isNegative) {
@@ -78,7 +78,7 @@ function DonutStat({ value, max, label, color = COLORS.primary, icon: Icon, subt
             </Pie>
           </PieChart>
         </ResponsiveContainer>
-        
+
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
           <div className={`flex justify-center mb-1 sm:mb-2 transition-all duration-300 ${isNegative ? 'text-red-500' : 'text-indigo-500'}`}>
             <Icon size={18} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
@@ -91,7 +91,7 @@ function DonutStat({ value, max, label, color = COLORS.primary, icon: Icon, subt
           </div>
         </div>
       </div>
-      
+
       <div className="text-center px-2">
         <h4 className="text-sm sm:text-base font-bold text-slate-800 mb-1">{label}</h4>
         {subtitle && <p className="text-xs text-slate-500 m-0">{subtitle}</p>}
@@ -111,15 +111,15 @@ function DailySpendingChart({ data }) {
       <div className="h-32 sm:h-40">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-            <XAxis 
-              dataKey="day" 
+            <XAxis
+              dataKey="day"
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 11, fill: '#64748b' }}
             />
             <YAxis hide />
-            <Bar 
-              dataKey="amount" 
+            <Bar
+              dataKey="amount"
               fill={COLORS.primary}
               radius={[4, 4, 0, 0]}
               opacity={0.8}
@@ -141,17 +141,17 @@ function SpendingTrendChart({ data }) {
       <div className="h-32 sm:h-40">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-            <XAxis 
-              dataKey="day" 
+            <XAxis
+              dataKey="day"
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 11, fill: '#64748b' }}
             />
             <YAxis hide />
             <Tooltip />
-            <Line 
-              type="monotone" 
-              dataKey="cumulative" 
+            <Line
+              type="monotone"
+              dataKey="cumulative"
               stroke={COLORS.purple}
               strokeWidth={2}
               dot={{ r: 3, stroke: COLORS.purple, strokeWidth: 2, fill: '#fff' }}
@@ -185,9 +185,8 @@ const WeeklyStats = forwardRef((props, ref) => {
       setIsLoading(true);
     }
     try {
-      const { data } = await apiService.get('/expenses/weekly-stats', { withCredentials: true });
-      
-      
+      var { data } = await apiService.get('/expenses/weekly-stats', { withCredentials: true });
+      data = data.data
       setBalanceLeft(data.balanceLeft);
       setWeekTotal(data.weekTotal);
       setWeeklyBudget(data.weeklyBudget);
@@ -203,14 +202,14 @@ const WeeklyStats = forwardRef((props, ref) => {
 
       // Process daily spending data for charts
       if (data.days && Array.isArray(data.days)) {
-        
+
         // Transform the data for the daily spending chart
         const chartData = data.days.map(day => ({
           day: getDayName(day.date),
           amount: parseFloat(day.total) || 0,
           date: day.date
         }));
-        
+
         setDailySpendingData(chartData);
 
         // Create cumulative data for trend chart
@@ -229,7 +228,7 @@ const WeeklyStats = forwardRef((props, ref) => {
         const currentDate = new Date();
         const startOfWeek = new Date(currentDate);
         startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1); // Monday
-        
+
         const emptyWeekData = [];
         for (let i = 0; i < 7; i++) {
           const date = new Date(startOfWeek);
@@ -240,7 +239,7 @@ const WeeklyStats = forwardRef((props, ref) => {
             date: date.toISOString()
           });
         }
-        
+
         setDailySpendingData(emptyWeekData);
         setTrendData(emptyWeekData.map((day, index) => ({
           day: day.day,
@@ -254,7 +253,7 @@ const WeeklyStats = forwardRef((props, ref) => {
       const currentDate = new Date();
       const startOfWeek = new Date(currentDate);
       startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1); // Monday
-      
+
       const emptyWeekData = [];
       for (let i = 0; i < 7; i++) {
         const date = new Date(startOfWeek);
@@ -265,7 +264,7 @@ const WeeklyStats = forwardRef((props, ref) => {
           date: date.toISOString()
         });
       }
-      
+
       setDailySpendingData(emptyWeekData);
       setTrendData(emptyWeekData.map((day, index) => ({
         day: day.day,
@@ -293,7 +292,7 @@ const WeeklyStats = forwardRef((props, ref) => {
     <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-slate-200/20 font-sans max-w-full transition-all duration-300 relative overflow-hidden">
       {/* Gradient top border */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-3xl"></div>
-      
+
       {/* Header Section */}
       <div className="mb-6 lg:mb-8">
         <div className="flex justify-between items-start mb-4 lg:mb-5 gap-4 lg:gap-6 flex-col lg:flex-row">
@@ -302,7 +301,7 @@ const WeeklyStats = forwardRef((props, ref) => {
             {t('weeklyStats.title')}
           </h2>
         </div>
-        
+
         {showWarning && (
           <div className="flex items-center gap-3 bg-red-50 text-red-600 p-4 rounded-2xl border border-red-200 font-semibold animate-pulse">
             <AlertTriangle size={20} />
@@ -313,10 +312,10 @@ const WeeklyStats = forwardRef((props, ref) => {
 
       {/* Main Content Layout - Side by Side on Large Screens */}
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-        
+
         {/* Left Side - Content */}
         <div className="flex-1 space-y-6 lg:space-y-8">
-          
+
           {/* Weekly Insights Section */}
           <div>
             <h3 className="text-lg lg:text-xl font-bold text-slate-800 mb-4 lg:mb-5 tracking-tight">{t('weeklyStats.insights')}</h3>
@@ -358,18 +357,18 @@ const WeeklyStats = forwardRef((props, ref) => {
         {/* Right Side - Donut Charts */}
         <div className="lg:w-80 xl:w-96">
           <div className="flex flex-row lg:flex-col gap-4 lg:gap-6 justify-center lg:justify-start">
-            <DonutStat 
-              value={balanceLeft} 
-              max={weeklyBudget} 
-              label={t('weeklyStats.balanceRemaining')} 
+            <DonutStat
+              value={balanceLeft}
+              max={weeklyBudget}
+              label={t('weeklyStats.balanceRemaining')}
               color={balanceLeft < 0 ? COLORS.danger : COLORS.success}
               icon={DollarSign}
               subtitle={t('weeklyStats.ofBudget', { budget: weeklyBudget.toLocaleString() })}
             />
-            <DonutStat 
-              value={weekTotal} 
-              max={weeklyBudget} 
-              label={t('weeklyStats.totalExpenses')} 
+            <DonutStat
+              value={weekTotal}
+              max={weeklyBudget}
+              label={t('weeklyStats.totalExpenses')}
               color={COLORS.primary}
               icon={Target}
               subtitle={t('weeklyStats.thisWeekShort')}

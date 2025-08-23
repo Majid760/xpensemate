@@ -4,24 +4,26 @@ import Payment from '../models/Payment.js';
 import BudgetGoal from '../models/BudgetGoal.js';
 import { validateObjectId } from '../utils/validators.js';
 import logger from '../utils/logger.js';
+import { title } from 'process';
+import { type } from 'os';
 
 class DashboardController {
 
-    constructor(){
-        this.getWeeklyStats = this.getWeeklyStats.bind(this);
-        this.getActiveBudgetGoalsWithExpenses = this.getActiveBudgetGoalsWithExpenses.bind(this);
-        this.getBudgetGoalsStats = this.getBudgetGoalsStats.bind(this);
-        this.getWeeklyExpenseAnalytics = this.getWeeklyExpenseAnalytics.bind(this);
-        this.getGoalsByStatusAndPeriod = this.getGoalsByStatusAndPeriod.bind(this);
-    }
+  constructor() {
+    this.getWeeklyStats = this.getWeeklyStats.bind(this);
+    this.getActiveBudgetGoalsWithExpenses = this.getActiveBudgetGoalsWithExpenses.bind(this);
+    this.getBudgetGoalsStats = this.getBudgetGoalsStats.bind(this);
+    this.getWeeklyExpenseAnalytics = this.getWeeklyExpenseAnalytics.bind(this);
+    this.getGoalsByStatusAndPeriod = this.getGoalsByStatusAndPeriod.bind(this);
+  }
 
- /**
-   * get weekly stat
-   * @param {Object} req - Express request object
-   * @param {Object} res - Express response object
-   */
+  /**
+    * get weekly stat
+    * @param {Object} req - Express request object
+    * @param {Object} res - Express response object
+    */
 
- async getWeeklyStats(req, res)  {
+  async getWeeklyStats(req, res) {
     try {
       const userId = req.user._id;
       const now = new Date();
@@ -61,9 +63,9 @@ class DashboardController {
             _id: {
               $dateToString: { format: "%Y-%m-%d", date: "$date" }
             },
-            total: { 
-              $sum: { 
-                $convert: { 
+            total: {
+              $sum: {
+                $convert: {
                   input: "$amount",
                   to: "double",
                   onError: 0,
@@ -112,14 +114,19 @@ class DashboardController {
       }
 
       res.json({
-        days: result,
-        dailyBreakdown: result,
-        weekTotal,
-        balanceLeft,
-        weeklyBudget,
-        dailyAverage,
-        highestDay,
-        lowestDay
+        type: 'Success',
+        title: 'Weekly Analytics',
+        message: 'Successfully retrieved weekly analytics',
+        data: {
+          days: result,
+          dailyBreakdown: result,
+          weekTotal,
+          balanceLeft,
+          weeklyBudget,
+          dailyAverage,
+          highestDay,
+          lowestDay
+        }
       });
     } catch (error) {
       console.error('Error fetching weekly stats:', error);
@@ -189,21 +196,26 @@ class DashboardController {
 
       if (!budgetGoals.length) {
         return res.json({
-          goals: [],
-          pagination: {
-            currentPage: page,
-            totalPages: 0,
-            totalGoals: 0,
-          },
-          stats: {
-            totalGoals: 0,
-            activeGoals: 0,
-            achievedGoals: 0,
-            totalBudgeted: 0,
-            totalAchievedBudget: 0,
-          },
-          duration: duration || 'monthly',
-          dateRange: { startDate, endDate }
+          type: 'success',
+          title: 'No goals found',
+          message: 'No goals found for the specified duration',
+          data: {
+            goals: [],
+            pagination: {
+              currentPage: page,
+              totalPages: 0,
+              totalGoals: 0,
+            },
+            stats: {
+              totalGoals: 0,
+              activeGoals: 0,
+              achievedGoals: 0,
+              totalBudgeted: 0,
+              totalAchievedBudget: 0,
+            },
+            duration: duration || 'monthly',
+            dateRange: { startDate, endDate }
+          }
         });
       }
 
@@ -233,7 +245,7 @@ class DashboardController {
         map[expense._id.toString()] = expense.currentSpending;
         return map;
       }, {});
-      
+
       // 6. Combine goals with their spending data
       const result = budgetGoals.map(goal => ({
         _id: goal._id,
@@ -249,64 +261,69 @@ class DashboardController {
 
       // --- Stats Calculation for the filtered duration ---
       // 1. Total goals in the duration (active + achieved)
-      const totalGoalsCount = await BudgetGoal.countDocuments({ 
-        user_id: userId, 
+      const totalGoalsCount = await BudgetGoal.countDocuments({
+        user_id: userId,
         is_deleted: false,
         status: { $in: ['active', 'achieved'] },
         created_at: { $gte: startDate, $lte: endDate }
       });
 
       // 2. Active goals in the duration
-      const activeGoalsCount = await BudgetGoal.countDocuments({ 
-        user_id: userId, 
-        is_deleted: false, 
+      const activeGoalsCount = await BudgetGoal.countDocuments({
+        user_id: userId,
+        is_deleted: false,
         status: 'active',
         created_at: { $gte: startDate, $lte: endDate }
       });
 
       // 3. Achieved goals in the duration
-      const achievedGoalsCount = await BudgetGoal.countDocuments({ 
-        user_id: userId, 
-        is_deleted: false, 
+      const achievedGoalsCount = await BudgetGoal.countDocuments({
+        user_id: userId,
+        is_deleted: false,
         status: 'achieved',
         created_at: { $gte: startDate, $lte: endDate }
       });
 
       // 4. Total budget for active goals in the duration
-      const activeGoalsDocs = await BudgetGoal.find({ 
-        user_id: userId, 
-        is_deleted: false, 
+      const activeGoalsDocs = await BudgetGoal.find({
+        user_id: userId,
+        is_deleted: false,
         status: 'active',
         created_at: { $gte: startDate, $lte: endDate }
       }, 'amount').lean();
-      
+
       const totalBudgetedAmount = activeGoalsDocs.reduce((sum, g) => sum + (g.amount || 0), 0);
 
       // 5. Total budget for achieved goals in the duration
-      const achievedGoalsDocs = await BudgetGoal.find({ 
-        user_id: userId, 
-        is_deleted: false, 
+      const achievedGoalsDocs = await BudgetGoal.find({
+        user_id: userId,
+        is_deleted: false,
         status: 'achieved',
         created_at: { $gte: startDate, $lte: endDate }
       }, 'amount').lean();
-      
+
       const totalAchievedBudgetAmount = achievedGoalsDocs.reduce((sum, g) => sum + (g.amount || 0), 0);
       res.json({
-        goals: result,
-        pagination: {
-          currentPage: page,
-          totalPages,
-          totalGoals
-        },
-        stats: {
-          totalGoals: totalGoalsCount,
-          activeGoals: activeGoalsCount,
-          achievedGoals: achievedGoalsCount,
-          totalBudgeted: totalBudgetedAmount,
-          totalAchievedBudget: totalAchievedBudgetAmount
-        },
-        duration: duration || 'monthly',
-        dateRange: { startDate, endDate }
+        type: 'success',
+        title: 'Active Budget Insights',
+        message: 'Successfully retrieved active budget insights',
+        data: {
+          goals: result,
+          pagination: {
+            currentPage: page,
+            totalPages,
+            totalGoals
+          },
+          stats: {
+            totalGoals: totalGoalsCount,
+            activeGoals: activeGoalsCount,
+            achievedGoals: achievedGoalsCount,
+            totalBudgeted: totalBudgetedAmount,
+            totalAchievedBudget: totalAchievedBudgetAmount
+          },
+          duration: duration || 'monthly',
+          dateRange: { startDate, endDate }
+        }
       });
 
     } catch (error) {
@@ -377,12 +394,18 @@ class DashboardController {
       const overallProgress = totalBudgeted > 0 ? (totalSpending / totalBudgeted) * 100 : 0;
 
       res.json({
-        totalGoals,
-        activeGoals,
-        achievedGoals,
-        totalBudgeted,
-        totalSpending,
-        overallProgress: Math.min(100, overallProgress).toFixed(1), // Cap at 100%
+        type: 'success',
+        title: 'Dashboard Stats',
+        message: 'Dashboard stats retrieved successfully',
+        data: {
+          totalGoals,
+          activeGoals,
+          achievedGoals,
+          totalBudgeted,
+          totalSpending,
+          overallProgress: Math.min(100, overallProgress).toFixed(1),
+        }
+        // Cap at 100%
       });
 
     } catch (error) {
@@ -475,8 +498,14 @@ class DashboardController {
       });
 
       res.json({
-        categories: Object.keys(categoryMap),
-        data: categoryMap
+        type: 'Success',
+        title: 'Expense Analytics Data Retrieved',
+        message: 'Expense analytics data retrieved successfully',
+        data: {
+          categories: Object.keys(categoryMap),
+          data: categoryMap
+        }
+
       });
     } catch (error) {
       logger.error('Error fetching weekly food analytics:', error);
@@ -524,21 +553,27 @@ class DashboardController {
       ]);
 
       res.json({
-        daily: {
-          expenses: dailyExpenses,
-          payments: dailyPayments,
-          budgets: dailyBudgets
-        },
-        weekly: {
-          expenses: weeklyExpenses,
-          payments: weeklyPayments,
-          budgets: weeklyBudgets
-        },
-        monthly: {
-          expenses: monthlyExpenses,
-          payments: monthlyPayments,
-          budgets: monthlyBudgets
+        type: 'success',
+        title: 'Expenses retrieved successfully',
+        message: 'Expenses retrieved successfully',
+        data: {
+          daily: {
+            expenses: dailyExpenses,
+            payments: dailyPayments,
+            budgets: dailyBudgets
+          },
+          weekly: {
+            expenses: weeklyExpenses,
+            payments: weeklyPayments,
+            budgets: weeklyBudgets
+          },
+          monthly: {
+            expenses: monthlyExpenses,
+            payments: monthlyPayments,
+            budgets: monthlyBudgets
+          }
         }
+
       });
     } catch (error) {
       logger.error('Error fetching user activity by period:', error);
@@ -586,7 +621,14 @@ class DashboardController {
       }
 
       const goals = await BudgetGoal.find(query).lean();
-      res.json({ goals });
+      res.json({
+        type: 'success',
+        title: 'Goals Fetched',
+        message: 'Goals fetched successfully',
+        data: {
+          goals
+        }
+      });
     } catch (error) {
       logger.error('Error fetching goals by status and period:', error);
       res.status(500).json({ error: 'Failed to fetch goals by status and period' });

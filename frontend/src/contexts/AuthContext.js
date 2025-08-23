@@ -25,8 +25,15 @@ axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    
+    // Handle network errors (server not available)
+    if (!error.response) {
+      console.error('Network error: Backend server may be down', error.message);
+      return Promise.reject(error);
+    }
+    
     // Only handle 401 errors, not network errors or other issues
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise(function(resolve, reject) {
           failedQueue.push({ resolve, reject });

@@ -234,7 +234,11 @@ class AuthController {
     const { token: refreshToken } = req.body;
 
     if (!refreshToken) {
-      return res.status(401).json({ message: 'Refresh token not provided' });
+      return res.status(401).json({
+        type: 'error',
+        title: 'Authentication Failed',
+        message: 'Refresh token not provided'
+      });
     }
  
     try {
@@ -242,7 +246,11 @@ class AuthController {
       const user = await User.findById(decoded.id);
 
       if (!user || user.refreshToken !== refreshToken) {
-        return res.status(403).json({ message: 'Invalid refresh token' });
+        return res.status(403).json({
+          type: 'error',
+          title: 'Authentication Failed',
+          message: 'Invalid refresh token'
+        });
       }
 
       const token = jwt.sign(
@@ -251,7 +259,6 @@ class AuthController {
         { expiresIn: '60m' }
       );
 
-      res.json({ token });
       res.status(200).json({
         type: 'success',
         title: 'Refresh Token Successful',
@@ -261,7 +268,11 @@ class AuthController {
         }
       });
     } catch (error) {
-      return res.status(403).json({ message: 'Invalid refresh token' });
+      return res.status(403).json({
+        type: 'error',
+        title: 'Authentication Failed',
+        message: 'Invalid refresh token'
+      });
     }
   }
 

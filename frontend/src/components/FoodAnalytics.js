@@ -25,7 +25,8 @@ const FoodAnalytics = () => {
   const fetchAnalytics = async () => {
     try {
       setLoading(true);
-      const { data } = await apiService.get('/dashboard/expense/stats', { withCredentials: true });
+      var { data } = await apiService.get('/dashboard/expense/stats', { withCredentials: true });
+      data = data.data;
       setCategories(data.categories);
       setCategoryData(data.data);
       setSelectedCategory(data.categories[0]); // Select first category by default
