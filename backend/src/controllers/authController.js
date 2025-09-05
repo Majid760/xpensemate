@@ -46,11 +46,11 @@ class AuthController {
    */
   async register(req, res) {
     try {
-      logger.info('Registration attempt', { email: req.body.email, firstName:req.body.firstName });
+      logger.info('Registration attempt', { email: req.body.email, firstName: req.body.firstName });
 
-      const { firstName,lastName, email, password } = req.body;
+      const { firstName, lastName, email, password } = req.body;
       const name = `${firstName} ${lastName}`;
-    
+
       // Validate input
       if (!name || !email || !password) {
         logger.warn('Registration failed - missing fields', { email });
@@ -118,69 +118,69 @@ class AuthController {
   }
 
 
-   /**
-   * Login user
-   * @param {Object} req - Express request object
-   * @param {Object} res - Express response object
-   */
-   async login(req, res) {
+  /**
+  * Login user
+  * @param {Object} req - Express request object
+  * @param {Object} res - Express response object
+  */
+  async login(req, res) {
     try {
-        const { email, password } = req.body;
-        if (!email || !password) {
-          return res.status(400).json({
-            type: 'error',
-            title: 'Login Failed',
-            message: 'Please provide email and password'
-          });
-        }
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.status(400).json({
+          type: 'error',
+          title: 'Login Failed',
+          message: 'Please provide email and password'
+        });
+      }
 
-        const user = await User.findOne({ email });
-        if (!user) {
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(401).json({
+          type: 'error',
+          title: 'Login Failed',
+          message: 'Invalid email or password'
+        });
+      }
+
+      if (!user.isVerified) {
+        try {
+          await verificationEmailLimiter.consume(email);
+          await this.sendVerificationEmail(user);
           return res.status(401).json({
             type: 'error',
-            title: 'Login Failed',
-            message: 'Invalid email or password'
+            title: 'Email Not Verified',
+            message: 'Please verify your email before logging in. A new verification email has been sent.'
           });
-        }
-
-        if (!user.isVerified) {        
-          try {
-            await verificationEmailLimiter.consume(email);
-            await this.sendVerificationEmail(user);
-            return res.status(401).json({
+        } catch (error) {
+          if (error.name === 'RateLimiterError') {
+            return res.status(429).json({
               type: 'error',
-              title: 'Email Not Verified',
-              message: 'Please verify your email before logging in. A new verification email has been sent.'
-            });
-          } catch (error) {
-            if (error.name === 'RateLimiterError') {
-              return res.status(429).json({
-                type: 'error',
-                title: 'Too Many Requests',
-                message: 'Too many verification email requests. Please try again later.'
-              });
-            }
-            
-            return res.status(401).json({
-              type: 'error',
-              title: 'Email Not Verified',
-              message: 'Please verify your email before logging in.'
+              title: 'Too Many Requests',
+              message: 'Too many verification email requests. Please try again later.'
             });
           }
-        }
-        // Verify password
-        const isMatch = await user.comparePassword(password);
-        if (!isMatch) {
+
           return res.status(401).json({
             type: 'error',
-            title: 'Login Failed',
-            message: 'Invalid email or password'
+            title: 'Email Not Verified',
+            message: 'Please verify your email before logging in.'
           });
         }
+      }
+      // Verify password
+      const isMatch = await user.comparePassword(password);
+      if (!isMatch) {
+        return res.status(401).json({
+          type: 'error',
+          title: 'Login Failed',
+          message: 'Invalid email or password'
+        });
+      }
 
       // Generate token
       const token = jwt.sign(
-        { 
+        {
           id: user._id,
           email: user.email,
           name: user.name
@@ -213,11 +213,11 @@ class AuthController {
         type: 'success',
         title: 'Login Successful',
         message: 'Welcome back!',
-        data: { 
-          user: user.getPublicProfile(), 
+        data: {
+          user: user.getPublicProfile(),
           token,
           refreshToken,
-          expiresIn:token.expiresIn ??  '60m',
+          expiresIn: token.expiresIn ?? '60m',
         }
       });
     } catch (error) {
@@ -240,19 +240,16 @@ class AuthController {
         message: 'Refresh token not provided'
       });
     }
- 
     try {
       const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
       const user = await User.findById(decoded.id);
-
-      if (!user || user.refreshToken !== refreshToken) {
-        return res.status(403).json({
-          type: 'error',
-          title: 'Authentication Failed',
-          message: 'Invalid refresh token'
-        });
-      }
-
+      // if (!user || user.refreshToken !== refreshToken) {
+      //   return res.status(403).json({
+      //     type: 'error',
+      //     title: 'Authentication Failed',
+      //     message: 'Invalid refresh token'
+      //   });
+      // }
       const token = jwt.sign(
         { id: user._id, email: user.email, name: user.name },
         process.env.JWT_SECRET,
@@ -263,11 +260,12 @@ class AuthController {
         type: 'success',
         title: 'Refresh Token Successful',
         message: 'Welcome back!',
-        data: { 
+        data: {
           token,
         }
       });
     } catch (error) {
+      logger.error('Refresh token error', { error: error.message, stack: error.stack });
       return res.status(403).json({
         type: 'error',
         title: 'Authentication Failed',
@@ -376,7 +374,7 @@ class AuthController {
           });
 
           const minutesRemaining = Math.ceil(rateLimitError.msBeforeNext / (1000 * 60));
-          
+
           return res.status(429).json({
             type: 'error',
             title: 'Too Many Requests',
@@ -400,7 +398,7 @@ class AuthController {
           type: 'success',
           title: 'Verification Email Sent',
           message: 'Please check your email for verification instructions',
-         
+
         });
       } else {
         logger.error('Failed to send resend verification email', {
@@ -413,7 +411,7 @@ class AuthController {
           type: 'error',
           title: 'Email Sending Failed',
           message: 'Failed to send verification email. Please try again later.',
-       
+
         });
       }
 
@@ -560,7 +558,7 @@ class AuthController {
       });
     }
   }
- 
+
 
   /**
    * Change password
@@ -627,9 +625,9 @@ class AuthController {
 
       // Check if user is already verified
       if (user.isVerified) {
-        logger.info('User already verified, skipping verification email', { 
+        logger.info('User already verified, skipping verification email', {
           userId: user._id,
-          email: user.email 
+          email: user.email
         });
         return {
           success: true,
@@ -640,7 +638,7 @@ class AuthController {
 
       // Generate verification token
       const token = jwt.sign(
-        { 
+        {
           userId: user._id,
           email: user.email,
           type: 'email_verification'
@@ -651,8 +649,8 @@ class AuthController {
 
       // Create verification URL
       const verificationUrl = `${process.env.FRONTEND_URL}/verify-email/${token}`;
-      
-      logger.info('Sending verification email', { 
+
+      logger.info('Sending verification email', {
         userId: user._id,
         email: user.email,
         verificationUrl: verificationUrl
@@ -661,9 +659,9 @@ class AuthController {
       // Send verification email
       await emailService.sendVerificationEmail(user.email, token);
 
-      logger.info('Verification email sent successfully', { 
+      logger.info('Verification email sent successfully', {
         userId: user._id,
-        email: user.email 
+        email: user.email
       });
 
       return {
@@ -676,13 +674,13 @@ class AuthController {
       };
 
     } catch (error) {
-      logger.error('Send verification email error', { 
-        error: error.message, 
+      logger.error('Send verification email error', {
+        error: error.message,
         stack: error.stack,
         userId: user._id,
         email: user.email
       });
-      
+
       // Return error object instead of throwing
       return {
         success: false,
@@ -715,38 +713,38 @@ class AuthController {
         throw new Error('Name is required');
       }
 
-      logger.info('Sending welcome email', { 
+      logger.info('Sending welcome email', {
         email: user.email,
         name: name,
-        userId: user._id 
+        userId: user._id
       });
 
       await emailService.sendWelcomeEmail(user.email, name);
       logger.info('Welcome email sent', { userId: user._id });
     } catch (error) {
-      logger.error('Send welcome email error', { 
-        error: error.message, 
+      logger.error('Send welcome email error', {
+        error: error.message,
         stack: error.stack,
-        userId: user._id 
+        userId: user._id
       });
       throw error;
     }
   }
 
 
-   /**
-   * Handle Google OAuth with JWT token from @react-oauth/google
-   * @param {Object} req - Express request object
-   * @param {Object} res - Express response object
-   */
-   async googleOAuth(req, res) {
+  /**
+  * Handle Google OAuth with JWT token from @react-oauth/google
+  * @param {Object} req - Express request object
+  * @param {Object} res - Express response object
+  */
+  async googleOAuth(req, res) {
     try {
       const { credential } = req.body;
 
       if (!credential) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'No credential provided' 
+        return res.status(400).json({
+          success: false,
+          message: 'No credential provided'
         });
       }
       // Verify the Google JWT token
@@ -787,14 +785,14 @@ class AuthController {
           password: require('crypto').randomBytes(32).toString('hex'), // Random password for Google users
           isVerified: true, // Google users are automatically verified
           profilePhotoUrl: googleUserInfo.profilePhoto,
-          googleId: googleUserInfo.googleId ,
+          googleId: googleUserInfo.googleId,
           authMethod: 'google'
           // Store Google ID for future reference
         }).save();
       }
       // Generate JWT token for your application
       const token = jwt.sign(
-        { 
+        {
           id: user._id,
           email: user.email,
           firstName: user.firstName,
@@ -814,7 +812,7 @@ class AuthController {
 
       // Save refresh token to user
       user.refreshToken = refreshToken;
-      await user.save(); 
+      await user.save();
 
       logger.info('Google OAuth successful', { userId: user._id });
       // Send response with user data and token
@@ -838,12 +836,12 @@ class AuthController {
       });
 
     } catch (error) {
-      logger.error('Google OAuth error', { 
-        error: error.message, 
-        stack: error.stack 
+      logger.error('Google OAuth error', {
+        error: error.message,
+        stack: error.stack
       });
-      
-      res.status(401).json({ 
+
+      res.status(401).json({
         success: false,
         message: 'Google authentication failed',
         error: process.env.NODE_ENV === 'development' ? error.message : 'Authentication failed'

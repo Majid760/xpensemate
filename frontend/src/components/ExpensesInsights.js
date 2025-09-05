@@ -57,7 +57,7 @@ const ExpenseInsights = ({ detailsPosition = 'below', onAddExpense }) => {
     apiService.get(`/expenses/stats?${params.toString()}`)
       .then(res => {
         if (!isMounted) return;
-        const data = res.data;
+        const data = res.data.data;
         // Basic validation
         if (
           typeof data.totalSpent !== 'number' ||

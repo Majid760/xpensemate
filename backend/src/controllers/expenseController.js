@@ -13,13 +13,38 @@ const expenseController = {
   createExpense: async (req, res) => {
     try {
       // 1. Check wallet and balance
+      // console.log('wallet', req.user._id);
+      console.log('new body', req.body);
       const wallet = await WalletService.getWalletByUserId(req.user._id);
       if (!wallet) {
-        return res.status(400).json({ error: 'Wallet not found for user.' });
+        return res.status(400).json({
+          type: "error",
+          title: 'Wallet not found',
+          message: 'Wallet not found for user.',
+          error: 'Wallet not found for user.',
+        });
       }
       if (wallet.balance < req.body.amount) {
-        return res.status(400).json({ error: 'Insufficient wallet balance.' });
+        return res.status(400).json({
+          type: "error",
+          title: 'Insufficient wallet balance',
+          message: 'Insufficient wallet balance to make this payment.',
+          error: 'Insufficient wallet balance.'
+        });
       }
+      console.log('req.body==>', req.body);
+      //       req.body==> {
+      //   name: 'new expense',s
+      //   amount: 123,
+      //   date: '2025-09-04',
+      //   category_id: '684eecae498dae20b2b32ccf',
+      //   category: 'FOOD',
+      //   detail: 'ahmed',
+      //   time: '19:57',
+      //   location: 'sdf',
+      //   payment_method: 'cash',
+      //   budget_goal_id: '68a9d5afd14833bd226ddd63'
+      // }
 
       // 2. Create the expense
       const expense = await ExpenseService.createExpense(req.user._id, req.body);
@@ -27,7 +52,7 @@ const expenseController = {
       // 3. Subtract from wallet
       await WalletService.decrementBalance(req.user._id, expense.amount);
 
-      // 4. (Optional) Update budget goal if needed
+      // 4. (Optional) Update budget goal if neededwe
       if (req.body.budget_goal_id && expense.amount) {
         await BudgetGoalService.updateBudgetGoal(
           req.user._id,
@@ -36,7 +61,16 @@ const expenseController = {
         );
       }
 
-      res.status(201).json(expense);
+      res.status(201).json(
+        {
+          type: "success",
+          title: 'Expense Created',
+          message: 'Expense created successfully',
+          data: expense
+
+        }
+
+      );
     } catch (error) {
       if (error.name === 'ValidationError') {
         const errors = Object.keys(error.errors || {}).map(key => error.errors[key].message);
@@ -44,7 +78,12 @@ const expenseController = {
         return res.status(400).json({ error: errors.join(', ') });
       }
       logger.error('Error creating expense:', error.message);
-      res.status(500).json({ error: error.message || 'Failed to create expense' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Internal Server Error',
+        message: 'Failed to create expense',
+        error: error.message || 'Failed to create expense'
+      });
     }
   },
 
@@ -63,10 +102,22 @@ const expenseController = {
       const { page, limit, startDate, endDate, category_id } = req.query;
       const options = { page, limit, startDate, endDate, category_id };
       const result = await ExpenseService.getAllExpenses(req.user._id, options);
-      res.json(result);
+      res.json(
+        {
+          type: "success",
+          title: "Expenses fetched successfully",
+          message: "Expenses fetched successfully",
+          data: result
+        }
+      );
     } catch (error) {
       logger.error('Error fetching expenses:', error);
-      res.status(500).json({ error: error.message || 'Failed to fetch expenses' });
+      res.status(500).json({
+        type: "error",
+        title: "Server Error",
+        message: "An unexpected error occurred. Please try again.",
+        error: error.message || 'Failed to fetch expenses'
+      });
     }
   },
 
@@ -79,10 +130,22 @@ const expenseController = {
   getExpenseById: async (req, res) => {
     try {
       const expense = await ExpenseService.getExpenseById(req.user._id, req.params.id);
-      res.json(expense);
+      res.json(
+        {
+          type: 'success',
+          title: "Expense fetched successfully",
+          message: "Expense fetched successfully",
+          data: expense
+        }
+      );
     } catch (error) {
       logger.error('Error fetching expense:', error);
-      res.status(500).json({ error: error.message || 'Failed to fetch expense' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Server Error',
+        message: 'An unexpected error occurred. Please try again.',
+        error: error.message || 'Failed to fetch expense'
+      });
     }
   },
 
@@ -96,10 +159,20 @@ const expenseController = {
   updateExpense: async (req, res) => {
     try {
       const expense = await ExpenseService.updateExpense(req.user._id, req.params.id, req.body);
-      res.json(expense);
+      res.json({
+        type: 'success',
+        title: 'Success',
+        message: 'Expense updated successfully',
+        data: expense
+      });
     } catch (error) {
       logger.error('Error updating expense:', error);
-      res.status(500).json({ error: error.message || 'Failed to update expense' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Error',
+        message: 'Failed to update expense',
+        error: error.message || 'Failed to update expense'
+      });
     }
   },
 
@@ -112,10 +185,22 @@ const expenseController = {
   deleteExpense: async (req, res) => {
     try {
       const result = await ExpenseService.deleteExpense(req.user._id, req.params.id);
-      res.json(result);
+      res.json(
+        {
+          type: "success",
+          title: "Success",
+          message: "Expense deleted successfully",
+          data: result
+        }
+      );
     } catch (error) {
       logger.error('Error deleting expense:', error);
-      res.status(500).json({ error: error.message || 'Failed to delete expense' });
+      res.status(500).json({
+        type: "error",
+        title: "Error",
+        message: "Failed to delete expense",
+        error: error.message || 'Failed to delete expense'
+      });
     }
   },
 
@@ -131,10 +216,22 @@ const expenseController = {
       const year = parseInt(req.query.year) || new Date().getFullYear();
       const month = parseInt(req.query.month) || new Date().getMonth() + 1;
       const summary = await ExpenseService.getMonthlySummary(req.user._id, year, month);
-      res.json(summary);
+      res.json(
+        {
+          type: 'success',
+          title: 'Monthly Summary',
+          message: 'Monthly Summary',
+          data: summary
+        }
+      );
     } catch (error) {
       logger.error('Error fetching monthly summary:', error);
-      res.status(500).json({ error: error.message || 'Failed to fetch monthly summary' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Server Error',
+        message: 'Server Error',
+        error: error.message || 'Failed to fetch monthly summary'
+      });
     }
   },
 
@@ -152,7 +249,11 @@ const expenseController = {
       res.json(expenses);
     } catch (error) {
       logger.error('Error fetching expenses by date range:', error);
-      res.status(500).json({ error: error.message || 'Failed to fetch by date range!' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Server Error',
+        message: 'Server Error', error: error.message || 'Failed to fetch by date range!'
+      });
     }
   },
 
@@ -174,10 +275,22 @@ const expenseController = {
     try {
       const { period, startDate, endDate } = req.query;
       const stats = await ExpenseService.getStatsByPeriod(req.user._id, { period, startDate, endDate });
-      res.json(stats);
+      res.json(
+        {
+          type: 'success',
+          title: 'Stats',
+          message: 'Stats fetched successfully',
+          data: stats
+        }
+      );
     } catch (error) {
       logger.error('Error fetching stats:', error);
-      res.status(400).json({ error: error.message || 'Failed to fetch stats' });
+      res.status(400).json({
+        type: 'error',
+        title: 'Server Error',
+        message: 'Server Error',
+        error: error.message || 'Failed to fetch stats'
+      });
     }
   },
 };
