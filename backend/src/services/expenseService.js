@@ -24,7 +24,10 @@ class ExpenseService {
         ...data
       });
       await expense.save();
-      await expense.populate('category_id', 'name type');
+      // Only populate if category_id is a valid ObjectId
+      if (data.category_id && /^[0-9a-fA-F]{24}$/.test(data.category_id)) {
+        await expense.populate('category_id', 'name type');
+      }
       return expense;
     } catch (error) {
       logger.error('Error creating expense:', error);
@@ -56,14 +59,20 @@ class ExpenseService {
       if (category_id) {
         filter.category_id = category_id;
       }
-      const [expenses, total] = await Promise.all([
-        Expense.find(filter)
-          .populate('category_id', 'name type')
-          .sort({ created_at: -1 })
-          .skip(skip)
-          .limit(limit),
-        Expense.countDocuments(filter)
-      ]);
+      const expenses = await Expense.find(filter)
+        .sort({ created_at: -1 })
+        .skip(skip)
+        .limit(limit);
+      
+      // Populate category_id only if it's a valid ObjectId
+      for (let expense of expenses) {
+        if (expense.category_id && /^[0-9a-fA-F]{24}$/.test(expense.category_id.toString())) {
+          await expense.populate('category_id', 'name type');
+        }
+      }
+      
+      const total = await Expense.countDocuments(filter);
+      
       return {
         expenses,
         total,
@@ -94,9 +103,13 @@ class ExpenseService {
         _id: expenseId,
         user_id: userId,
         is_deleted: false
-      }).populate('category_id', 'name type');
+      });
       if (!expense) {
         throw new NotFoundError('Expense not found');
+      }
+      // Only populate if category_id is a valid ObjectId
+      if (expense.category_id && /^[0-9a-fA-F]{24}$/.test(expense.category_id.toString())) {
+        await expense.populate('category_id', 'name type');
       }
       return expense;
     } catch (error) {
@@ -120,19 +133,18 @@ class ExpenseService {
       if (!validateObjectId(expenseId)) {
         throw new ValidationError('Invalid expense ID');
       }
-      if (updateData.category_id) {
-        const category = await Category.findById(updateData.category_id);
-        if (!category) {
-          throw new ValidationError('Category not found');
-        }
-      }
+      // Remove validation on category_id - category can be any string
       const expense = await Expense.findOneAndUpdate(
         { _id: expenseId, user_id: userId, is_deleted: false },
         { ...updateData, updated_at: new Date() },
         { new: true, runValidators: true }
-      ).populate('category_id', 'name type');
+      );
       if (!expense) {
         throw new NotFoundError('Expense not found');
+      }
+      // Only populate if category_id is a valid ObjectId
+      if (expense.category_id && /^[0-9a-fA-F]{24}$/.test(expense.category_id.toString())) {
+        await expense.populate('category_id', 'name type');
       }
       return expense;
     } catch (error) {
@@ -215,17 +227,21 @@ class ExpenseService {
         userId,
         new Date(startDate),
         new Date(endDate)
-      ).populate('category_id', 'name icon color');
+      );
+      
+      // Populate category_id only if it's a valid ObjectId
+      for (let expense of expenses) {
+        if (expense.category_id && /^[0-9a-fA-F]{24}$/.test(expense.category_id.toString())) {
+          await expense.populate('category_id', 'name icon color');
+        }
+      }
+      
       return expenses;
     } catch (error) {
       logger.error('Error fetching expenses by date range:', error);
       throw error;
     }
   }
-
-
-
-
 
   /**
  * Get expense stats for a given period or custom range.
@@ -267,7 +283,6 @@ async getStatsByPeriod(userId, { period, startDate, endDate }) {
       date: { $gte: rangeStart, $lte: rangeEnd },
       is_deleted: false
     })
-    .populate('category_id', 'name', null, { lean: true })
     .lean()
     .exec();
   

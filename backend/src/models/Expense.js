@@ -52,8 +52,7 @@ const expenseSchema = new mongoose.Schema({
     default: ''
   },
   category_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',
+    type: mongoose.Schema.Types.Mixed,
     required: false // Now optional if custom category is used
   },
   category: {
@@ -111,22 +110,12 @@ const expenseSchema = new mongoose.Schema({
 
 // Indexes for faster queries
 expenseSchema.index({ user_id: 1, date: -1 });
-expenseSchema.index({ user_id: 1, category_id: 1 });
 expenseSchema.index({ user_id: 1, 'recurring.is_recurring': 1 });
 
 // Pre-save middleware to validate category type
 expenseSchema.pre('save', async function(next) {
   try {
-    if (this.category_id) {
-      const Category = mongoose.model('Category');
-      const category = await Category.findById(this.category_id);
-      if (!category) {
-        throw new Error('Category not found');
-      }
-      // if (category.type !== 'expense') {
-      //   throw new Error('Category must be of type expense');
-      // }
-    }
+    // Remove validation on category_id - category can be any string
     next();
   } catch (error) {
     next(error);

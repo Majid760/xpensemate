@@ -156,6 +156,41 @@ const budgetGoalController = {
   },
 
   /**
+   * Handles HTTP request to fetch budget goals by status.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {void} Responds with array of goals or error.
+   */
+  getBudgetGoalsByStatus: async (req, res) => {
+    try {
+      const { status } = req.params;
+      const budgetGoals = await BudgetGoalService.getBudgetGoalsByStatus(req.user._id, status);
+      res.json({
+        type: 'success',
+        title: 'Budget Goals',
+        message: `Budget goals with status '${status}' fetched successfully`,
+        data: budgetGoals
+      });
+    } catch (error) {
+      console.error('Error in getting budget goals by status:', error);
+      if (error.name === 'ValidationError') {
+        return res.status(400).json({ 
+          type: 'error',
+          title: 'Validation Error',
+          message: error.message,
+          error: error.message
+        });
+      }
+      res.status(500).json({ 
+        type: 'error',
+        title: 'Server Error',
+        message: 'Failed to fetch budget goals by status.',
+        error: error.message || 'Failed to fetch budget goals by status.'
+      });
+    }
+  },
+
+  /**
    * Handles HTTP request to fetch budget goals in a date range.
    * @param {Object} req - Express request object.
    * @param {Object} res - Express response object.

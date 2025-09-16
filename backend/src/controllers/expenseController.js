@@ -116,7 +116,7 @@ const expenseController = {
         type: "error",
         title: "Server Error",
         message: "An unexpected error occurred. Please try again.",
-        error: error.message || 'Failed to fetch expenses'
+        error: error.message || 'Failed to fetch expeenses'
       });
     }
   },
@@ -158,6 +158,8 @@ const expenseController = {
    */
   updateExpense: async (req, res) => {
     try {
+      console.log('expense id is ==', req.params.id.toString().substring(0, 6));
+      // Remove any validation on category_id, category can be any string
       const expense = await ExpenseService.updateExpense(req.user._id, req.params.id, req.body);
       res.json({
         type: 'success',
@@ -184,6 +186,7 @@ const expenseController = {
    */
   deleteExpense: async (req, res) => {
     try {
+      console.log('req.params.id==>', req.params.id);
       const result = await ExpenseService.deleteExpense(req.user._id, req.params.id);
       res.json(
         {

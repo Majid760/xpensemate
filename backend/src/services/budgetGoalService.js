@@ -107,6 +107,28 @@ class BudgetGoalService {
   }
 
   /**
+   * Fetches all budget goals for a user with a specific status.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {string} status - The status to filter by (active, failed, achieved, terminated, other).
+   * @returns {Promise<Array>} Array of budget goals with the specified status.
+   */
+  async getBudgetGoalsByStatus(userId, status) {
+    // Validate status
+    const validStatuses = ['active', 'failed', 'achieved', 'terminated', 'other'];
+    if (!validStatuses.includes(status)) {
+      throw new ValidationError(`Invalid status. Must be one of: ${validStatuses.join(', ')}`);
+    }
+
+    const budgetGoals = await BudgetGoal.find({
+      user_id: userId,
+      status: status,
+      is_deleted: false
+    }).sort({ created_at: -1 }).lean();
+
+    return budgetGoals;
+  }
+
+  /**
    * Updates a budget goal's details.
    * @param {ObjectId} userId - The user's ID.
    * @param {ObjectId} goalId - The goal's ID.
@@ -295,8 +317,14 @@ class BudgetGoalService {
       budget_goal_id: goalId,
       is_deleted: false
     })
-    .sort({ date: -1 })
-    .populate('category_id', 'name type');
+    .sort({ date: -1 });
+
+    // Populate category_id only if it's a valid ObjectId
+    for (let expense of expenses) {
+      if (expense.category_id && /^[0-9a-fA-F]{24}$/.test(expense.category_id.toString())) {
+        await expense.populate('category_id', 'name type');
+      }
+    }
 
     return { expenses };
   }

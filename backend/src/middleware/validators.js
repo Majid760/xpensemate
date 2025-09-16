@@ -28,10 +28,10 @@ const validateExpense = [
       return true;
     }),
 
-  body('category_id')
-    .optional()
-    .isMongoId()
-    .withMessage('Invalid category ID'),
+  // body('category_id')
+  //   .optional()
+  //   .isMongoId()
+  //   .withMessage('Invalid category ID'),
 
   body('detail')
     .optional()
@@ -61,6 +61,7 @@ const validateExpense = [
 
   (req, res, next) => {
     const errors = validationResult(req);
+    console.log("errororo =>" ,errors);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }

@@ -9,6 +9,8 @@ import { validateBudgetGoal } from '../middleware/validators.js';
 router.post('/create-budget-goal', requireAuth, validateBudgetGoal, budgetGoalController.createBudgetGoal);
 // Get all budget goals with pagination and filters
 router.get('/budget-goals', requireAuth, budgetGoalController.getBudgetGoals);
+// Get budget goals by status
+router.get('/budget-goals/status/:status', requireAuth, budgetGoalController.getBudgetGoalsByStatus);
 // Get monthly budget goals summary
 router.get('/budget-goal/summary/monthly', requireAuth, budgetGoalController.getMonthlySummary);
 // Get a single budget goal by ID
