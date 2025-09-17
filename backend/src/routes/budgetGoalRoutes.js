@@ -15,7 +15,7 @@ router.get('/budget-goals/status/:status', requireAuth, budgetGoalController.get
 router.get('/budget-goal/summary/monthly', requireAuth, budgetGoalController.getMonthlySummary);
 // Get a single budget goal by ID
 router.get('/budget-goal/:id', requireAuth, budgetGoalController.getBudgetGoalById);
-// Update a budget goal
+// Update a budget goalfe
 router.put('/budget-goal/:id', requireAuth, validateBudgetGoal, budgetGoalController.updateBudgetGoal);
 // Delete a budget goal
 router.delete('/budget-goal/:id', requireAuth, budgetGoalController.deleteBudgetGoal);

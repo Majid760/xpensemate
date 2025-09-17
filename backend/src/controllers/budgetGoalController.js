@@ -156,7 +156,7 @@ const budgetGoalController = {
   },
 
   /**
-   * Handles HTTP request to fetch budget goals by status.
+   * Handles HTTP request to fetch budget goals by status with pagination.
    * @param {Object} req - Express request object.
    * @param {Object} res - Express response object.
    * @returns {void} Responds with array of goals or error.
@@ -164,12 +164,41 @@ const budgetGoalController = {
   getBudgetGoalsByStatus: async (req, res) => {
     try {
       const { status } = req.params;
-      const budgetGoals = await BudgetGoalService.getBudgetGoalsByStatus(req.user._id, status);
+      const options = {
+        page: parseInt(req.query.page) || 1,
+        limit: parseInt(req.query.limit) || 10
+      };
+      
+      // Validate pagination parameters
+      if (options.page < 1) {
+        return res.status(400).json({ 
+          type: 'error',
+          title: 'Validation Error',
+          message: 'Page must be greater than 0',
+          error: 'Page must be greater than 0'
+        });
+      }
+      
+      if (options.limit < 1 || options.limit > 100) {
+        return res.status(400).json({ 
+          type: 'error',
+          title: 'Validation Error',
+          message: 'Limit must be between 1 and 100',
+          error: 'Limit must be between 1 and 100'
+        });
+      }
+
+      const result = await BudgetGoalService.getBudgetGoalsByStatus(req.user._id, status, options);
       res.json({
         type: 'success',
         title: 'Budget Goals',
         message: `Budget goals with status '${status}' fetched successfully`,
-        data: budgetGoals
+        data: result.budgetGoals,
+        pagination: {
+          total: result.total,
+          page: result.page,
+          totalPages: result.totalPages
+        }
       });
     } catch (error) {
       console.error('Error in getting budget goals by status:', error);

@@ -107,25 +107,45 @@ class BudgetGoalService {
   }
 
   /**
-   * Fetches all budget goals for a user with a specific status.
+   * Fetches budget goals for a user with a specific status, with pagination support.
    * @param {ObjectId} userId - The user's ID.
    * @param {string} status - The status to filter by (active, failed, achieved, terminated, other).
-   * @returns {Promise<Array>} Array of budget goals with the specified status.
+   * @param {Object} options - Pagination options (page, limit).
+   * @returns {Promise<Object>} Object with budgetGoals array, total, page, and totalPages.
    */
-  async getBudgetGoalsByStatus(userId, status) {
+  async getBudgetGoalsByStatus(userId, status, options = {}) {
     // Validate status
     const validStatuses = ['active', 'failed', 'achieved', 'terminated', 'other'];
     if (!validStatuses.includes(status)) {
       throw new ValidationError(`Invalid status. Must be one of: ${validStatuses.join(', ')}`);
     }
 
-    const budgetGoals = await BudgetGoal.find({
-      user_id: userId,
-      status: status,
-      is_deleted: false
-    }).sort({ created_at: -1 }).lean();
+    const { page = 1, limit = 10 } = options;
+    const skip = (page - 1) * limit;
 
-    return budgetGoals;
+    // Build filter
+    const filter = { 
+      user_id: userId, 
+      status: status, 
+      is_deleted: false 
+    };
+
+    // Use Promise.all for parallel execution
+    const [budgetGoals, total] = await Promise.all([
+      BudgetGoal.find(filter)
+        .sort({ created_at: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      BudgetGoal.countDocuments(filter)
+    ]);
+
+    return {
+      budgetGoals,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit)
+    };
   }
 
   /**
