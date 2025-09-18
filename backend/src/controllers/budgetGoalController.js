@@ -168,19 +168,19 @@ const budgetGoalController = {
         page: parseInt(req.query.page) || 1,
         limit: parseInt(req.query.limit) || 10
       };
-      
+
       // Validate pagination parameters
       if (options.page < 1) {
-        return res.status(400).json({ 
+        return res.status(400).json({
           type: 'error',
           title: 'Validation Error',
           message: 'Page must be greater than 0',
           error: 'Page must be greater than 0'
         });
       }
-      
+
       if (options.limit < 1 || options.limit > 100) {
-        return res.status(400).json({ 
+        return res.status(400).json({
           type: 'error',
           title: 'Validation Error',
           message: 'Limit must be between 1 and 100',
@@ -193,7 +193,9 @@ const budgetGoalController = {
         type: 'success',
         title: 'Budget Goals',
         message: `Budget goals with status '${status}' fetched successfully`,
-        data: result.budgetGoals,
+        data: {
+          budgetGoals: result.budgetGoals,
+        },
         pagination: {
           total: result.total,
           page: result.page,
@@ -203,14 +205,14 @@ const budgetGoalController = {
     } catch (error) {
       console.error('Error in getting budget goals by status:', error);
       if (error.name === 'ValidationError') {
-        return res.status(400).json({ 
+        return res.status(400).json({
           type: 'error',
           title: 'Validation Error',
           message: error.message,
           error: error.message
         });
       }
-      res.status(500).json({ 
+      res.status(500).json({
         type: 'error',
         title: 'Server Error',
         message: 'Failed to fetch budget goals by status.',
