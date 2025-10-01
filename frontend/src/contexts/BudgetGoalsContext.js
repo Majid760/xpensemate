@@ -28,7 +28,7 @@ export function BudgetGoalsProvider({ children }) {
   const fetchGoalsByPeriod = useCallback(async (period) => {
     try {
       const res = await apiService.get('/budget-goals', { params: { period } });
-      setGoals(res.data.budgetGoals || []);
+      setGoals(res.data.data.budgetGoals || []);
     } catch (error) {
       setGoals([]);
       // Optionally handle error here
@@ -39,7 +39,7 @@ export function BudgetGoalsProvider({ children }) {
   const fetchActiveGoals = useCallback(async () => {
     try {
       const res = await apiService.get('/budget-goals', { params: { status: 'active' } });
-      setActiveGoals(res.data.budgetGoals || []);
+      setActiveGoals(res.data.data.budgetGoals || []);
     } catch (error) {
       setActiveGoals([]);
       // Optionally handle error here

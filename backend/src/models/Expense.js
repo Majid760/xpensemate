@@ -80,7 +80,7 @@ const expenseSchema = new mongoose.Schema({
     },
     frequency: {
       type: String,
-      enum: ['daily', 'weekly', 'monthly', 'yearly'],
+      enum: ['daily', 'weekly', 'monthly', 'yearly','none'],
       default: 'monthly'
     },
     end_date: {

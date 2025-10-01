@@ -19,6 +19,7 @@ class ExpenseService {
    */
   async createExpense(userId, data) {
     try {
+      data.user_id = userId;
       const expense = new Expense({
         user_id: userId,
         ...data

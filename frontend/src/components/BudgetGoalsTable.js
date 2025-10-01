@@ -58,14 +58,14 @@ const BudgetGoalsTable = () => {
         }
       });
 
-      if (!response.data) {
+      if (!response.data.data) {
         throw new Error('No data received from server');
       }
 
       // Correctly access the budgetGoals array from the response
-      const fetchedGoals = response.data.budgetGoals || [];
-      const fetchedTotal = response.data.total || fetchedGoals.length;
-      const fetchedPage = response.data.page || 1;
+      const fetchedGoals = response.data.data.budgetGoals || [];
+      const fetchedTotal = response.data.data.total || fetchedGoals.length;
+      const fetchedPage = response.data.data.page || 1;
 
 
       // Update cache
@@ -305,7 +305,7 @@ const BudgetGoalsTable = () => {
           // Update temporary entry with real data
           setAllGoals(prev => prev.map(g => 
             g._id === tempGoal._id 
-              ? { ...response.data, id: response.data._id, category: response.data.category_id ? response.data.category_id.name : response.data.category } 
+              ? { ...response.data.data, id: response.data.data._id, category: response.data.data.category_id ? response.data.data.category_id.name : response.data.data.category } 
               : g
           ));
           setToast({
@@ -321,10 +321,10 @@ const BudgetGoalsTable = () => {
         }
       }
     } catch (error) {
-      console.error(`Error ${isEditMode ? 'updating' : 'adding'} goal:`, error.response?.data || error.message);
+      console.error(`Error ${isEditMode ? 'updating' : 'adding'} goal:`, error.response?.data.data || error.message);
       setToast({
         type: 'error',
-        message: error.response?.data?.error || `Failed to ${isEditMode ? 'update' : 'add'} the goal!`
+        message: error.response?.data?.data.error || `Failed to ${isEditMode ? 'update' : 'add'} the goal!`
       });
     } finally {
       setLoading(false);

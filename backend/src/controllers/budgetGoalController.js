@@ -1,6 +1,7 @@
 import { handleAsync } from '../utils/asyncHandler.js';
 import { validatePaginationParams } from '../utils/validators.js';
 import BudgetGoalService from '../services/budgetGoalService.js';
+import { body } from 'express-validator';
 
 const budgetGoalController = {
   /**
@@ -21,10 +22,22 @@ const budgetGoalController = {
         detail,
         status
       });
-      res.status(201).json(budgetGoal);
+      res.status(201).json(
+        {
+          type: "success",
+          title: 'Budget Goal Created',
+          message: 'Budget goal created successfully',
+          data: budgetGoal
+        }
+      );
     } catch (error) {
       console.error('Error in creating budget:', error);
-      res.status(500).json({ error: 'Failed to create budget goal.' });
+      res.status(500).json({
+        type: "error",
+        title: 'Error creating budget',
+        message: 'Error creating budget',
+        error: error
+      });
     }
   },
 
@@ -48,10 +61,23 @@ const budgetGoalController = {
       };
       validatePaginationParams(options);
       const result = await BudgetGoalService.getBudgetGoals(req.user._id, options);
-      res.json(result);
+      res.json(
+        {
+          type: "success",
+          title: "Budget Goals fetched successfully",
+          message: "Budget Goals fetched successfully",
+          data: result
+
+        }
+      );
     } catch (error) {
       console.error('Error in getting budget goals:', error);
-      res.status(500).json({ error: 'Failed to fetch budget goals.' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Server Error',
+        message: 'An unexpected error occurred. Please try again.',
+        error: 'Failed to fetch budget goals.'
+      });
     }
   },
 
@@ -65,12 +91,29 @@ const budgetGoalController = {
     try {
       const budgetGoal = await BudgetGoalService.getBudgetGoalById(req.user._id, req.params.id);
       if (!budgetGoal) {
-        return res.status(404).json({ error: 'Budget goal not found.' });
+        return res.status(404).json({
+          type: "error",
+          title: 'Budget goal not found',
+          message: 'Budget goal not found.',
+          error: 'Budget goal not found.'
+        });
       }
-      res.json(budgetGoal);
+      res.json([
+        {
+          type: "success",
+          title: 'Budget goal found',
+          message: 'Budget goal found.',
+          data: budgetGoal
+        }
+      ]);
     } catch (error) {
       console.error('Error in getting budget goal by id:', error);
-      res.status(500).json({ error: 'Failed to fetch budget goal.' });
+      res.status(500).json({
+        type: "error",
+        title: 'Server Error',
+        message: 'An unexpected error occurred. Please try again.',
+        error: 'Failed to fetch budget goal.'
+      });
     }
   },
 
@@ -93,12 +136,27 @@ const budgetGoalController = {
         status
       });
       if (!budgetGoal) {
-        return res.status(404).json({ error: 'Budget goal not found.' });
+        return res.status(404).json({
+          type: "error",
+          title: 'Budget goal not found',
+          message: 'Budget goal not found.',
+          error: 'Budget goal not found.'
+        });
       }
-      res.json(budgetGoal);
+      res.json({
+        type: "success",
+        title: 'Budget goal updated',
+        message: 'Budget goal updated successfully.',
+        data: budgetGoal
+      });
     } catch (error) {
       console.error('Error in updating budget goal:', error);
-      res.status(500).json({ error: 'Failed to update budget goal.' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Error',
+        message: 'Failed to update budget goal.',
+        error: 'Failed to update budget goal.'
+      });
     }
   },
 
@@ -112,12 +170,29 @@ const budgetGoalController = {
     try {
       const result = await BudgetGoalService.deleteBudgetGoal(req.user._id, req.params.id);
       if (!result) {
-        return res.status(404).json({ error: 'Budget goal not found.' });
+        return res.status(404).json({
+          type: "error",
+          title: 'Budget goal not found',
+          message: 'Budget goal not found.',
+          error: 'Budget goal not found.'
+        });
       }
-      res.json(result);
+      res.json(
+        {
+          type: "success",
+          title: 'Budget goal deleted',
+          message: 'Budget goal deleted successfully.',
+          error: result,
+        }
+      );
     } catch (error) {
       console.error('Error in deleting budget goal:', error);
-      res.status(500).json({ error: 'Failed to delete budget goal.' });
+      res.status(500).json({
+        type: "error",
+        title: 'Server Error',
+        message: 'An unexpected error occurred. Please try again.',
+        error: 'Failed to delete budget goal.'
+      });
     }
   },
 
@@ -132,10 +207,20 @@ const budgetGoalController = {
       const year = parseInt(req.query.year) || new Date().getFullYear();
       const month = parseInt(req.query.month) || new Date().getMonth() + 1;
       const summary = await BudgetGoalService.getMonthlySummary(req.user._id, year, month);
-      res.json(summary);
+      res.json({
+        type: 'success',
+        title: 'Monthly Summary',
+        message: 'Monthly summary retrieved successfully',
+        data: summary
+      });
     } catch (error) {
       console.error('Error in getting monthly summary:', error);
-      res.status(500).json({ error: 'Failed to fetch monthly summary.' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Server Error',
+        message: 'Server Error',
+        error: 'Failed to fetch monthly summary.'
+      });
     }
   },
 
@@ -148,10 +233,20 @@ const budgetGoalController = {
   getBudgetGoalProgress: async (req, res) => {
     try {
       const progress = await BudgetGoalService.getBudgetGoalProgress(req.user._id, req.params.id);
-      res.json(progress);
+      res.json({
+        type: 'success',
+        title: 'Budget Goal Progress',
+        message: 'Budget goal progress retrieved successfully',
+        data: progress,
+      });
     } catch (error) {
       console.error('Error in getting budget goal progress:', error);
-      res.status(500).json({ error: 'Failed to fetch budget goal progress.' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Failed to fetch budget goal progress',
+        message: 'Failed to fetch budget goal progress.',
+        error: 'Failed to fetch budget goal progress.'
+      });
     }
   },
 
@@ -195,12 +290,13 @@ const budgetGoalController = {
         message: `Budget goals with status '${status}' fetched successfully`,
         data: {
           budgetGoals: result.budgetGoals,
+          pagination: {
+            total: result.total,
+            page: result.page,
+            totalPages: result.totalPages
+          }
         },
-        pagination: {
-          total: result.total,
-          page: result.page,
-          totalPages: result.totalPages
-        }
+
       });
     } catch (error) {
       console.error('Error in getting budget goals by status:', error);
@@ -231,10 +327,20 @@ const budgetGoalController = {
     try {
       const { startDate, endDate } = req.query;
       const budgetGoals = await BudgetGoalService.getBudgetGoalsByDateRange(req.user._id, startDate, endDate);
-      res.json(budgetGoals);
+      res.json({
+        type: 'success',
+        title: 'Success',
+        message: 'Successfully fetched budget goals by date range!',
+        data: budgetGoals
+
+      });
     } catch (error) {
       console.error('Error in getting budget goals by date range:', error);
-      res.status(500).json({ error: 'Failed to fetch budget goals by date range.' });
+      res.status(500).json({ 
+        type: 'error',
+        title: 'Server Error',
+        message: 'Failed to fetch budget goals by date range.',
+        error: 'Failed to fetch budget goals by date range.' });
     }
   },
 
@@ -247,10 +353,19 @@ const budgetGoalController = {
   getExpensesForBudgetGoal: async (req, res) => {
     try {
       const result = await BudgetGoalService.getExpensesForBudgetGoal(req.user._id, req.params.id);
-      res.json(result);
+      res.json({
+        type: "success",
+        title: 'Expenses for budget goal',
+        message: "Expenses for budget goal retrieved successfully.",
+        data: result,
+      });
     } catch (error) {
       console.error('Error in getting expenses for budget goal:', error);
-      res.status(500).json({ error: 'Failed to fetch expenses for budget goal.' });
+      res.status(500).json({ 
+        type:'error',
+        title:'',
+        message:'',
+        error: 'Failed to fetch expenses for budget goal.' });
     }
   },
 
@@ -264,7 +379,12 @@ const budgetGoalController = {
     try {
       const { period, startDate, endDate, closestCount } = req.query;
       if (!period) {
-        return res.status(400).json({ error: 'Missing required period parameter.' });
+        return res.status(400).json({
+          
+          type: 'error',
+          title: '',
+          message: 'Please provide a period.',
+          error: 'Missing required period parameter.' });
       }
       const stats = await BudgetGoalService.getGoalStatsByPeriod(req.user._id, {
         period,
@@ -272,10 +392,19 @@ const budgetGoalController = {
         endDate,
         closestCount: closestCount ? parseInt(closestCount) : undefined
       });
-      res.json(stats);
+      res.json({
+        type:'success',
+        title:'insight',
+        message:'insight fetched successsfullly',
+        data:result
+      });
     } catch (error) {
       console.error('Error in getting goal stats by period:', error);
-      res.status(500).json({ error: 'Failed to fetch goal stats by period.' });
+      res.status(500).json({
+        type: 'error',
+        title: 'Server Error',
+        message: 'Server Error',
+        error: 'Failed to fetch goal stats by period.' });
     }
   }
 };
