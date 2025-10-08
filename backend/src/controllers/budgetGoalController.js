@@ -204,6 +204,8 @@ const budgetGoalController = {
    */
   getMonthlySummary: async (req, res) => {
     try {
+      console.log('getGoalStatsByPeriod 9090');
+
       const year = parseInt(req.query.year) || new Date().getFullYear();
       const month = parseInt(req.query.month) || new Date().getMonth() + 1;
       const summary = await BudgetGoalService.getMonthlySummary(req.user._id, year, month);
@@ -232,6 +234,8 @@ const budgetGoalController = {
    */
   getBudgetGoalProgress: async (req, res) => {
     try {
+      console.log('getGoalStatsByPeriod 889');
+
       const progress = await BudgetGoalService.getBudgetGoalProgress(req.user._id, req.params.id);
       res.json({
         type: 'success',
@@ -257,6 +261,8 @@ const budgetGoalController = {
    * @returns {void} Responds with array of goals or error.
    */
   getBudgetGoalsByStatus: async (req, res) => {
+    console.log('getGoalStatsByPeriod 90900');
+
     try {
       const { status } = req.params;
       const options = {
@@ -325,6 +331,8 @@ const budgetGoalController = {
    */
   getBudgetGoalsByDateRange: async (req, res) => {
     try {
+      console.log('getGoalStatsByPeriod 789');
+
       const { startDate, endDate } = req.query;
       const budgetGoals = await BudgetGoalService.getBudgetGoalsByDateRange(req.user._id, startDate, endDate);
       res.json({
@@ -336,11 +344,12 @@ const budgetGoalController = {
       });
     } catch (error) {
       console.error('Error in getting budget goals by date range:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         type: 'error',
         title: 'Server Error',
         message: 'Failed to fetch budget goals by date range.',
-        error: 'Failed to fetch budget goals by date range.' });
+        error: 'Failed to fetch budget goals by date range.'
+      });
     }
   },
 
@@ -352,6 +361,8 @@ const budgetGoalController = {
    */
   getExpensesForBudgetGoal: async (req, res) => {
     try {
+      console.log('getExpensesForBudgetGoal 45');
+
       const result = await BudgetGoalService.getExpensesForBudgetGoal(req.user._id, req.params.id);
       res.json({
         type: "success",
@@ -361,11 +372,12 @@ const budgetGoalController = {
       });
     } catch (error) {
       console.error('Error in getting expenses for budget goal:', error);
-      res.status(500).json({ 
-        type:'error',
-        title:'',
-        message:'',
-        error: 'Failed to fetch expenses for budget goal.' });
+      res.status(500).json({
+        type: 'error',
+        title: '',
+        message: '',
+        error: 'Failed to fetch expenses for budget goal.'
+      });
     }
   },
 
@@ -377,14 +389,16 @@ const budgetGoalController = {
    */
   getGoalStatsByPeriod: async (req, res) => {
     try {
+      console.log('getGoalStatsByPeriod 123');
       const { period, startDate, endDate, closestCount } = req.query;
       if (!period) {
         return res.status(400).json({
-          
+
           type: 'error',
           title: '',
           message: 'Please provide a period.',
-          error: 'Missing required period parameter.' });
+          error: 'Missing required period parameter.'
+        });
       }
       const stats = await BudgetGoalService.getGoalStatsByPeriod(req.user._id, {
         period,
@@ -393,10 +407,10 @@ const budgetGoalController = {
         closestCount: closestCount ? parseInt(closestCount) : undefined
       });
       res.json({
-        type:'success',
-        title:'insight',
-        message:'insight fetched successsfullly',
-        data:result
+        type: 'success',
+        title: 'insight',
+        message: 'insight fetched successsfullly',
+        data: stats
       });
     } catch (error) {
       console.error('Error in getting goal stats by period:', error);
@@ -404,7 +418,8 @@ const budgetGoalController = {
         type: 'error',
         title: 'Server Error',
         message: 'Server Error',
-        error: 'Failed to fetch goal stats by period.' });
+        error: 'Failed to fetch goal stats by period.'
+      });
     }
   }
 };

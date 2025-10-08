@@ -21,7 +21,7 @@ const [searchTerm, setSearchTerm] = useState('');
       headers: { 'Accept': 'application/json' }
     })
       .then(res => {
-        const data = res.data;
+        const data = res.data.data;
         console.log('this is data ====>', data);
         const expensesArray = Array.isArray(data) ? data : (Array.isArray(data.expenses) ? data.expenses : []);
         setExpenses(expensesArray);
