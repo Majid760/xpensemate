@@ -232,6 +232,7 @@ class AuthController {
 
   async refreshToken(req, res) {
     const { token: refreshToken } = req.body;
+    console.log('refresh token is ==', refreshToken);
 
     if (!refreshToken) {
       return res.status(401).json({
@@ -242,14 +243,29 @@ class AuthController {
     }
     try {
       const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+      console.log('decoded is => ', decoded);
       const user = await User.findById(decoded.id);
-      // if (!user || user.refreshToken !== refreshToken) {
-      //   return res.status(403).json({
-      //     type: 'error',
-      //     title: 'Authentication Failed',
-      //     message: 'Invalid refresh token'
-      //   });
-      // }
+      console.log('user is ==', user);
+      
+      // Check if user exists
+      if (!user) {
+        return res.status(403).json({
+          type: 'error',
+          title: 'Authentication Failed',
+          message: 'Invalid refresh token - user not found'
+        });
+      }
+      
+      // Check if the refresh token matches the one stored in the user document
+      if (user.refreshToken !== refreshToken) {
+        return res.status(403).json({
+          type: 'error',
+          title: 'Authentication Failed',
+          message: 'Invalid refresh token'
+        });
+      }
+      
+      // Generate new access token
       const token = jwt.sign(
         { id: user._id, email: user.email, name: user.name },
         process.env.JWT_SECRET,
@@ -782,7 +798,7 @@ class AuthController {
           firstName: googleUserInfo.firstName,
           lastName: googleUserInfo.lastName,
           email: googleUserInfo.email,
-          password: require('crypto').randomBytes(32).toString('hex'), // Random password for Google users
+          password: crypto.randomBytes(32).toString('hex'), // Random password for Google users
           isVerified: true, // Google users are automatically verified
           profilePhotoUrl: googleUserInfo.profilePhoto,
           googleId: googleUserInfo.googleId,

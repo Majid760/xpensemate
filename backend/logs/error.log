@@ -5013,3 +5013,693 @@
 {"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-08T05:48:33.019Z"}
 {"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T05:48:33.055Z","tokenSource":"header"}
 {"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-08T05:48:33.056Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T07:59:11.012Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-08T07:59:11.012Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T07:59:11.168Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-08T07:59:11.168Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T07:59:11.181Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-08T07:59:11.182Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T07:59:11.201Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-08T07:59:11.202Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T07:59:11.214Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-08T07:59:11.215Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T07:59:11.226Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-08T07:59:11.227Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T07:59:11.256Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-08T07:59:11.256Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T07:59:11.313Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-08T07:59:11.313Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T07:59:11.318Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-08T07:59:11.318Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T16:58:05.672Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-08T16:58:05.672Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T16:58:05.732Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-08T16:58:05.732Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T16:58:05.743Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-08T16:58:05.743Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T16:58:05.860Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-08T16:58:05.860Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T16:58:05.887Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-08T16:58:05.888Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T16:58:05.904Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-08T16:58:05.904Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T16:58:05.926Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-08T16:58:05.927Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T16:58:05.950Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-08T16:58:05.951Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T16:58:05.976Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-08T16:58:05.976Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T18:07:01.303Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-08T18:07:01.303Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T18:07:01.364Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-08T18:07:01.364Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T18:07:01.472Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-08T18:07:01.473Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T18:07:01.493Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-08T18:07:01.493Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T18:07:01.536Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-08T18:07:01.537Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T18:07:01.587Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-08T18:07:01.587Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T18:07:01.614Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-08T18:07:01.614Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T18:07:01.625Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-08T18:07:01.625Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-08T18:07:01.649Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-08T18:07:01.649Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T08:27:43.902Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-09T08:27:43.903Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T08:27:43.907Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-09T08:27:43.908Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T08:27:43.984Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-09T08:27:43.984Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T08:27:44.040Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-09T08:27:44.041Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T08:27:44.043Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-09T08:27:44.044Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T08:27:44.084Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-09T08:27:44.084Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T08:27:44.097Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-09T08:27:44.097Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T08:27:44.116Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-09T08:27:44.116Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T08:27:44.149Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-09T08:27:44.149Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T14:10:09.275Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-09T14:10:09.275Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T14:10:09.362Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-09T14:10:09.363Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T14:10:09.372Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-09T14:10:09.372Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T14:10:09.427Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-09T14:10:09.427Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T14:10:09.466Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-09T14:10:09.466Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T14:10:09.491Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-09T14:10:09.491Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T14:10:09.500Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-09T14:10:09.501Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T14:10:09.513Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-09T14:10:09.513Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-09T14:10:09.522Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-09T14:10:09.522Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:35:22.131Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/user/me","timestamp":"2025-10-11T18:35:22.131Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:35:22.137Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-11T18:35:22.137Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:35:22.141Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/user/me","timestamp":"2025-10-11T18:35:22.142Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:35:22.149Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-11T18:35:22.149Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:35:22.154Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-11T18:35:22.154Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:35:22.157Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-11T18:35:22.157Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:35:22.185Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-11T18:35:22.185Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:38:00.488Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-11T18:38:00.488Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:38:00.552Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-11T18:38:00.552Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:38:00.655Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-11T18:38:00.655Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:38:00.675Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-11T18:38:00.675Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:38:00.687Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-11T18:38:00.687Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:38:00.695Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-11T18:38:00.695Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:38:00.709Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-11T18:38:00.709Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:38:00.723Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-11T18:38:00.723Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T18:38:00.737Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-11T18:38:00.737Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-11T19:05:04.983Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goal/68c1706cf9f508c89823a113/expenses","timestamp":"2025-10-11T19:05:04.983Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T10:46:49.697Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals/status/active","timestamp":"2025-10-12T10:46:49.697Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T12:40:20.400Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-12T12:40:20.400Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T12:40:20.455Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-12T12:40:20.456Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T12:40:20.464Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-12T12:40:20.464Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T12:40:20.567Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-12T12:40:20.567Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T12:40:20.587Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-12T12:40:20.588Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T12:40:20.597Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-12T12:40:20.598Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T12:40:20.605Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-12T12:40:20.605Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T12:40:20.614Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-12T12:40:20.614Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T12:40:20.624Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-12T12:40:20.624Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:33:11.312Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-12T18:33:11.312Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:33:11.364Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-12T18:33:11.364Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:33:11.372Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-12T18:33:11.372Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:33:11.472Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-12T18:33:11.473Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:33:11.493Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-12T18:33:11.493Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:33:11.503Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-12T18:33:11.503Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:33:11.510Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-12T18:33:11.511Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:33:11.517Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-12T18:33:11.517Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:33:11.522Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-12T18:33:11.523Z"}
+{"error":"connection <monitor> to 159.41.232.166:27017 closed","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:44:48.858Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-12T18:44:48.858Z"}
+{"error":"connection <monitor> to 159.41.232.166:27017 closed","level":"error","message":"JWT verification failed","timestamp":"2025-10-12T18:44:48.859Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-12T18:44:48.859Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T17:24:11.846Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-16T17:24:11.846Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T17:24:11.946Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-16T17:24:11.947Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T17:24:11.963Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-16T17:24:11.964Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T17:24:12.002Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-16T17:24:12.004Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T17:24:12.040Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-16T17:24:12.043Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T17:24:12.088Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-16T17:24:12.089Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T17:24:12.100Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-16T17:24:12.100Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T17:24:12.132Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-16T17:24:12.132Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T17:24:12.153Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-16T17:24:12.154Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-16T18:31:08.427Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goal/68b5f532a7a779948160e98f/expenses","timestamp":"2025-10-16T18:31:08.427Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T15:11:18.035Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-17T15:11:18.035Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T15:11:18.097Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-17T15:11:18.097Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T15:11:18.215Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-17T15:11:18.216Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T15:11:18.242Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-17T15:11:18.242Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T15:11:18.276Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-17T15:11:18.277Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T15:11:18.305Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-17T15:11:18.306Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T15:11:18.311Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-17T15:11:18.312Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T15:11:18.341Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-17T15:11:18.341Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T15:11:18.351Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-17T15:11:18.352Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T18:44:26.278Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-17T18:44:26.279Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T18:44:26.398Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-17T18:44:26.399Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T18:44:26.449Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-17T18:44:26.449Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T18:44:26.463Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-17T18:44:26.464Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T18:44:26.484Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-17T18:44:26.484Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T18:44:26.514Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-17T18:44:26.515Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T18:44:26.537Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-17T18:44:26.538Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T18:44:26.567Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-17T18:44:26.567Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-17T18:44:26.610Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-17T18:44:26.610Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.111Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/user/me","timestamp":"2025-10-18T15:53:30.111Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.117Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-18T15:53:30.117Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.121Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals/stats","timestamp":"2025-10-18T15:53:30.121Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.123Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/activity","timestamp":"2025-10-18T15:53:30.124Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.126Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-18T15:53:30.126Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.128Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/user/me","timestamp":"2025-10-18T15:53:30.128Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.131Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-18T15:53:30.131Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.133Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/activity","timestamp":"2025-10-18T15:53:30.133Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.153Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals/stats","timestamp":"2025-10-18T15:53:30.153Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.155Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-18T15:53:30.155Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.158Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-18T15:53:30.158Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.160Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-18T15:53:30.161Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.162Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-18T15:53:30.162Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:53:30.165Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-18T15:53:30.166Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:55:12.442Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-18T15:55:12.442Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:55:12.511Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-18T15:55:12.511Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:55:12.638Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-18T15:55:12.638Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:55:12.693Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-18T15:55:12.694Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:55:12.744Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-18T15:55:12.745Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:55:12.834Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-18T15:55:12.836Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:55:12.849Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-18T15:55:12.850Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:55:12.870Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-18T15:55:12.871Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T15:55:12.912Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-18T15:55:12.912Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T17:10:32.287Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-18T17:10:32.287Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T17:10:32.430Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-18T17:10:32.430Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T17:10:32.510Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-18T17:10:32.511Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T17:10:32.553Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-18T17:10:32.553Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T17:10:32.556Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-18T17:10:32.557Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T17:10:32.563Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-18T17:10:32.564Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T17:10:32.576Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-18T17:10:32.577Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T17:10:32.625Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-18T17:10:32.625Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-18T17:10:32.649Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-18T17:10:32.649Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-19T12:34:07.569Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-19T12:34:07.569Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-19T12:34:07.708Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-19T12:34:07.709Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-19T12:34:07.747Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-19T12:34:07.748Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-19T12:34:07.774Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-19T12:34:07.774Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-19T12:34:07.811Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-19T12:34:07.812Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-19T12:34:07.841Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-19T12:34:07.841Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-19T12:34:07.865Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-19T12:34:07.866Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-19T12:34:07.899Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-19T12:34:07.900Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-19T12:34:07.916Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-19T12:34:07.917Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:33:42.335Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-21T13:33:42.335Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:33:42.412Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-21T13:33:42.412Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:33:42.464Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-21T13:33:42.464Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:33:42.485Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-21T13:33:42.485Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:33:42.503Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-21T13:33:42.504Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:33:42.593Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-21T13:33:42.594Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:33:42.626Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-21T13:33:42.626Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:33:42.639Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-21T13:33:42.639Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:33:42.643Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-21T13:33:42.644Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:42:46.609Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/user/me","timestamp":"2025-10-21T13:42:46.609Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:42:46.614Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-21T13:42:46.614Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:42:46.617Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-21T13:42:46.617Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:42:46.621Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-21T13:42:46.621Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:42:46.625Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-21T13:42:46.625Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:42:46.628Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-21T13:42:46.628Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T13:42:46.630Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-21T13:42:46.631Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-21T17:17:42.908Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goal/686bade4734d42aba19e742f/expenses","timestamp":"2025-10-21T17:17:42.908Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T13:35:16.196Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-22T13:35:16.197Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T13:35:16.283Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-22T13:35:16.284Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T13:35:16.300Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-22T13:35:16.300Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T13:35:16.316Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-22T13:35:16.316Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T13:35:16.327Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-22T13:35:16.327Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T13:35:16.349Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-22T13:35:16.349Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T13:35:16.362Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-22T13:35:16.362Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T13:35:16.390Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-22T13:35:16.390Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T13:35:16.402Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-22T13:35:16.402Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-22T20:34:11.824Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals/status/active","timestamp":"2025-10-22T20:34:11.824Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T16:00:57.530Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-23T16:00:57.530Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T16:00:57.693Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-23T16:00:57.693Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T16:00:57.705Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-23T16:00:57.705Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T16:00:57.730Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-23T16:00:57.731Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T16:00:57.755Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-23T16:00:57.755Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T16:00:57.792Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-23T16:00:57.792Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T16:00:57.812Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-23T16:00:57.813Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T16:00:57.856Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-23T16:00:57.856Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T16:00:57.859Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-23T16:00:57.859Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T17:05:14.501Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-23T17:05:14.501Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T17:05:14.568Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-23T17:05:14.569Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T17:05:14.577Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-23T17:05:14.577Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T17:05:14.704Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-23T17:05:14.704Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T17:05:14.733Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-23T17:05:14.733Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T17:05:14.766Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-23T17:05:14.766Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T17:05:14.789Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-23T17:05:14.789Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T17:05:14.809Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-23T17:05:14.809Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-23T17:05:14.824Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-23T17:05:14.825Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-24T09:02:31.913Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-24T09:02:31.914Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-24T09:02:32.035Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-24T09:02:32.036Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-24T09:02:32.043Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-24T09:02:32.044Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-24T09:02:32.058Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-24T09:02:32.059Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-24T09:02:32.122Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-24T09:02:32.122Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-24T09:02:32.131Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-24T09:02:32.132Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-24T09:02:32.154Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-24T09:02:32.154Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-24T09:02:32.212Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-24T09:02:32.212Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-24T09:02:32.215Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-24T09:02:32.216Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-26T07:07:43.937Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/user/me","timestamp":"2025-10-26T07:07:43.938Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-26T07:07:43.949Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-26T07:07:43.950Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-26T07:07:43.958Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/user/me","timestamp":"2025-10-26T07:07:43.959Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-26T07:07:43.967Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-26T07:07:43.967Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-26T07:07:43.976Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-26T07:07:43.976Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-26T07:07:43.982Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-26T07:07:43.982Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-26T07:07:44.026Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-26T07:07:44.026Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.442Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/user/me","timestamp":"2025-10-27T16:55:00.443Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.449Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-27T16:55:00.450Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.454Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-27T16:55:00.455Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.458Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/user/me","timestamp":"2025-10-27T16:55:00.458Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.462Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/activity","timestamp":"2025-10-27T16:55:00.462Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.465Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-27T16:55:00.466Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.471Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-27T16:55:00.471Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.474Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-27T16:55:00.474Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.478Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/activity","timestamp":"2025-10-27T16:55:00.478Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.482Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-27T16:55:00.483Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.514Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-27T16:55:00.514Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.518Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals/stats","timestamp":"2025-10-27T16:55:00.518Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.522Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-27T16:55:00.522Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-27T16:55:00.525Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals/stats","timestamp":"2025-10-27T16:55:00.526Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T07:52:41.610Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T07:52:41.611Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T07:52:41.718Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T07:52:41.718Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T07:52:41.742Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T07:52:41.742Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T07:52:41.765Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T07:52:41.765Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T07:52:41.789Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T07:52:41.790Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T07:52:41.831Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T07:52:41.833Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T07:52:41.855Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T07:52:41.856Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T07:52:41.900Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T07:52:41.900Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T07:52:41.922Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T07:52:41.922Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T07:52:43.680Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T07:52:43.796Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T07:52:43.904Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T07:52:44.156Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T07:52:44.276Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T07:52:44.387Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T07:52:44.491Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T07:52:44.609Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T07:52:44.720Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T08:43:02.018Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T08:43:02.018Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T08:43:02.080Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T08:43:02.080Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T08:43:02.182Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T08:43:02.183Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T08:43:02.192Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T08:43:02.192Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T08:43:02.207Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T08:43:02.208Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T08:43:02.222Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T08:43:02.222Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T08:43:02.234Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T08:43:02.235Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T08:43:02.252Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T08:43:02.252Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T08:43:02.260Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T08:43:02.260Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T08:43:02.276Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T08:43:02.385Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T08:43:02.475Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T08:43:02.658Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T08:43:02.762Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T08:43:02.855Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T08:43:02.954Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T08:43:03.053Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T08:43:03.146Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:10:28.799Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T10:10:28.799Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:10:28.935Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T10:10:28.935Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:10:28.943Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T10:10:28.943Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:10:28.959Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T10:10:28.959Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:10:28.978Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T10:10:28.978Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:10:28.988Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T10:10:28.988Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:10:28.995Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T10:10:28.995Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:10:29.006Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T10:10:29.006Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:10:29.011Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T10:10:29.011Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:10:29.078Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:10:29.213Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:10:29.365Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:10:29.574Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:10:29.697Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:10:29.815Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:10:29.933Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:10:30.041Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:254:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:10:30.165Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:15:18.698Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T10:15:18.699Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:15:18.709Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T10:15:18.709Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:15:18.754Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T10:15:18.754Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:15:18.822Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T10:15:18.822Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:15:18.832Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T10:15:18.832Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:15:18.844Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T10:15:18.844Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:15:18.859Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T10:15:18.859Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:15:18.893Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T10:15:18.893Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T10:15:18.895Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T10:15:18.895Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:255:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:15:19.042Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:255:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:15:19.223Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:255:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:15:19.404Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:255:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:15:19.708Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:255:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:15:19.887Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:255:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:15:20.062Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:255:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:15:20.246Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:255:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:15:20.423Z"}
+{"error":"Cannot read properties of null (reading '_id')","level":"error","message":"Refresh token error","stack":"TypeError: Cannot read properties of null (reading '_id')\n    at AuthController.refreshToken (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:255:20)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T10:15:20.600Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:14.159Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:40:14.160Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:14.170Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:40:14.171Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:14.212Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:40:14.213Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:14.309Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T15:40:14.309Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:14.319Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T15:40:14.319Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:14.327Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T15:40:14.327Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:14.337Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:40:14.338Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:14.353Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:40:14.353Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:14.403Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:40:14.403Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:57.719Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:40:57.720Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:57.852Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:40:57.853Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:57.859Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:40:57.859Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:57.873Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T15:40:57.874Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:57.883Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T15:40:57.884Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:57.891Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T15:40:57.891Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:57.905Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:40:57.905Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:57.942Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:40:57.942Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:40:57.945Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:40:57.945Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:05.082Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:41:05.082Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:05.144Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:41:05.144Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:05.243Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:41:05.243Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:05.252Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T15:41:05.253Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:05.266Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T15:41:05.266Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:05.277Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T15:41:05.277Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:05.285Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:41:05.285Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:05.296Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:41:05.296Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:05.302Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:41:05.302Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:19.472Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:41:19.472Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:19.534Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:41:19.534Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:19.541Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:41:19.541Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:19.638Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T15:41:19.638Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:19.653Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T15:41:19.653Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:19.667Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T15:41:19.668Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:19.673Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:41:19.673Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:19.684Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:41:19.684Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:41:19.689Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:41:19.689Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:52:34.715Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:52:34.715Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:52:34.809Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:52:34.809Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:52:34.857Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:52:34.858Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:52:34.869Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T15:52:34.869Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:52:34.874Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T15:52:34.874Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:52:34.887Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T15:52:34.887Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:52:34.902Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:52:34.902Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:52:34.916Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:52:34.916Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:52:34.943Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:52:34.944Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:53:43.115Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:53:43.116Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:53:43.248Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:53:43.249Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:53:43.253Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:53:43.254Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:53:43.267Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T15:53:43.267Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:53:43.279Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T15:53:43.280Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:53:43.288Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T15:53:43.288Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:53:43.319Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T15:53:43.320Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:53:43.350Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T15:53:43.350Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T15:53:43.353Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T15:53:43.353Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T16:56:26.435Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T16:56:26.435Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T16:56:26.484Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T16:56:26.484Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T16:56:26.562Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T16:56:26.563Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T16:56:26.569Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses","timestamp":"2025-10-29T16:56:26.569Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T16:56:26.580Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/stats","timestamp":"2025-10-29T16:56:26.581Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T16:56:26.594Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/budget-goals","timestamp":"2025-10-29T16:56:26.594Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T16:56:26.612Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/expenses/weekly-stats","timestamp":"2025-10-29T16:56:26.613Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T16:56:26.624Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/budget-goals","timestamp":"2025-10-29T16:56:26.624Z"}
+{"error":"jwt expired","level":"error","message":"JWT verification failed","timestamp":"2025-10-29T16:56:26.631Z","tokenSource":"header"}
+{"error":"Invalid token","level":"error","message":"Authentication error","path":"/dashboard/expense/stats","timestamp":"2025-10-29T16:56:26.631Z"}
+{"error":"require is not defined","level":"error","message":"Google OAuth error","stack":"ReferenceError: require is not defined\n    at AuthController.googleOAuth (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:801:55)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T16:58:38.977Z"}
+{"error":"require is not defined","level":"error","message":"Google OAuth error","stack":"ReferenceError: require is not defined\n    at AuthController.googleOAuth (file:///Users/majid/Desktop/xpensemate/backend/src/controllers/authController.js:801:55)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-10-29T16:59:14.555Z"}

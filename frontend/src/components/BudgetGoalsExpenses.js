@@ -27,7 +27,7 @@ const [searchTerm, setSearchTerm] = useState('');
         setExpenses(expensesArray);
         setLoading(false);
       })
-      .catch(err => {
+      .catch(err => { 
         setError(err.message);
         setExpenses([]);
         setLoading(false);
@@ -226,7 +226,7 @@ const [searchTerm, setSearchTerm] = useState('');
               <Filter size={16} />
               Filters
             </button>
-          </div>
+          </div>      
           
           {/* Filter Options */}
           {showFilters && (
