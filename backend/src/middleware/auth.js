@@ -19,6 +19,7 @@ const requireAuth = async (req, res, next) => {
     } else if (req.cookies?.token) {
       token = req.cookies.token;
     }
+    logger.info('Token:', token);
 
     if (!token) {
       logger.error('No valid token found', {
