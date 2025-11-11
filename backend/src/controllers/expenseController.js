@@ -16,7 +16,9 @@ const expenseController = {
       // console.log('wallet', req.user._id);
       console.log('new body', req.body);
       const wallet = await WalletService.getWalletByUserId(req.user._id);
+      console.log('wallet is =>', wallet);
       if (!wallet) {
+        console.log("wallet not found");
         return res.status(400).json({
           type: "error",
           title: 'Wallet not found',
@@ -25,34 +27,24 @@ const expenseController = {
         });
       }
       if (wallet.balance < req.body.amount) {
+        console.log("balance is less than amount");
         return res.status(400).json({
           type: "error",
           title: 'Insufficient wallet balance',
-          message: 'Insufficient wallet balance to make this payment.',
+          message: 'Insufficient wallet balance to make this expense.',
           error: 'Insufficient wallet balance.'
         });
       }
       console.log('req.body==>', req.body);
-      //       req.body==> {
-      //   name: 'new expense',s
-      //   amount: 123,
-      //   date: '2025-09-04',
-      //   category_id: '684eecae498dae20b2b32ccf',
-      //   category: 'FOOD',
-      //   detail: 'ahmed',
-      //   time: '19:57',
-      //   location: 'sdf',
-      //   payment_method: 'cash',
-      //   budget_goal_id: '68a9d5afd14833bd226ddd63'
-      // }
 
       // 2. Create the expense
       const expense = await ExpenseService.createExpense(req.user._id, req.body);
+      console.log('new expense', expense);
 
       // 3. Subtract from wallet
       await WalletService.decrementBalance(req.user._id, expense.amount);
-
-      // 4. (Optional) Update budget goal if neededwe
+      console.log('after decremented');
+      // 4. (Optional) Update budget goal if needed
       if (req.body.budget_goal_id && expense.amount) {
         await BudgetGoalService.updateBudgetGoal(
           req.user._id,
@@ -60,6 +52,7 @@ const expenseController = {
           { $inc: { remainingBalance: -Math.abs(expense.amount) } }
         );
       }
+      console.log('after option 4', req.body);
 
       res.status(201).json(
         {
@@ -72,10 +65,29 @@ const expenseController = {
 
       );
     } catch (error) {
+      console.error('Full error object:', error);
       if (error.name === 'ValidationError') {
-        const errors = Object.keys(error.errors || {}).map(key => error.errors[key].message);
+        const errors = Object.keys(error.errors || {}).map(key => {
+          console.log(`Validation error for ${key}:`, error.errors[key]);
+          return error.errors[key].message;
+        });
         logger.error('Mongoose Validation Error:', errors);
-        return res.status(400).json({ error: errors.join(', ') });
+        return res.status(400).json({
+          type: "error",
+          title: 'Validation Error',
+          message: 'Validation failed',
+          errors: errors.length > 0 ? errors : [error.message]
+        });
+      }
+      // Handle other Mongoose errors
+      if (error.name === 'MongoError' || error.name === 'CastError') {
+        logger.error('Database Error:', error.message);
+        return res.status(400).json({
+          type: "error",
+          title: 'Database Error',
+          message: 'Invalid data provided',
+          error: error.message
+        });
       }
       logger.error('Error creating expense:', error.message);
       res.status(500).json({

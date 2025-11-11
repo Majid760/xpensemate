@@ -8,7 +8,11 @@ class WalletService {
   }
 
   async getWalletByUserId(userId) {
-    return Wallet.findOne({ userId, isActive: true });
+    let wallet = await Wallet.findOne({ userId, isActive: true });
+    if (!wallet){
+      wallet = await this.createWallet(userId);
+    }
+    return wallet;
   }
 
   async updateWallet(userId, updateData) {
@@ -44,4 +48,4 @@ class WalletService {
   }
 }
 
-export default new WalletService(); 
+export default new WalletService();

@@ -21,8 +21,12 @@ const validateExpense = [
     .withMessage('Invalid date format')
     .custom((value) => {
       const date = new Date(value);
-      const now = new Date();
-      if (date > now) {
+      const now = new Date();      
+      // Compare just the date parts (not time)
+      const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const expenseDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      
+      if (expenseDateOnly > todayDate) {
         throw new Error('Expense date cannot be in the future');
       }
       return true;
@@ -61,7 +65,8 @@ const validateExpense = [
 
   (req, res, next) => {
     const errors = validationResult(req);
-    console.log("errororo =>" ,errors);
+    console.log("Validation result:", errors);
+    console.log("Validation errors array:", errors.array());
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -91,6 +96,8 @@ const validateSupportTicket = [
 
   (req, res, next) => {
     const errors = validationResult(req);
+    console.log("Support ticket validation result:", errors);
+    console.log("Support ticket validation errors array:", errors.array());
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -155,6 +162,8 @@ const validatePayment = [
 
   (req, res, next) => {
     const errors = validationResult(req);
+    console.log("Payment validation result:", errors);
+    console.log("Payment validation errors array:", errors.array());
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -211,6 +220,8 @@ const validateBudgetGoal = [
 
   (req, res, next) => {
     const errors = validationResult(req);
+    console.log("Budget goal validation result:", errors);
+    console.log("Budget goal validation errors array:", errors.array());
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }

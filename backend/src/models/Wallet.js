@@ -20,7 +20,8 @@ const walletSchema = new mongoose.Schema({
     default: true
   },
   lastTransactionAt: {
-    type: Date
+    type: Date,
+    default: new Date()
   },
   type: {
     type: String,
@@ -30,7 +31,8 @@ const walletSchema = new mongoose.Schema({
   notes: {
     type: String,
     trim: true,
-    maxlength: 200
+    maxlength: 200,
+    default: ''
   },
   created: {
     type: Date,
