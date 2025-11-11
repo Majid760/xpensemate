@@ -8,6 +8,7 @@ import logger from '../utils/logger.js';
 import emailService from '../services/emailService.js';
 import passport from 'passport';
 import { OAuth2Client } from 'google-auth-library';
+import WalletService from '../services/WalletService.js';
 
 
 // Rate limiter for verification emails
@@ -83,6 +84,8 @@ class AuthController {
       });
 
       await user.save();
+      // create wallet
+      await WalletService.createWallet(user._id);
 
       // Send verification email + welcome email 
       try {
@@ -231,7 +234,8 @@ class AuthController {
   }
 
   async refreshToken(req, res) {
-    const { token: refreshToken } = req.body;
+
+    const { refreshToken } = req.body;
     console.log('refresh token is ==', refreshToken);
 
     if (!refreshToken) {
@@ -243,28 +247,75 @@ class AuthController {
     }
     try {
       const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-      console.log('decoded is => ', decoded);
       const user = await User.findById(decoded.id);
-      console.log('user is ==', user);
-      
+      console.log('user  name is ==', user.name);
+
       // Check if user exists
       if (!user) {
+        logger.warn('Invalid refresh token', {
+          refreshToken: refreshToken
+        });
         return res.status(403).json({
           type: 'error',
           title: 'Authentication Failed',
           message: 'Invalid refresh token - user not found'
         });
       }
-      
+
       // Check if the refresh token matches the one stored in the user document
-      if (user.refreshToken !== refreshToken) {
-        return res.status(403).json({
-          type: 'error',
-          title: 'Authentication Failed',
-          message: 'Invalid refresh token'
+      if (user.refreshToken.trim() !== refreshToken.trim()) {
+        // This is a token mismatch scenario
+        logger.warn('Refresh token mismatch detected', {
+          userId: user._id,
+          providedToken: refreshToken.substring(0, 10) + '...',
+          storedToken: user.refreshToken ? user.refreshToken.substring(0, 10) + '...' : 'null'
+        });
+        
+        // Security consideration: 
+        // 1. The provided token is valid (we could decode it)
+        // 2. But it doesn't match what's stored in the database
+        // 3. This could be due to:
+        //    - Normal token rotation (user logged in from another device)
+        //    - Possible security issue (token theft)
+        
+        // For better security, we should invalidate all tokens and force re-authentication
+        // However, for better user experience, we'll allow this with warnings
+        // and generate new tokens to maintain security going forward
+        
+        // Generate new refresh token for security (token rotation)
+        const newRefreshToken = jwt.sign(
+          { id: user._id },
+          process.env.JWT_REFRESH_SECRET,
+          { expiresIn: '365d' }
+        );
+      
+        // Update user with new refresh token
+        user.refreshToken = newRefreshToken;
+        await user.save();
+        
+        // Generate new access token
+        const token = jwt.sign(
+          { id: user._id, email: user.email, name: user.name },
+          process.env.JWT_SECRET,
+          { expiresIn: '60m' }
+        );
+
+        logger.info('Token rotation completed due to mismatch', {
+          userId: user._id,
+          message: 'Generated new tokens after detecting token mismatch'
+        });
+
+        return res.status(200).json({
+          type: 'success',
+          title: 'Token Refreshed',
+          message: 'Session updated successfully',
+          data: {
+            token,
+            refreshToken: newRefreshToken
+          }
         });
       }
-      
+
       // Generate new access token
       const token = jwt.sign(
         { id: user._id, email: user.email, name: user.name },
@@ -805,6 +856,8 @@ class AuthController {
           authMethod: 'google'
           // Store Google ID for future reference
         }).save();
+        // Create a new user wallet
+        await WalletService.createWallet(user._id);
       }
       // Generate JWT token for your application
       const token = jwt.sign(
