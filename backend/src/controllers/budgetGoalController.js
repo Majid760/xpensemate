@@ -387,7 +387,7 @@ const budgetGoalController = {
    * @param {Object} res - Express response object.
    * @returns {void} Responds with stats object or error.
    */
-  getGoalStatsByPeriod: async (req, res) => {
+  getGoalsByPeriod: async (req, res) => {
     try {
       console.log('getGoalStatsByPeriod 123');
       const { period, startDate, endDate, closestCount } = req.query;
@@ -421,7 +421,111 @@ const budgetGoalController = {
         error: 'Failed to fetch goal stats by period.'
       });
     }
-  }
+  },
+
+  /// get budgets by period
+  getBudgetsByPeriod: async (req, res) => {
+    try {
+      const { period, startDate, endDate } = req.body;
+      console.log('start date and end date for budgets 123',req.body);
+      // first check if period is custom the make sure startDate and endDate are provided
+      if (period === 'custom') {
+        if (!startDate || !endDate) {
+          return res.status(400).json({
+            type: 'error',
+            title: '',
+            message: 'Please provide startDate and endDate for custom period.',
+            error: 'Missing required startDate or endDate parameter.'
+          });
+        }
+      }
+      // check if period is valid and provided in given format
+      if (!period || !isValidPeriod(period.toLowerCase())) {
+        return res.status(400).json({
+          type: 'error',
+          title: '',
+          message: 'Please provide a valid period.',
+          error: 'Invalid period parameter.'
+        });
+      }
+      if (period === 'custom') {
+        const budgets = await BudgetGoalService.getBudgetGoalsByDateRange(req.user._id, startDate, endDate);
+        res.json({
+          type: 'success',
+          title: 'Budgets',
+          message: 'Budgets fetched successfully',
+          data: {
+            "budgetGoals": budgets
+          }
+        });
+      }
+      // now calculate the startDate and endDate accordding to the period
+      const { startDate: calculatedStartDate, endDate: calculatedEndDate } = calculatePeriodDates(period.toLowerCase());
+      const budgets = await BudgetGoalService.getBudgetGoalsByDateRange(req.user._id, calculatedStartDate, calculatedEndDate);
+      res.json({
+        type: 'success',
+        title: 'Budgets',
+        message: 'Budgets fetched successfully',
+        data: {
+          "budgetGoals": budgets
+        }
+      });
+    } catch (error) {
+      console.error('Error in getting budgets by period:', error);
+      res.status(500).json({
+        type: 'error',
+        title: 'Server Error',
+        message: 'Server Error',
+        error: 'Failed to fetch budgets by period.'
+      });
+    }
+  },
 };
+
+/**
+ * Checks if the provided period is valid
+ * @param {string} period - The period to validate
+ * @returns {boolean} True if the period is valid, false otherwise
+ */
+function isValidPeriod(period) {
+  const validPeriods = ['daily', 'weekly', 'monthly', 'quarterly', 'yearly', 'custom'];
+  return validPeriods.includes(period);
+}
+
+/**
+ * Calculates the startDate and endDate for the given period
+ * @param {string} period - The period for which to calculate the dates
+ * @returns {Object} An object containing the startDate and endDate
+ */
+function calculatePeriodDates(period) {
+  const today = new Date();
+  let startDate, endDate;
+
+  switch (period) {
+    case 'daily':
+      startDate = new Date(today);
+      endDate = new Date(today);
+      break;
+    case 'weekly':
+      startDate = new Date(today);
+      startDate.setDate(today.getDate() - today.getDay());
+      endDate = new Date(today);
+      endDate.setDate(today.getDate() - today.getDay() + 6);
+      break;
+    case 'monthly':
+      startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+      endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+      break;
+    case 'quarterly':
+      startDate = new Date(today.getFullYear(), Math.floor(today.getMonth() / 3) * 3, 1);
+      endDate = new Date(today.getFullYear(), Math.floor(today.getMonth() / 3) * 3 + 3, 0);
+      break;
+    case 'yearly':
+      startDate = new Date(today.getFullYear(), 0, 1);
+      endDate = new Date(today.getFullYear(), 11, 31);
+      break;
+  }
+  return { startDate, endDate };
+}
 
 export default budgetGoalController;

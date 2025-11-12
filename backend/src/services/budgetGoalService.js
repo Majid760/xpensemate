@@ -534,6 +534,58 @@ class BudgetGoalService {
       currentSpending: expenseMap.get(goal._id.toString()) || 0
     }));
   }
+
+
+
+  /**
+   * Private helper method to calculate statistics for budget goals
+   * @param {Array} budgetGoals - Array of budget goals
+   * @param {string} period - The period type
+   * @param {Date} startDate - The start date of the period
+   * @param {Date} endDate - The end date of the period
+   * @returns {Object} Statistics object
+   */
+  _calculateGoalStats(budgetGoals, period, startDate, endDate) {
+    // Initialize statistics
+    const stats = {
+      totalGoals: budgetGoals.length,
+      activeGoals: 0,
+      achievedGoals: 0,
+      failedGoals: 0,
+      terminatedGoals: 0,
+      otherGoals: 0,
+      totalBudgetAmount: 0,
+      goals: budgetGoals
+    };
+
+    // Categorize goals and calculate totals
+    for (const goal of budgetGoals) {
+      switch (goal.status) {
+        case 'active':
+          stats.activeGoals++;
+          stats.totalBudgetAmount += goal.amount || 0;
+          break;
+        case 'achieved':
+          stats.achievedGoals++;
+          break;
+        case 'failed':
+          stats.failedGoals++;
+          break;
+        case 'terminated':
+          stats.terminatedGoals++;
+          break;
+        default:
+          stats.otherGoals++;
+      }
+    }
+
+    return {
+      period,
+      startDate,
+      endDate,
+      statistics: stats
+    };
+  }
 }
 
 export default new BudgetGoalService();
