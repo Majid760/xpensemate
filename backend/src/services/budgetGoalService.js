@@ -45,13 +45,15 @@ class BudgetGoalService {
         endDate,
         category_id,
         status,
+        filterQuery,
         sortBy = 'created_at',
         sortOrder = -1
       } = options;
 
       const skip = (page - 1) * limit;
-      const filter = this._buildFilter(userId, { startDate, endDate, category_id, status });
-
+      const filter = this._buildFilter(userId, { startDate, endDate, category_id, status, filterQuery });
+      console.log('this is filter query',filterQuery);
+      
       // Use Promise.all for parallel execution
       const [budgetGoals, total] = await Promise.all([
         BudgetGoal.find(filter)
@@ -495,6 +497,16 @@ class BudgetGoalService {
       filter.status = options.status;
     }
 
+    // Handle text search in name, category, and detail fields
+    if (options.filterQuery) {
+      const searchRegex = new RegExp(options.filterQuery, 'i');
+      filter.$or = [
+        { name: searchRegex },
+        { category: searchRegex },
+        { detail: searchRegex }
+      ];
+    }
+
     return filter;
   }
 
@@ -533,6 +545,30 @@ class BudgetGoalService {
       ...goal,
       currentSpending: expenseMap.get(goal._id.toString()) || 0
     }));
+  }
+
+    /**
+   * Fetches all budget goals for a user within a date range.
+   * @param {ObjectId} userId - The user's ID.
+   * @param {string|Date} startDate - Start date.
+   * @param {string|Date} endDate - End date.
+   * @returns {Promise<Array>} Array of budget goals.
+   */
+  async getBudgetGoalsByDatesRange(userId, startDate, endDate) {
+    if (!startDate || !endDate) {
+      throw new ValidationError('Start date and end date are required');
+    }
+
+    const budgetGoals = await BudgetGoal.find({
+      user_id: userId,
+      created_at: {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      },
+      is_deleted: false
+    });
+
+    return budgetGoals;
   }
 
 

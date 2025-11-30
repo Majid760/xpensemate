@@ -56,9 +56,11 @@ const budgetGoalController = {
         endDate: req.query.endDate,
         category_id: req.query.category_id,
         status: req.query.status,
+        filterQuery: req.query.filter_query || '',
         sortBy: req.query.sortBy || 'created_at',
         sortOrder: req.query.sortOrder === 'asc' ? 1 : -1
       };
+      console.log('FILTER QUERY', options.filterQuery);
       validatePaginationParams(options);
       const result = await BudgetGoalService.getBudgetGoals(req.user._id, options);
       res.json(
@@ -103,7 +105,9 @@ const budgetGoalController = {
           type: "success",
           title: 'Budget goal found',
           message: 'Budget goal found.',
-          data: budgetGoal
+          data:{
+            
+          } 
         }
       ]);
     } catch (error) {
@@ -147,7 +151,9 @@ const budgetGoalController = {
         type: "success",
         title: 'Budget goal updated',
         message: 'Budget goal updated successfully.',
-        data: budgetGoal
+        data: {
+          budgetGoal
+        }
       });
     } catch (error) {
       console.error('Error in updating budget goal:', error);
@@ -182,7 +188,8 @@ const budgetGoalController = {
           type: "success",
           title: 'Budget goal deleted',
           message: 'Budget goal deleted successfully.',
-          error: result,
+          data:{
+            result},
         }
       );
     } catch (error) {
@@ -449,7 +456,7 @@ const budgetGoalController = {
         });
       }
       if (period === 'custom') {
-        const budgets = await BudgetGoalService.getBudgetGoalsByDateRange(req.user._id, startDate, endDate);
+        const budgets = await BudgetGoalService.getBudgetGoalsByDatesRange(req.user._id, startDate, endDate);
         res.json({
           type: 'success',
           title: 'Budgets',
@@ -461,7 +468,8 @@ const budgetGoalController = {
       }
       // now calculate the startDate and endDate accordding to the period
       const { startDate: calculatedStartDate, endDate: calculatedEndDate } = calculatePeriodDates(period.toLowerCase());
-      const budgets = await BudgetGoalService.getBudgetGoalsByDateRange(req.user._id, calculatedStartDate, calculatedEndDate);
+      const budgets = await BudgetGoalService.getBudgetGoalsByDatesRange(req.user._id, calculatedStartDate, calculatedEndDate);
+    
       res.json({
         type: 'success',
         title: 'Budgets',
@@ -501,31 +509,52 @@ function calculatePeriodDates(period) {
   const today = new Date();
   let startDate, endDate;
 
+  // Set endDate to today (end of day)
+  endDate = new Date(today);
+  endDate.setHours(23, 59, 59, 999);
+
   switch (period) {
     case 'daily':
+      // Today only
       startDate = new Date(today);
-      endDate = new Date(today);
+      startDate.setHours(0, 0, 0, 0);
       break;
     case 'weekly':
+      // Last 7 days including today
       startDate = new Date(today);
-      startDate.setDate(today.getDate() - today.getDay());
-      endDate = new Date(today);
-      endDate.setDate(today.getDate() - today.getDay() + 6);
+      startDate.setDate(today.getDate() - 6);
+      startDate.setHours(0, 0, 0, 0);
       break;
     case 'monthly':
-      startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-      endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+      // Last 30 days including today
+      startDate = new Date(today);
+      startDate.setDate(today.getDate() - 29);
+      startDate.setHours(0, 0, 0, 0);
       break;
     case 'quarterly':
-      startDate = new Date(today.getFullYear(), Math.floor(today.getMonth() / 3) * 3, 1);
-      endDate = new Date(today.getFullYear(), Math.floor(today.getMonth() / 3) * 3 + 3, 0);
+      // Last 90 days including today
+      startDate = new Date(today);
+      startDate.setDate(today.getDate() - 89);
+      startDate.setHours(0, 0, 0, 0);
       break;
     case 'yearly':
-      startDate = new Date(today.getFullYear(), 0, 1);
-      endDate = new Date(today.getFullYear(), 11, 31);
+      // Last 365 days including today
+      startDate = new Date(today);
+      startDate.setDate(today.getDate() - 364);
+      startDate.setHours(0, 0, 0, 0);
       break;
+    default:
+      // Default to monthly if period is not recognized
+      startDate = new Date(today);
+      startDate.setDate(today.getDate() - 29);
+      startDate.setHours(0, 0, 0, 0);
   }
+  
   return { startDate, endDate };
 }
 
 export default budgetGoalController;
+
+
+
+

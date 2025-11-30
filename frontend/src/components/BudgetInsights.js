@@ -256,7 +256,7 @@ const BudgetInsights = ({ onAddBudget = () => {} }) => {
               value: formatCurrency(statData.totalBudgeted),
               color: '#8b5cf6',
               textColor: 'text-purple-700',
-              subtitle: 'Total amount budgeted for active goals',
+              subtitle: 'Total amount allocated for active goals',
               loading,
             }, {
               icon: TrendingUp,
