@@ -50,15 +50,28 @@ class ExpenseService {
         limit = 10,
         startDate,
         endDate,
+        filterQuery,
         category_id
       } = options;
       const skip = (page - 1) * limit;
       const filter = { user_id: userId, is_deleted: false };
+      console.log('this is filter inn servericce ==>', filterQuery);
       if (startDate && endDate) {
         filter.date = { $gte: new Date(startDate), $lte: new Date(endDate) };
       }
       if (category_id) {
         filter.category_id = category_id;
+      }
+      
+      // Handle text search in name, location, category, and detail fields
+      if (filterQuery) {
+        const searchRegex = new RegExp(filterQuery, 'i');
+        filter.$or = [
+          { name: searchRegex },
+          { location: searchRegex },
+          { category: searchRegex },
+          { detail: searchRegex }
+        ];
       }
       const expenses = await Expense.find(filter)
         .sort({ created_at: -1 })
