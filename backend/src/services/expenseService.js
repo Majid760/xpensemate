@@ -55,7 +55,6 @@ class ExpenseService {
       } = options;
       const skip = (page - 1) * limit;
       const filter = { user_id: userId, is_deleted: false };
-      console.log('this is filter inn servericce ==>', filterQuery);
       if (startDate && endDate) {
         filter.date = { $gte: new Date(startDate), $lte: new Date(endDate) };
       }

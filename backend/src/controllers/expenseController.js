@@ -113,7 +113,6 @@ const expenseController = {
     try {
       const { page, limit,filterQuery, startDate, endDate, category_id } = req.query;
       const options = { page, limit,filterQuery, startDate, endDate, category_id };
-            console.log('this is filter inn conntroller ==>', filterQuery);
 
       const result = await ExpenseService.getAllExpenses(req.user._id, options);
       console.log('this is result => ',result);

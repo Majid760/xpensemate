@@ -10,7 +10,7 @@ import { type } from 'os';
 class DashboardController {
 
   constructor() {
-    this.getWeeklyStats = this.getWeeklyStats.bind(this);
+    this.getStatsByPeriod = this.getStatsByPeriod.bind(this);
     this.getActiveBudgetGoalsWithExpenses = this.getActiveBudgetGoalsWithExpenses.bind(this);
     this.getBudgetGoalsStats = this.getBudgetGoalsStats.bind(this);
     this.getWeeklyExpenseAnalytics = this.getWeeklyExpenseAnalytics.bind(this);
@@ -23,116 +23,164 @@ class DashboardController {
     * @param {Object} res - Express response object
     */
 
-  async getWeeklyStats(req, res) {
-    try {
-      const userId = req.user._id;
-      const now = new Date();
-      const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0));
-      const endOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 23, 59, 59, 999));
-      const startOfWeek = new Date(endOfToday);
-      startOfWeek.setUTCDate(endOfToday.getUTCDate() - 6); // Get 7 days back from today
+  async getStatsByPeriod(req, res) {
+  try {
+    const userId = req.user._id;
+    const { filter_query } = req.query; // or req.body or req.params
+    console.log('woowowowowo this is periond ==> ',filter_query);
+    // Period configuration mapping
+    const periodConfig = {
+      weekly: { days: 7, label: 'Weekly' },
+      monthly: { days: 30, label: 'Monthly' },
+      quarterly: { days: 90, label: 'Quarterly' },
+      yearly: { days: 365, label: 'Yearly' }
+    };
 
-      // 1. Get total payments (income) for the week
-      const payments = await Payment.aggregate([
-        {
-          $match: {
-            user_id: userId,
-            is_deleted: false,
-            date: { $gte: startOfWeek, $lte: endOfToday }
-          }
-        },
-        {
-          $group: {
-            _id: null,
-            total: { $sum: "$amount" }
-          }
-        }
-      ]);
-      const weeklyBudget = payments.length > 0 ? payments[0].total : 0;
-      // 2. Get daily expenses for the week
-      const stats = await Expense.aggregate([
-        {
-          $match: {
-            user_id: userId,
-            is_deleted: false,
-            date: { $gte: startOfWeek, $lte: endOfToday }
-          }
-        },
-        {
-          $group: {
-            _id: {
-              $dateToString: { format: "%Y-%m-%d", date: "$date" }
-            },
-            total: {
-              $sum: {
-                $convert: {
-                  input: "$amount",
-                  to: "double",
-                  onError: 0,
-                  onNull: 0
-                }
-              }
-            },
-            dates: { $addToSet: "$date" }
-          }
-        },
-        {
-          $project: {
-            _id: 1,
-            total: { $round: ["$total", 2] },
-            dates: 1
-          }
-        },
-        { $sort: { _id: 1 } }
-      ]);
-
-      // Fill missing days with 0
-      const result = [];
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date(endOfToday);
-        d.setDate(d.getDate() - i);
-        const dateStr = d.toISOString().split('T')[0];
-        const found = stats.find(s => s._id === dateStr);
-        result.push({
-          date: dateStr,
-          total: found ? parseFloat(found.total.toFixed(2)) : 0
-        });
-      }
-
-      // 3. Compute total week expense and balance left
-      const weekTotal = result.reduce((sum, d) => sum + d.total, 0);
-      const balanceLeft = weeklyBudget - weekTotal;
-      // Calculate daily average, highest, and lowest day
-      const dailyAverage = result.length ? weekTotal / result.length : 0;
-      // Only consider days with expenses for min/max
-      const nonZeroDays = result.filter(d => d.total > 0);
-      let highestDay = { total: 0, date: null };
-      let lowestDay = { total: 0, date: null };
-      if (nonZeroDays.length) {
-        highestDay = nonZeroDays.reduce((max, d) => d.total > max.total ? d : max, nonZeroDays[0]);
-        lowestDay = nonZeroDays.reduce((min, d) => d.total < min.total ? d : min, nonZeroDays[0]);
-      }
-
-      res.json({
-        type: 'Success',
-        title: 'Weekly Analytics',
-        message: 'Successfully retrieved weekly analytics',
-        data: {
-          days: result,
-          dailyBreakdown: result,
-          weekTotal,
-          balanceLeft,
-          weeklyBudget,
-          dailyAverage,
-          highestDay,
-          lowestDay
-        }
+    // Validate period
+    if (!periodConfig[filter_query]) {
+      return res.status(400).json({
+        type: 'Error',
+        message: 'Invalid period. Must be: weekly, monthly, quarterly, or yearly'
       });
-    } catch (error) {
-      console.error('Error fetching weekly stats:', error);
-      res.status(500).json({ error: 'Failed to fetch weekly stats' });
     }
+
+    const config = periodConfig[filter_query];
+    const now = new Date();
+    
+    // Calculate date range efficiently
+    const endOfToday = new Date(Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+      23, 59, 59, 999
+    ));
+    
+    const startOfPeriod = new Date(endOfToday);
+    startOfPeriod.setUTCDate(endOfToday.getUTCDate() - (config.days - 1));
+    startOfPeriod.setUTCHours(0, 0, 0, 0);
+
+    // 1. Get total payments (income) for the period
+    const payments = await Payment.aggregate([
+      {
+        $match: {
+          user_id: userId,
+          is_deleted: false,
+          date: { $gte: startOfPeriod, $lte: endOfToday }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: "$amount" }
+        }
+      }
+    ]);
+    
+    const periodBudget = payments.length > 0 ? payments[0].total : 0;
+
+    // 2. Get daily expenses for the period
+    const stats = await Expense.aggregate([
+      {
+        $match: {
+          user_id: userId,
+          is_deleted: false,
+          date: { $gte: startOfPeriod, $lte: endOfToday }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$date" }
+          },
+          total: {
+            $sum: {
+              $convert: {
+                input: "$amount",
+                to: "double",
+                onError: 0,
+                onNull: 0
+              }
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          total: { $round: ["$total", 2] }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    // Create a map for faster lookups
+    const statsMap = new Map(stats.map(s => [s._id, s.total]));
+
+    // Fill missing days with 0
+    const result = [];
+    for (let i = config.days - 1; i >= 0; i--) {
+      const d = new Date(endOfToday);
+      d.setUTCDate(d.getUTCDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      
+      result.push({
+        date: dateStr,
+        total: statsMap.get(dateStr) || 0
+      });
+    }
+
+    // 3. Compute totals and analytics
+    const periodTotal = result.reduce((sum, d) => sum + d.total, 0);
+    const balanceLeft = periodBudget - periodTotal;
+    const dailyAverage = result.length ? periodTotal / result.length : 0;
+
+    // Only consider days with expenses for min/max
+    const nonZeroDays = result.filter(d => d.total > 0);
+    
+    let highestDay = { total: 0, date: null };
+    let lowestDay = { total: 0, date: null };
+    
+    if (nonZeroDays.length) {
+      highestDay = nonZeroDays.reduce((max, d) => 
+        d.total > max.total ? d : max, nonZeroDays[0]
+      );
+      lowestDay = nonZeroDays.reduce((min, d) => 
+        d.total < min.total ? d : min, nonZeroDays[0]
+      );
+    }
+
+    res.json({
+      type: 'Success',
+      title: `${config.label} Analytics`,
+      message: `Successfully retrieved ${filter_query} analytics`,
+      data: {
+        period:filter_query,
+        days: result,
+        dailyBreakdown: result,
+        periodTotal: parseFloat(periodTotal.toFixed(2)),
+        balanceLeft: parseFloat(balanceLeft.toFixed(2)),
+        periodBudget: parseFloat(periodBudget.toFixed(2)),
+        dailyAverage: parseFloat(dailyAverage.toFixed(2)),
+        highestDay: {
+          ...highestDay,
+          total: parseFloat(highestDay.total.toFixed(2))
+        },
+        lowestDay: {
+          ...lowestDay,
+          total: parseFloat(lowestDay.total.toFixed(2))
+        },
+        daysInPeriod: config.days
+      }
+    });
+  } catch (error) {
+    console.error(`Error fetching ${req.query.period || 'weekly'} stats:`, error);
+    res.status(500).json({
+      type: 'Error',
+      message: 'Failed to fetch period statistics',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
+}
 
   /**
    * Get budget goals with their current spending based on duration filter.
